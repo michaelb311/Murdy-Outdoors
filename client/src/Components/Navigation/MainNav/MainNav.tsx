@@ -6,6 +6,7 @@ const linkStyles = {
 	display: 'flex',
 	justContent: 'center',
 	alignItems: 'center',
+	width: '50%',
 };
 
 const MainNav = () => {
@@ -16,9 +17,11 @@ const MainNav = () => {
 			</Link>
 			<ul>
 				<li>
+					<Link to={'/Hunts'}>Hunts</Link>
+				</li>
+				<li>
 					<Link to={'/User'}>User</Link>
 				</li>
-				<li></li>
 			</ul>
 		</nav>
 	);
