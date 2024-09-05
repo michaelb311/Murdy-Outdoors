@@ -7,14 +7,14 @@ import Products from '../../Components/Products/Products';
 
 const HomePage = () => {
 	return (
-		<main>
+		<>
 			<MainNav />
 			<HomeHero />
-			<Products />
 			<About />
+			<Products />
 			<Contact />
 			<PhotoWall />
-		</main>
+		</>
 	);
 };
 export default HomePage;

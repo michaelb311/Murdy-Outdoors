@@ -12,6 +12,9 @@
 	--google-blue: #4285f4;
 	--stroke-black: #080808;
 	--stroke-white: #fffbf0;
+	--paragraph-text: 'Merriweather Sans', sans-serif;
+	--heading-text: 'Roboto Slab', serif;
+	--title-text: 'Stardos Stencil', system-ui;
 }
 
 * {

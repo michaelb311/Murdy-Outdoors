@@ -1,0 +1,14 @@
+section {
+	padding: 20px;
+}
+
+article {
+	display: flex;
+	flex-direction: column;
+	font-family: var(--paragraph-text);
+}
+
+h2 {
+    font-size: 1.5rem;
+	font-family: var(--title-text);
+}
