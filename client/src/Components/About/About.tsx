@@ -1,10 +1,12 @@
 import './styles.css';
+import WWD from '../../assets/What-We-Do-Compressed.mp4';
 
 const About = () => {
 	return (
 		<section>
+			<h2>About Us</h2>
 			<article>
-				<h2>About Us</h2>
+				<h3>What We Do</h3>
 				<p>
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
 					cumque vel reprehenderit vero, qui harum accusamus sapiente aspernatur
@@ -21,6 +23,9 @@ const About = () => {
 					pariatur officia officiis. Eos debitis nostrum tempora, eum ipsum eius
 					et fuga in vero rem veniam. Alias.
 				</p>
+				<video loop muted>
+					<source src={WWD} type='video/mp4' />
+				</video>
 			</article>
 		</section>
 	);

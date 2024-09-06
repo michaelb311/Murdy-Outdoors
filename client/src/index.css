@@ -31,19 +31,6 @@ body {
 
 a {
 	text-decoration: none;
-	color: var(--stroke-black);
-}
-
-a:visited {
-	color: var(--black);
-}
-
-a:active {
-	color: var(--primary-color);
-}
-
-a:hover {
-	color: var(--primary-color);
 }
 
 li {
@@ -55,4 +42,8 @@ button {
 	cursor: pointer;
 	border: none;
 	background: none;
+}
+
+p {
+	font-family: var(--paragraph-text);
 }

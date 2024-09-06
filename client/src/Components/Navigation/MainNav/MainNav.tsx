@@ -1,6 +1,7 @@
 import './styles.css';
 import Logo from '../../../assets/MainLogo.png';
 import { Link } from 'react-router-dom';
+import { FaUserAlt } from 'react-icons/fa';
 
 const linkStyles = {
 	display: 'flex',
@@ -16,12 +17,14 @@ const MainNav = () => {
 				<img src={Logo} alt='' />
 			</Link>
 			<ul>
-				<li>
-					<Link to={'/Hunts'}>Hunts</Link>
-				</li>
-				<li>
-					<Link to={'/User'}>User</Link>
-				</li>
+				<Link to={'/Hunts'}>
+					<li>Hunts</li>
+				</Link>
+				<Link to={'/User'}>
+					<li>
+						<FaUserAlt />
+					</li>
+				</Link>
 			</ul>
 		</nav>
 	);
