@@ -3,11 +3,11 @@ import WWD from '../../assets/What-We-Do-Compressed.mp4';
 
 const About = () => {
 	return (
-		<section>
-			<h2>About Us</h2>
-			<article>
-				<h3>What We Do</h3>
-				<p>
+		<section className='aboutSection'>
+			<h2 className='aboutTitle'>About Us</h2>
+			<article className='aboutArticle'>
+				<h3 className='aboutArticleTitle'>What We Do</h3>
+				<p className='aboutArticleBody'>
 					Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi
 					cumque vel reprehenderit vero, qui harum accusamus sapiente aspernatur
 					repellendus sint nostrum rerum est, ipsam, delectus dignissimos. Iure
@@ -23,7 +23,7 @@ const About = () => {
 					pariatur officia officiis. Eos debitis nostrum tempora, eum ipsum eius
 					et fuga in vero rem veniam. Alias.
 				</p>
-				<video loop muted>
+				<video className='aboutVideo' loop muted>
 					<source src={WWD} type='video/mp4' />
 				</video>
 			</article>

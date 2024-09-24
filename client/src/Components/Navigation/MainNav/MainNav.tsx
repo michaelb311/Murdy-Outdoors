@@ -12,16 +12,16 @@ const linkStyles = {
 
 const MainNav = () => {
 	return (
-		<nav>
+		<nav className='mainNav'>
 			<Link to={'/'} style={linkStyles}>
-				<img src={Logo} alt='' />
+				<img className='logo' src={Logo} alt='' />
 			</Link>
-			<ul>
+			<ul className='navList'>
 				<Link to={'/Hunts'}>
-					<li>Hunts</li>
+					<li className='navListItem'>Hunts</li>
 				</Link>
 				<Link to={'/User'}>
-					<li>
+					<li className='navListItem'>
 						<FaUserAlt />
 					</li>
 				</Link>

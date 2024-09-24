@@ -1,4 +1,4 @@
-nav {
+.mainNav {
 	width: 100%;
 	padding: 5px 15px;
 	margin: 15px;
@@ -8,12 +8,12 @@ nav {
 	align-items: center;
 }
 
-img {
+.logo {
 	max-height: 150px;
 	max-width: 150px;
 }
 
-ul {
+.navList {
 	display: flex;
 	align-items: center;
 	justify-content: flex-end;
@@ -22,7 +22,7 @@ ul {
 	padding-right: 15px;
 }
 
-li {
+.navListItem {
 	font-family: var(--title-text);
 	font-size: 2rem;
 	font-weight: 700;

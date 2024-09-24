@@ -1,0 +1,31 @@
+.productsSection {
+	max-width: 1200px;
+	min-height: 80vh;
+	padding: 10px 20px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.productsSectionTitle {
+	position: relative;
+	width: 100%;
+	font-size: 3.5rem;
+	font-weight: 700;
+	font-family: var(--title-text);
+	color: var(--primary-color);
+	margin-bottom: 50px;
+}
+
+.productsSectionTitle::after {
+	content: '';
+	position: absolute;
+	top: 80%;
+	left: -15px;
+	height: 5px;
+	width: 100%;
+	border-radius: 0 0 15px 15px;
+	background-color: var(--primary-color);
+}

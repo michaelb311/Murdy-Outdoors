@@ -1,0 +1,66 @@
+.productCard {
+	width: 100%;
+	height: 100%;
+	padding: 50px 20px;
+	margin: 30px 0;
+
+	border-radius: 15px;
+
+	background: var(--primary-color);
+
+	position: relative;
+
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: space-around;
+
+	box-shadow: 0 4px 8px var(--opaque-primary);
+}
+
+.productCard:nth-child(even) {
+	background-color: hotpink;
+}
+
+.productCardTitle {
+	margin-bottom: 15px;
+
+	color: var(--accent-color);
+	font-family: var(--heading-text);
+	font-weight: 900;
+	font-size: 2rem;
+	z-index: 2;
+}
+
+.productCardBody {
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: var(--stroke-white);
+	font-family: var(--paragraph-text);
+	line-height: 2.5rem;
+
+	z-index: 2;
+}
+
+.productCardBody:nth-of-type(2) {
+	font-size: 2.5rem;
+	font-weight: 900;
+	color: var(--accent-color);
+	align-self: flex-end;
+	text-shadow: 0 5px 1px var(--primary-color);
+}
+
+.productCardImage {
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+	object-position: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	border-radius: 15px;
+
+	clip-path: polygon(100% 0, 0% 100%, 100% 100%);
+	z-index: 1;
+}
