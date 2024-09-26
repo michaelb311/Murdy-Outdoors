@@ -1,4 +1,6 @@
 .aboutSection {
+	width: 100%;
+	max-width: 1200px;
 	margin: 100px 0 150px 0;
 	padding: 20px;
 	position: relative;
@@ -6,7 +8,8 @@
 
 .aboutTitle {
 	position: relative;
-	width: calc(100% + 30px);
+	width: 100%;
+	max-width: 1200px;
 	font-size: 3.5rem;
 	font-weight: 700;
 	font-family: var(--title-text);
@@ -74,10 +77,6 @@
 }
 
 @media screen and (max-width: 768px) {
-	.aboutSection {
-		padding: 20px 0;
-	}
-
 	.aboutArticle {
 		padding: 15px;
 	}
