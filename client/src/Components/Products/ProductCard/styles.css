@@ -18,7 +18,8 @@
 	box-shadow: 0 4px 8px var(--opaque-primary);
 }
 
-.productCard:nth-child(even) {
+.productCard:nth-of-type(even) {
+	color: black;
 	background-color: hotpink;
 }
 
