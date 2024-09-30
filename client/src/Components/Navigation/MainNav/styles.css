@@ -1,16 +1,36 @@
 .mainNav {
 	width: 100%;
 	padding: 5px 15px;
-	margin: 15px;
 
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+
+	background-color: var(--white);
+	z-index: 1000;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+
+	transition: all 0.3s ease-in-out;
+}
+
+.mainNav.scrolled {
+	padding: 2px 15px;
+	background-color: var(--opaque-white);
+	box-shadow: 0 2px 5px var(--opaque-black);
 }
 
 .logo {
 	max-height: 150px;
 	max-width: 150px;
+}
+
+.logo.small {
+	max-height: 100px;
+	max-width: 100px;
 }
 
 .navList {
@@ -28,4 +48,9 @@
 	font-weight: 700;
 	margin: 0 15px;
 	color: var(--primary-color);
+}
+
+.navListItem.small {
+	font-size: 1.5rem;
+	font-weight: 500;
 }
