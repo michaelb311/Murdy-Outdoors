@@ -1,12 +1,17 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './styles.css';
 import WaterFowl from '../../../assets/water-fowl.jpg';
 
 // State will be injected by parent
 
 const ProductCard = () => {
+	const location = useLocation();
+
+	const linkPath = location.pathname.includes('Hunts')
+		? 'water-foal'
+		: 'Hunts/water-foal';
 	return (
-		<Link to={'Hunts/water-foal'}>
+		<Link to={linkPath}>
 			<article className='productCard'>
 				<h2 className='productCardTitle'>Water Fowl</h2>
 				<p className='productCardBody'>

@@ -10,6 +10,7 @@ const initState: StateType = {
 	init: false,
 	loading: false,
 	darkMode: false,
+	hunts: [],
 };
 
 const reducer = (state: StateType, action: ActionType): StateType => {
@@ -22,6 +23,12 @@ const reducer = (state: StateType, action: ActionType): StateType => {
 
 		case 'SET_DARK_MODE':
 			return { ...state, darkMode: action.payload };
+
+		case 'SET_HUNTS':
+			return { ...state, hunts: action.payload };
+
+		default:
+			return state;
 	}
 };
 

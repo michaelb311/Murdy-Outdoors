@@ -1,9 +1,9 @@
 .aboutSection {
+	min-height: 100vh;
 	width: 100%;
 	max-width: 1200px;
-	margin: 100px 0 150px 0;
+	margin: 100px 0;
 	padding: 20px;
-	position: relative;
 }
 
 .aboutTitle {
@@ -35,9 +35,6 @@
 	display: flex;
 	flex-direction: column;
 	font-family: var(--paragraph-text);
-	background-color: rgba(255, 255, 255, 0.7);
-	margin-top: 50vh;
-	min-height: 100vh;
 }
 
 .aboutArticle::after {
@@ -63,26 +60,21 @@
 	line-height: 2.5rem;
 	font-size: 1.5rem;
 	font-weight: 500;
-	word-spacing: 0.75rem;
+	word-spacing: 0.25rem;
 	color: var(--accent-color);
 	z-index: 1;
 }
 
-.aboutVideoContainer {
-	position: relative;
-	height: 100vh;
-	overflow: hidden;
-}
-
 .aboutVideo {
-	position: sticky;
+	position: absolute;
 	top: 0;
 	left: 0;
 	object-fit: cover;
-	object-position: center;
+	object-position: 50% 20%;
 	border-radius: 15px;
 	height: 100%;
 	width: 100%;
+	z-index: -1;
 }
 
 @media screen and (max-width: 768px) {

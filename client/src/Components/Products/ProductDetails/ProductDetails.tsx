@@ -1,8 +1,10 @@
+import './styles.css';
+
 const ProductDetails = () => {
 	return (
-		<section>
-			<h2>Hunt Title</h2>
-			<p>
+		<section className='productDetails'>
+			<h2 className='productDetailsTitle'>Hunt Title</h2>
+			<p className='productDetailsBody'>
 				Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus nihil
 				autem recusandae quasi impedit doloribus est, nemo dolorum ipsa corporis
 				quo totam aut deleniti culpa, explicabo dolorem sunt dolore praesentium

@@ -7,7 +7,7 @@ import item5 from '../../assets/home-hero/wite-tail-2.jpg';
 
 const HomeHero = () => {
 	return (
-		<section className='container'>
+		<section className='heroSection'>
 			<div className='item item1'>
 				<img src={item1} alt='waterfowl' />
 			</div>

@@ -1,5 +1,4 @@
 main {
-	min-height: 100vh;
 	min-width: 100vw;
 
 	display: flex;
@@ -7,6 +6,5 @@ main {
 	justify-content: center;
 	align-items: center;
 
-	overflow-y: scroll;
 	scroll-behavior: smooth;
 }
