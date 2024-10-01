@@ -5,10 +5,18 @@ import ProductsPage from './Pages/Products/ProductsPage';
 import Products from './Components/Products/ProductSection/ProductsSection';
 import ProductPage from './Pages/Product/ProductPage';
 import MainNav from './Components/Navigation/MainNav/MainNav';
+import { useContext, useEffect } from 'react';
+import { GlobalContext } from './API/context';
 
 //add a protected routes inside the userContext so they can be checked for security
 
 function App() {
+	const { init } = useContext(GlobalContext);
+
+	useEffect(() => {
+		init();
+	}, []);
+
 	return (
 		<main>
 			<Router>

@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "hunts",
+  "info": {
+    "singularName": "hunt",
+    "pluralName": "hunts",
+    "displayName": "hunt",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "price": {
+      "type": "float"
+    },
+    "imageUrl": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "decimal"
+    },
+    "stockCount": {
+      "type": "integer"
+    },
+    "inStock": {
+      "type": "boolean"
+    },
+    "hunting_methods": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::hunting-method.hunting-method",
+      "inversedBy": "hunts"
+    }
+  }
+}

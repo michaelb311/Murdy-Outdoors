@@ -20,3 +20,9 @@ export type DispatchType = (action: ActionType) => void;
 export interface ChildrenType {
 	children?: ReactElement | ReactElement[];
 }
+
+export interface GlobalContextType {
+	state: StateType;
+	dispatch: DispatchType;
+	init: () => void;
+}

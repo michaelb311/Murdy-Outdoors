@@ -1,10 +1,11 @@
-import { createContext, ReactElement, useReducer } from 'react';
+import { createContext, ReactElement, useReducer, useCallback } from 'react';
 import {
 	ActionType,
 	ChildrenType,
-	DispatchType,
+	GlobalContextType,
 	StateType,
 } from '../Types/stateTypes';
+import { getHunts } from './hunts';
 
 const initState: StateType = {
 	init: false,
@@ -32,19 +33,38 @@ const reducer = (state: StateType, action: ActionType): StateType => {
 	}
 };
 
-export const GlobalContext = createContext<{
-	state: StateType;
-	dispatch: DispatchType;
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-}>({ state: initState, dispatch: () => {} });
+export const GlobalContext = createContext<GlobalContextType>(
+	{} as GlobalContextType
+);
 
 export const GlobalContextProvider = ({
 	children,
 }: ChildrenType): ReactElement => {
 	const [state, dispatch] = useReducer(reducer, initState);
 
+	const init = useCallback(async () => {
+		dispatch({ type: 'SET_LOADING', payload: true });
+		try {
+			const hunts = await getHunts();
+			dispatch({ type: 'SET_HUNTS', payload: hunts });
+			dispatch({ type: 'SET_INIT', payload: true });
+		} catch (error) {
+			console.error('Failed to initialize:', error);
+		} finally {
+			dispatch({ type: 'SET_LOADING', payload: false });
+		}
+	}, []);
+
 	return (
-		<GlobalContext.Provider value={{ state, dispatch }}>
+		<GlobalContext.Provider
+			value={{
+				state,
+				dispatch,
+				init: () => {
+					void init();
+				},
+			}}
+		>
 			{children}
 		</GlobalContext.Provider>
 	);
