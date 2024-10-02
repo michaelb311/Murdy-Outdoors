@@ -1,31 +1,34 @@
 import { Link, useLocation } from 'react-router-dom';
 import './styles.css';
-import WaterFowl from '../../../assets/water-fowl.jpg';
+import { HuntItemType } from '../../../Types/huntTypes';
 
-// State will be injected by parent
-
-const ProductCard = () => {
+const ProductCard: React.FC<HuntItemType> = ({
+	title,
+	description,
+	price,
+	imageUrl,
+	rating,
+	stockCount,
+}) => {
 	const location = useLocation();
 
 	const linkPath = location.pathname.includes('Hunts')
-		? 'water-foal'
-		: 'Hunts/water-foal';
+		? `${title}`
+		: `Hunts/${title}`;
 	return (
 		<Link to={linkPath}>
 			<article className='productCard'>
-				<h2 className='productCardTitle'>Water Fowl</h2>
-				<p className='productCardBody'>
-					Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quia
-					repellendus suscipit reprehenderit laborum. Dolores libero saepe
-					quidem, perspiciatis vitae amet facere aut rerum! Quam enim ut veniam
-					quo eius autem culpa quos illo dignissimos impedit mollitia id sequi
-					deserunt reprehenderit eligendi at ipsa pariatur quae quas, recusandae
-					delectus voluptatum voluptatem....
-				</p>
-				<p className='productCardBody'>Reserve Now!!!!</p>
+				<h2 className='productCardTitle'>{title}</h2>
+				<span className='productCardStock'>{stockCount}</span>
+				<p className='productCardBody'>{description?.slice(0, 100) || ''}...</p>
+				<div className='productReserveWrapper'>
+					<p className='productCardReserve'>Reserve Now!!!!</p>
+					<span className='productCardRating'>{rating}</span>
+					<span className='productCardPrice'>${price}</span>
+				</div>
 				<img
 					className='productCardImage'
-					src={WaterFowl}
+					src={imageUrl}
 					alt='product card image'
 				/>
 			</article>

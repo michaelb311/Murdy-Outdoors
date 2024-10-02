@@ -362,75 +362,6 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
-export interface ApiHuntHunt extends Schema.CollectionType {
-  collectionName: 'hunts';
-  info: {
-    singularName: 'hunt';
-    pluralName: 'hunts';
-    displayName: 'hunt';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Attribute.String;
-    description: Attribute.Text;
-    price: Attribute.Float;
-    imageUrl: Attribute.String;
-    rating: Attribute.Decimal;
-    stockCount: Attribute.Integer;
-    inStock: Attribute.Boolean;
-    hunting_methods: Attribute.Relation<
-      'api::hunt.hunt',
-      'manyToMany',
-      'api::hunting-method.hunting-method'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::hunt.hunt', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::hunt.hunt', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
-export interface ApiHuntingMethodHuntingMethod extends Schema.CollectionType {
-  collectionName: 'hunting_methods';
-  info: {
-    singularName: 'hunting-method';
-    pluralName: 'hunting-methods';
-    displayName: 'Hunting Method';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    method: Attribute.String;
-    hunts: Attribute.Relation<
-      'api::hunting-method.hunting-method',
-      'manyToMany',
-      'api::hunt.hunt'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::hunting-method.hunting-method',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::hunting-method.hunting-method',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -857,6 +788,75 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
+export interface ApiHuntHunt extends Schema.CollectionType {
+  collectionName: 'hunts';
+  info: {
+    singularName: 'hunt';
+    pluralName: 'hunts';
+    displayName: 'hunt';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    description: Attribute.Text;
+    price: Attribute.Float;
+    imageUrl: Attribute.String;
+    rating: Attribute.Decimal;
+    stockCount: Attribute.Integer;
+    inStock: Attribute.Boolean;
+    hunting_methods: Attribute.Relation<
+      'api::hunt.hunt',
+      'manyToMany',
+      'api::hunting-method.hunting-method'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::hunt.hunt', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::hunt.hunt', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiHuntingMethodHuntingMethod extends Schema.CollectionType {
+  collectionName: 'hunting_methods';
+  info: {
+    singularName: 'hunting-method';
+    pluralName: 'hunting-methods';
+    displayName: 'Hunting Method';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    method: Attribute.String;
+    hunts: Attribute.Relation<
+      'api::hunting-method.hunting-method',
+      'manyToMany',
+      'api::hunt.hunt'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::hunting-method.hunting-method',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::hunting-method.hunting-method',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -867,8 +867,6 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'api::hunt.hunt': ApiHuntHunt;
-      'api::hunting-method.hunting-method': ApiHuntingMethodHuntingMethod;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
@@ -877,6 +875,8 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
+      'api::hunt.hunt': ApiHuntHunt;
+      'api::hunting-method.hunting-method': ApiHuntingMethodHuntingMethod;
     }
   }
 }

@@ -6,6 +6,7 @@ import {
 	StateType,
 } from '../Types/stateTypes';
 import { getHunts } from './hunts';
+import { HuntsResponseType } from '../Types/huntTypes';
 
 const initState: StateType = {
 	init: false,
@@ -45,8 +46,8 @@ export const GlobalContextProvider = ({
 	const init = useCallback(async () => {
 		dispatch({ type: 'SET_LOADING', payload: true });
 		try {
-			const hunts = await getHunts();
-			dispatch({ type: 'SET_HUNTS', payload: hunts });
+			const response: HuntsResponseType = await getHunts();
+			dispatch({ type: 'SET_HUNTS', payload: response.data });
 			dispatch({ type: 'SET_INIT', payload: true });
 		} catch (error) {
 			console.error('Failed to initialize:', error);

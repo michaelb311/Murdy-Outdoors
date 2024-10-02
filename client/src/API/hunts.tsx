@@ -1,4 +1,4 @@
-import { HuntType } from '../Types/huntTypes';
+import { HuntsResponseType } from '../Types/huntTypes';
 
 const baseURL = import.meta.env.VITE_DATABASE_URL as string;
 const token = import.meta.env.VITE_DATABASE_TOKEN as string;
@@ -19,7 +19,7 @@ export const getHunts = async () => {
 			throw new Error(`Failed to fetch hunts: ${response.statusText}`);
 		}
 
-		const data = (await response.json()) as HuntType[];
+		const data = (await response.json()) as HuntsResponseType;
 		return data;
 	} catch (error) {
 		console.error('Fetch error:', error);
@@ -45,7 +45,7 @@ export const getHuntById = async (id: string) => {
 			throw new Error(`Failed to fetch hunts: ${response.statusText}`);
 		}
 
-		const data = (await response.json()) as HuntType;
+		const data = (await response.json()) as HuntsResponseType;
 
 		return data;
 	} catch (error) {

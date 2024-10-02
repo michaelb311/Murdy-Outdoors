@@ -1,15 +1,23 @@
 import './styles.css';
 import ProductCard from '../ProductCard/ProductCard';
+import { useContext, useEffect, useState } from 'react';
+import { GlobalContext } from '../../../API/context';
+import { HuntItemType } from '../../../Types/huntTypes';
 
-// This will take in all the products that are avaible in state and display them in a list
 const Products = () => {
+	const [hunts, setHunts] = useState<HuntItemType[]>([]);
+	const { state } = useContext(GlobalContext);
+
+	useEffect(() => {
+		setHunts(state.hunts);
+	}, [state.hunts]);
+
 	return (
 		<section className='productsSection'>
 			<h1 className='productsSectionTitle'>Hunts</h1>
-			<ProductCard />
-			<ProductCard />
-			<ProductCard />
-			<ProductCard />
+			{hunts.map((hunt) => (
+				<ProductCard key={hunt.id} {...hunt} />
+			))}
 		</section>
 	);
 };
