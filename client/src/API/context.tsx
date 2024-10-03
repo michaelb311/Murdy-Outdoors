@@ -12,7 +12,7 @@ const initState: StateType = {
 	init: false,
 	loading: false,
 	darkMode: false,
-	hunts: [],
+	hunts: null,
 };
 
 const reducer = (state: StateType, action: ActionType): StateType => {
@@ -47,7 +47,7 @@ export const GlobalContextProvider = ({
 		dispatch({ type: 'SET_LOADING', payload: true });
 		try {
 			const response: HuntsResponseType = await getHunts();
-			dispatch({ type: 'SET_HUNTS', payload: response.data });
+			dispatch({ type: 'SET_HUNTS', payload: response });
 			dispatch({ type: 'SET_INIT', payload: true });
 		} catch (error) {
 			console.error('Failed to initialize:', error);

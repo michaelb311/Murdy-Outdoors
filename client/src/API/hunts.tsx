@@ -37,8 +37,6 @@ export const getHuntById = async (id: string) => {
 			},
 		});
 
-		console.log(response);
-
 		if (!response.ok) {
 			const errorText = await response.text();
 			console.error('API Error:', errorText);

@@ -1,5 +1,7 @@
 import { HuntItemType } from './huntTypes';
 
 export interface ProductCardProps {
-	hunt: HuntItemType;
+	hunt: {
+		attributes: HuntItemType;
+	};
 }
