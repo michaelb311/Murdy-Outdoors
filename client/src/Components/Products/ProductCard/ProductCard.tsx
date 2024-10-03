@@ -1,17 +1,11 @@
 import { Link, useLocation } from 'react-router-dom';
 import './styles.css';
-import { HuntItemType } from '../../../Types/huntTypes';
+import { ProductCardProps } from '../../../Types/uiTypes';
+import React from 'react';
 
-const ProductCard: React.FC<HuntItemType> = ({
-	title,
-	description,
-	price,
-	imageUrl,
-	rating,
-	stockCount,
-}) => {
+const ProductCard: React.FC<ProductCardProps> = ({ hunt }) => {
 	const location = useLocation();
-
+	const { title, stockCount, description, rating, price, imageUrl } = hunt;
 	const linkPath = location.pathname.includes('Hunts')
 		? `${title}`
 		: `Hunts/${title}`;

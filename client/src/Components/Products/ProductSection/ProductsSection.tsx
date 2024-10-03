@@ -9,14 +9,15 @@ const Products = () => {
 	const { state } = useContext(GlobalContext);
 
 	useEffect(() => {
-		setHunts(state.hunts);
+		console.log(state.hunts);
+		setHunts([...state.hunts]);
 	}, [state.hunts]);
 
 	return (
 		<section className='productsSection'>
 			<h1 className='productsSectionTitle'>Hunts</h1>
 			{hunts.map((hunt) => (
-				<ProductCard key={hunt.id} {...hunt} />
+				<ProductCard key={hunt.id} hunt={hunt} />
 			))}
 		</section>
 	);
