@@ -1,22 +1,33 @@
 import './styles.css';
-
+import { GlobalContext } from '../../../API/context';
+import { useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import BookingForm from '../../BookingForm/BookingForm';
 const ProductDetails = () => {
+	const { slug } = useParams();
+	const { state } = useContext(GlobalContext);
+	const hunt = state.hunts?.data.find((hunt) => hunt.attributes.title === slug);
+	const {
+		title,
+		description,
+		stockCount,
+		rating,
+		price,
+		imageUrl,
+		huntingMethod,
+	} = hunt?.attributes ?? {};
 	return (
-		<section className='productDetails'>
-			<h2 className='productDetailsTitle'>Hunt Title</h2>
-			<p className='productDetailsBody'>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus nihil
-				autem recusandae quasi impedit doloribus est, nemo dolorum ipsa corporis
-				quo totam aut deleniti culpa, explicabo dolorem sunt dolore praesentium
-				blanditiis. Eaque totam necessitatibus iste. Maxime veritatis deserunt,
-				atque culpa doloribus minus architecto at animi vel rem dolore accusamus
-				natus ad officiis nesciunt, praesentium pariatur fuga illum. Sint illo,
-				consequuntur similique corporis soluta tempora nobis nesciunt alias
-				assumenda in possimus, mollitia cupiditate cumque aspernatur
-				voluptatibus hic odit incidunt repellat accusamus consequatur, esse
-				magnam expedita! Exercitationem quibusdam labore incidunt ullam eveniet
-				vel delectus laborum assumenda, repellat autem nam quidem ipsa numquam!
-			</p>
+		<section className='productDetailsSection'>
+			<div className='productDetailsImageContainer'>
+				<img src={imageUrl} alt={title} />
+			</div>
+			<div className='productDetailsContentContainer'>
+				<h2 className='productDetailsTitle'>{title}</h2>
+				<p className='productDetailsBody'>{description}</p>
+			</div>
+			<div className='productDetailsBookingFormContainer'>
+				<BookingForm hunt={hunt?.attributes ?? {}} />
+			</div>
 		</section>
 	);
 };

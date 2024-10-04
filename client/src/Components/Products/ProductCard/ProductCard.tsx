@@ -11,7 +11,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ hunt }) => {
 		? `${title}`
 		: `Hunts/${title}`;
 	return (
-		<Link to={linkPath}>
+		<Link style={{ width: '100%' }} to={linkPath}>
 			<article className='productCard'>
 				<h2 className='productCardTitle'>{title}</h2>
 				<span className='productCardStock'>{stockCount}</span>

@@ -5,3 +5,7 @@ export interface ProductCardProps {
 		attributes: HuntItemType;
 	};
 }
+
+export interface FormProps {
+	hunt: Partial<HuntItemType>;
+}
