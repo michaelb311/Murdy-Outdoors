@@ -1,5 +1,69 @@
 import type { Struct, Schema } from '@strapi/strapi';
 
+export interface ApiHuntHunt extends Struct.CollectionTypeSchema {
+  collectionName: 'hunts';
+  info: {
+    singularName: 'hunt';
+    pluralName: 'hunts';
+    displayName: 'hunt';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Schema.Attribute.String;
+    description: Schema.Attribute.Text;
+    price: Schema.Attribute.Float;
+    imageUrl: Schema.Attribute.String;
+    rating: Schema.Attribute.Decimal;
+    stockCount: Schema.Attribute.Integer;
+    inStock: Schema.Attribute.Boolean;
+    hunting_methods: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::hunting-method.hunting-method'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::hunt.hunt'>;
+  };
+}
+
+export interface ApiHuntingMethodHuntingMethod
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'hunting_methods';
+  info: {
+    singularName: 'hunting-method';
+    pluralName: 'hunting-methods';
+    displayName: 'Hunting Method';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    method: Schema.Attribute.String;
+    hunts: Schema.Attribute.Relation<'manyToMany', 'api::hunt.hunt'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::hunting-method.hunting-method'
+    >;
+  };
+}
+
 export interface PluginUploadFile extends Struct.CollectionTypeSchema {
   collectionName: 'files';
   info: {
@@ -485,70 +549,6 @@ export interface PluginUsersPermissionsUser
   };
 }
 
-export interface ApiHuntHunt extends Struct.CollectionTypeSchema {
-  collectionName: 'hunts';
-  info: {
-    singularName: 'hunt';
-    pluralName: 'hunts';
-    displayName: 'hunt';
-    description: '';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    title: Schema.Attribute.String;
-    description: Schema.Attribute.Text;
-    price: Schema.Attribute.Float;
-    imageUrl: Schema.Attribute.String;
-    rating: Schema.Attribute.Decimal;
-    stockCount: Schema.Attribute.Integer;
-    inStock: Schema.Attribute.Boolean;
-    hunting_methods: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::hunting-method.hunting-method'
-    >;
-    createdAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    publishedAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::hunt.hunt'>;
-  };
-}
-
-export interface ApiHuntingMethodHuntingMethod
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'hunting_methods';
-  info: {
-    singularName: 'hunting-method';
-    pluralName: 'hunting-methods';
-    displayName: 'Hunting Method';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    method: Schema.Attribute.String;
-    hunts: Schema.Attribute.Relation<'manyToMany', 'api::hunt.hunt'>;
-    createdAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    publishedAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::hunting-method.hunting-method'
-    >;
-  };
-}
-
 export interface AdminPermission extends Struct.CollectionTypeSchema {
   collectionName: 'admin_permissions';
   info: {
@@ -914,6 +914,8 @@ export interface AdminTransferTokenPermission
 declare module '@strapi/strapi' {
   export module Public {
     export interface ContentTypeSchemas {
+      'api::hunt.hunt': ApiHuntHunt;
+      'api::hunting-method.hunting-method': ApiHuntingMethodHuntingMethod;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::i18n.locale': PluginI18NLocale;
@@ -924,8 +926,6 @@ declare module '@strapi/strapi' {
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'api::hunt.hunt': ApiHuntHunt;
-      'api::hunting-method.hunting-method': ApiHuntingMethodHuntingMethod;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;
       'admin::role': AdminRole;

@@ -1,8 +1,24 @@
 .productDetailsSection {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	display: grid;
+	grid-template-areas: 'a a' 'b c';
+	grid-template-columns: 1fr 1fr;
+}
+
+.productDetailsImageContainer {
+	width: 100%;
+	height: 30vh;
+	grid-area: a;
+}
+
+.productDetailsImageContainer img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.productDetailsContentContainer {
+	grid-area: b;
+	border-right: 1px solid var(--primary-color);
 }
 
 .productDetailsTitle {
@@ -13,4 +29,8 @@
 .productDetailsBody {
 	font-size: 1rem;
 	font-weight: 400;
+}
+
+.productDetailsBookingFormContainer {
+	grid-area: c;
 }

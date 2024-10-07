@@ -13,8 +13,5 @@ export interface HuntItemType {
 }
 
 export interface HuntsResponseType {
-	data: {
-		id: number;
-		attributes: HuntItemType;
-	}[];
+	data: HuntItemType[];
 }

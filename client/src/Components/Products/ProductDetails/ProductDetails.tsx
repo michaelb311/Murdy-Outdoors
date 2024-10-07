@@ -2,11 +2,11 @@ import './styles.css';
 import { GlobalContext } from '../../../API/context';
 import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import BookingForm from '../../BookingForm/BookingForm';
+// import BookingForm from '../../BookingForm/BookingForm';
 const ProductDetails = () => {
 	const { slug } = useParams();
 	const { state } = useContext(GlobalContext);
-	const hunt = state.hunts?.data.find((hunt) => hunt.attributes.title === slug);
+	const hunt = state.hunts?.data.find((hunt) => hunt.title === slug);
 	const {
 		title,
 		description,
@@ -15,7 +15,7 @@ const ProductDetails = () => {
 		price,
 		imageUrl,
 		huntingMethod,
-	} = hunt?.attributes ?? {};
+	} = hunt ?? {};
 	return (
 		<section className='productDetailsSection'>
 			<div className='productDetailsImageContainer'>
@@ -26,7 +26,7 @@ const ProductDetails = () => {
 				<p className='productDetailsBody'>{description}</p>
 			</div>
 			<div className='productDetailsBookingFormContainer'>
-				<BookingForm hunt={hunt?.attributes ?? {}} />
+				{/* <BookingForm hunt={hunt ?? {}} /> */}
 			</div>
 		</section>
 	);

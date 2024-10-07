@@ -5,8 +5,7 @@ import React from 'react';
 
 const ProductCard: React.FC<ProductCardProps> = ({ hunt }) => {
 	const location = useLocation();
-	const { title, stockCount, description, rating, price, imageUrl } =
-		hunt.attributes;
+	const { title, stockCount, description, rating, price, imageUrl } = hunt;
 	const linkPath = location.pathname.includes('Hunts')
 		? `${title}`
 		: `Hunts/${title}`;

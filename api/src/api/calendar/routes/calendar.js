@@ -4,11 +4,6 @@ module.exports = {
       method: "GET",
       path: "/calendar/events",
       handler: "calendar.fetchGoogleCalendarEvents",
-      config: {
-        auth: {
-          strategies: ["admin"],
-        },
-      },
     },
   ],
 };

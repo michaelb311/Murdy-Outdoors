@@ -16,7 +16,6 @@ export const fetchGoogleCalendarEvents = async () => {
 
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const data = await response.json();
-		console.log(data);
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
 		return data;
 	} catch (error) {
