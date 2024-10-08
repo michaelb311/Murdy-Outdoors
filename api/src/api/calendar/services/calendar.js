@@ -4,7 +4,7 @@ const path = require("path");
 // Load the service account key JSON file
 const keyFile = path.join(
   __dirname,
-  "../../../../murdy-outdoors-f6a0ed1638db.json",
+  "../../../../murdy-outdoors-7cd4c9535122.json",
 );
 
 // Create an OAuth2 client with the given credentials

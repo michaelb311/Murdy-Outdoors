@@ -1,10 +1,11 @@
 import './styles.css';
 import { FormProps } from '../../Types/uiTypes';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { format, parse, differenceInDays, getDay, startOfWeek } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { GlobalContext } from '../../API/context';
 
 const locales = {
 	'en-US': enUS,
@@ -19,6 +20,9 @@ const localizer = dateFnsLocalizer({
 });
 
 const BookingForm: React.FC<FormProps> = ({ hunt }) => {
+	const { state } = useContext(GlobalContext);
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+	const events = state.events || [];
 	const { title, price, stockCount, huntingMethod } = hunt;
 	const [formData, setFormData] = useState({
 		// Hunt details
@@ -65,7 +69,6 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 					className='bookingFormInput'
 					type='number'
 					id='numberOfGuests'
-					defaultValue={1}
 					min={1}
 					value={formData.numberOfGuests}
 					onChange={handleChange}
@@ -81,7 +84,6 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 							id='numberOfAdults'
 							min={1}
 							max={formData.numberOfGuests - formData.numberOfChildren}
-							defaultValue={1}
 							value={formData.numberOfAdults}
 							onChange={handleChange}
 						/>

@@ -8,7 +8,10 @@ export interface HuntItemType {
 	imageUrl: string;
 	rating: number;
 	stockCount: number;
-	huntingMethod: huntingMethod[];
+	hunting_methods: {
+		id: number;
+		method: huntingMethod;
+	}[];
 	inStock: boolean;
 }
 

@@ -55,7 +55,6 @@ export const GlobalContextProvider = ({
 		try {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			const eventsResponse: any = await fetchGoogleCalendarEvents();
-			console.log(eventsResponse);
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			dispatch({ type: 'SET_EVENTS', payload: eventsResponse });
 			const huntsResponse: HuntsResponseType = await getHunts();

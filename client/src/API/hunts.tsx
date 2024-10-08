@@ -5,7 +5,7 @@ const token = import.meta.env.VITE_DATABASE_TOKEN as string;
 
 export const getHunts = async () => {
 	try {
-		const response = await fetch(`${baseURL}/hunts`, {
+		const response = await fetch(`${baseURL}/hunts?populate=*`, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
