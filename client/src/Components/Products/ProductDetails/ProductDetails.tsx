@@ -8,6 +8,12 @@ import { FaRegStar } from 'react-icons/fa6';
 import { FaRegStarHalfStroke } from 'react-icons/fa6';
 import { FaStar } from 'react-icons/fa6';
 import { FaDollarSign } from 'react-icons/fa6';
+
+import { GiWinchesterRifle } from 'react-icons/gi';
+import { GiSawedOffShotgun } from 'react-icons/gi';
+import { GiBowString } from 'react-icons/gi';
+import { GiCrossbow } from 'react-icons/gi';
+
 const ProductDetails = () => {
 	const { slug } = useParams();
 	const { state } = useContext(GlobalContext);
@@ -22,8 +28,6 @@ const ProductDetails = () => {
 		imageUrl,
 		hunting_methods,
 	} = hunt ?? {};
-
-	console.log('hunt:', hunt);
 
 	const starFactory = (rating: number) => {
 		const stars = [];
@@ -84,7 +88,26 @@ const ProductDetails = () => {
 				</div>
 				{hunting_methods?.map((method, index) => (
 					<div className='productSymbol huntingMethod' key={index}>
-						{method.method}
+						<span>
+							{method.method === 'Rifle' ? (
+								<GiWinchesterRifle
+									style={{ fontSize: '1.5rem', marginRight: '0.5rem' }}
+								/>
+							) : method.method === 'Muzzleloader' ? (
+								<GiSawedOffShotgun
+									style={{ fontSize: '1.5rem', marginRight: '0.5rem' }}
+								/>
+							) : method.method === 'Bow' ? (
+								<GiBowString
+									style={{ fontSize: '1.5rem', marginRight: '0.5rem' }}
+								/>
+							) : method.method === 'Crossbow' ? (
+								<GiCrossbow
+									style={{ fontSize: '1.5rem', marginRight: '0.5rem' }}
+								/>
+							) : null}
+						</span>
+						<span>{method.method}</span>
 					</div>
 				))}
 			</div>
