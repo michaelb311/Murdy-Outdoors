@@ -13,6 +13,7 @@ import { GiWinchesterRifle } from 'react-icons/gi';
 import { GiSawedOffShotgun } from 'react-icons/gi';
 import { GiBowString } from 'react-icons/gi';
 import { GiCrossbow } from 'react-icons/gi';
+import Reviews from '../../Reviews/Reviews';
 
 const ProductDetails = () => {
 	const { slug } = useParams();
@@ -115,6 +116,9 @@ const ProductDetails = () => {
 				<div className='productDetailsContentContainer'>
 					<h2 className='productDetailsHeading'>Hunt Details</h2>
 					<p className='productDetailsBody'>{description}</p>
+					<div className='reviewsContainer'>
+						<Reviews />
+					</div>
 				</div>
 				<div className='productDetailsBookingFormContainer'>
 					<BookingForm hunt={hunt ?? {}} />
