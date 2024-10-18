@@ -1,22 +1,23 @@
-export interface User {
+import { HuntItemType } from './huntTypes';
+
+export interface UserType {
 	id: number;
-	firstName: string;
-	lastName: string;
-	fullName: string;
-	role: 'Admin' | 'User';
-	//update pastHunts/futureHunra to an array of type Hunts.  to be createad
-	pastHunts: [];
-	futureHunts: [];
+	firstName: string | null;
+	lastName: string | null;
+	fullName: string | null;
+	role: 'Guest' | 'User';
+	pastHunts: HuntItemType[];
+	futureHunts: HuntItemType[];
 }
 
 export interface UserStateType {
 	// Record<string, never> means empty object per typescript docs
-	user: User | null;
+	user: UserType | null;
 }
 
 export interface UserActionType {
 	type: 'SET_USER';
-	payload: User;
+	payload: UserType;
 }
 
 export type UserDispatchType = (action: UserActionType) => void;

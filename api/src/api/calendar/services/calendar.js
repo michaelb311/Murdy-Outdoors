@@ -37,6 +37,89 @@ const fetchGoogleCalendarEvents = async () => {
   }
 };
 
+const createGoogleCalendarEvent = async (event) => {
+  const authClient = await auth.getClient();
+  // @ts-ignore
+  const calendar = google.calendar({ version: "v3", auth: authClient });
+
+  try {
+    const response = await calendar.events.insert({
+      calendarId:
+        "57785f68a496643cfdb622501ad695b3ddef3830903c80f33356bff3b1e13721@group.calendar.google.com",
+      requestBody: {
+        summary: event.summary,
+        description: event.description,
+        start: {
+          dateTime: event.start,
+          timeZone: "America/New_York",
+        },
+        end: {
+          dateTime: event.end,
+          timeZone: "America/New_York",
+        },
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error creating calendar event:", error);
+    throw error;
+  }
+};
+
+const updateGoogleCalendarEvent = async (id, eventData) => {
+  const authClient = await auth.getClient();
+  // @ts-ignore
+  const calendar = google.calendar({ version: "v3", auth: authClient });
+
+  try {
+    const response = await calendar.events.update({
+      calendarId:
+        "57785f68a496643cfdb622501ad695b3ddef3830903c80f33356bff3b1e13721@group.calendar.google.com",
+      eventId: id,
+      requestBody: {
+        summary: eventData.summary,
+        description: eventData.description,
+        start: {
+          dateTime: eventData.start,
+          timeZone: "America/New_York",
+        },
+        end: {
+          dateTime: eventData.end,
+          timeZone: "America/New_York",
+        },
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error updating calendar event:", error);
+    throw error;
+  }
+};
+
+const deleteGoogleCalendarEvent = async (id) => {
+  const authClient = await auth.getClient();
+  // @ts-ignore
+  const calendar = google.calendar({ version: "v3", auth: authClient });
+
+  try {
+    await calendar.events.delete({
+      calendarId:
+        "57785f68a496643cfdb622501ad695b3ddef3830903c80f33356bff3b1e13721@group.calendar.google.com",
+      eventId: id,
+    });
+
+    return { message: "Event deleted successfully" };
+  } catch (error) {
+    console.error("Error deleting calendar event:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   fetchGoogleCalendarEvents,
+  createGoogleCalendarEvent,
+  updateGoogleCalendarEvent,
+  deleteGoogleCalendarEvent,
 };

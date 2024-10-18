@@ -508,6 +508,7 @@ export interface ApiHuntHunt extends Struct.CollectionTypeSchema {
       'manyToMany',
       'api::hunting-method.hunting-method'
     >;
+    maxGuests: Schema.Attribute.Integer;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -572,6 +573,35 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     locale: Schema.Attribute.String;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::review.review'>;
+  };
+}
+
+export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
+  collectionName: 'bookings';
+  info: {
+    singularName: 'booking';
+    pluralName: 'bookings';
+    displayName: 'Booking';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    hunt: Schema.Attribute.Relation<'oneToOne', 'api::hunt.hunt'>;
+    admin_user: Schema.Attribute.Relation<'oneToOne', 'admin::user'>;
+    createdAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    publishedAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::booking.booking'
+    >;
   };
 }
 
@@ -953,6 +983,7 @@ declare module '@strapi/strapi' {
       'api::hunt.hunt': ApiHuntHunt;
       'api::hunting-method.hunting-method': ApiHuntingMethodHuntingMethod;
       'api::review.review': ApiReviewReview;
+      'api::booking.booking': ApiBookingBooking;
       'admin::permission': AdminPermission;
       'admin::user': AdminUser;
       'admin::role': AdminRole;

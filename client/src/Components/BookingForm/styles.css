@@ -47,3 +47,14 @@
 	background-color: var(--primary-color);
 	color: var(--opaque-black);
 }
+
+.bookingDetails {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.modalActions {
+	display: flex;
+	gap: 1rem;
+}

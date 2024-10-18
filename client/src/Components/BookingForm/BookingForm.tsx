@@ -1,27 +1,31 @@
 import './styles.css';
 import { FormProps } from '../../Types/uiTypes';
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { eachDayOfInterval } from 'date-fns';
+import { eachDayOfInterval, differenceInDays } from 'date-fns';
 import { GlobalContext } from '../../API/context';
+import { GoogleCalendarEvent } from '../../Types/googleTypes';
+import { huntingMethod } from '../../Types/huntTypes';
+import { FaExclamationCircle } from 'react-icons/fa';
+import Modal from '../Modal/Modal';
 
 const BookingForm: React.FC<FormProps> = ({ hunt }) => {
+	const [isModalOpen, setIsModalOpen] = useState(false);
 	const { state } = useContext(GlobalContext);
-	//this is the events from the database. they need to be typed
-	const events = state.events || [];
-	//the price and stock count will be used for the total price and to check if the hunt is in stock
-	const { title, price, stockCount, hunting_methods } = hunt;
+	const events: GoogleCalendarEvent[] | null = state.events;
+	const [errors, setErrors] = useState<Record<string, string>>({});
+	const { title, price, hunting_methods, maxGuests } = hunt;
 	const [formData, setFormData] = useState({
 		// Hunt details
 		huntId: '',
-		huntingMethods: [],
+		huntingMethods: [] as huntingMethod[],
 
 		// Guest information
 		numberOfGuests: 1,
 		numberOfAdults: 0,
 		numberOfChildren: 0,
-		userId: '',
+		user: state.user ?? null,
 
 		// Booking details
 		startDate: '',
@@ -42,144 +46,285 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 		documents: [],
 	});
 
-	//needs to be typed
-	const unavailableDates = events.flatMap((event) => {
-		const start = new Date(event.start.date);
-		const end = new Date(event.end.date);
-		const dateRange = eachDayOfInterval({ start, end });
-		return dateRange;
-	});
+	const openModal = () => setIsModalOpen(true);
+	const closeModal = () => setIsModalOpen(false);
+
+	const unavailableDates: Date[] =
+		events?.flatMap((event) => {
+			const start = new Date(event.start.date);
+			const end = new Date(event.end.date);
+			const dateRange = eachDayOfInterval({ start, end });
+			return dateRange;
+		}) ?? [];
 
 	const handleDateChange = (date: Date | null, id: string) => {
 		if (date) {
-			setFormData({ ...formData, [id]: date.toISOString().split('T')[0] });
+			setFormData({
+				...formData,
+				[id]: date.toLocaleDateString(undefined, {
+					year: 'numeric',
+					month: '2-digit',
+					day: '2-digit',
+				}),
+			});
 		}
 	};
 
-	useEffect(() => {
-		console.log(unavailableDates);
-	}, [unavailableDates]);
-
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { id, value } = e.target;
-		setFormData({ ...formData, [id]: value });
+		switch (id) {
+			case 'numberOfGuests':
+				setFormData({ ...formData, [id]: parseInt(value) });
+				break;
+			case 'numberOfAdults':
+				setFormData({ ...formData, [id]: parseInt(value) });
+				break;
+			case 'numberOfChildren':
+				setFormData({ ...formData, [id]: parseInt(value) });
+				break;
+			default:
+				setFormData({ ...formData, [id]: value });
+				break;
+		}
+	};
+
+	const validateForm = () => {
+		const newErrors: Record<string, string> = {};
+		if (formData.numberOfGuests < 1) {
+			newErrors.numberOfGuests = 'Number of guests is required';
+		}
+
+		if (formData.numberOfGuests > 1) {
+			if (formData.numberOfAdults < 1) {
+				newErrors.numberOfAdults = 'Number of adults is required';
+			}
+			if (
+				formData.numberOfChildren + formData.numberOfAdults !==
+				formData.numberOfGuests
+			) {
+				newErrors.numberOfChildren =
+					'Total of adults and children must equal number of guests';
+			}
+		}
+
+		if (!formData.startDate) {
+			newErrors.startDate = 'Start date is required';
+		}
+
+		if (!formData.endDate) {
+			newErrors.endDate = 'End date is required';
+		}
+
+		if (formData.huntingMethods.length === 0) {
+			newErrors.huntingMethods = 'At least one hunting method must be selected';
+		}
+
+		const startDate = new Date(formData.startDate);
+		const endDate = new Date(formData.endDate);
+
+		if (endDate < startDate) {
+			newErrors.endDate = 'End date cannot be before start date';
+		}
+
+		setErrors(newErrors);
+		return Object.keys(newErrors).length === 0;
 	};
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		console.log(formData);
+		if (validateForm()) {
+			formData.numberOfDays = differenceInDays(
+				formData.endDate,
+				formData.startDate
+			);
+			formData.totalPrice =
+				formData.numberOfDays * formData.numberOfGuests * price;
+			formData.deposit = formData.totalPrice * 0.5;
+			formData.status = 'pending';
+			formData.user = state.user;
+
+			openModal();
+		} else {
+			console.log('Form is invalid');
+		}
+	};
+
+	const confirmBooking = () => {
+		console.log('Booking confirmed');
+		closeModal();
 	};
 
 	return (
-		<form className='bookingFormContainer' onSubmit={handleSubmit}>
-			<h3 className='bookingFormHeading'>Booking Your {title} Hunt</h3>
-			<div className='bookingFormGroup'>
-				<label className='bookingFormLabel' htmlFor='numberOfGuests'>
-					Number of Guests
-				</label>
-				<input
-					className='bookingFormInput'
-					type='number'
-					id='numberOfGuests'
-					min={1}
-					value={formData.numberOfGuests}
-					onChange={handleChange}
-				/>
-				{formData.numberOfGuests > 1 && (
-					<>
-						<label className='bookingFormLabel' htmlFor='numberOfAdults'>
-							Number of Adults
-						</label>
+		<>
+			<form className='bookingFormContainer' onSubmit={handleSubmit}>
+				<h3 className='bookingFormHeading'>Booking Your {title} Hunt</h3>
+				<div className='bookingFormGroup'>
+					<label className='bookingFormLabel' htmlFor='numberOfGuests'>
+						Number of Guests
+					</label>
+					<div className='inputWithError'>
 						<input
-							className='bookingFormInput'
+							className={`bookingFormInput ${
+								errors.numberOfGuests ? 'errorInput' : ''
+							}`}
 							type='number'
-							id='numberOfAdults'
+							id='numberOfGuests'
 							min={1}
-							max={formData.numberOfGuests - formData.numberOfChildren}
-							value={formData.numberOfAdults}
+							max={maxGuests}
+							value={formData.numberOfGuests}
 							onChange={handleChange}
 						/>
-						<label className='bookingFormLabel' htmlFor='numberOfChildren'>
-							Number of Children
-						</label>
-						<input
-							className='bookingFormInput'
-							type='number'
-							id='numberOfChildren'
-							value={formData.numberOfChildren}
-							max={formData.numberOfGuests - formData.numberOfAdults}
-							onChange={handleChange}
-						/>
-					</>
-				)}
-				{formData.numberOfChildren > 0 && (
-					<>
-						<p className='bookingFormNote'>
-							Children must be 13 years of age or older & must be accompanied by
-							a legal guardian.
-						</p>
-					</>
-				)}
-			</div>
-			<div className='bookingFormGroup'>
-				<h3 className='bookingFormHeading'>Select Dates</h3>
-				<label className='bookingFormLabel' htmlFor='startDate'>
-					Start Date
-				</label>
-				<DatePicker
-					selected={formData.startDate ? new Date(formData.startDate) : null}
-					onChange={(date) => handleDateChange(date, 'startDate')}
-					//needs to be typed
-					excludeDates={unavailableDates}
-					dateFormat='yyyy-MM-dd'
-					className='bookingFormInput'
-				/>
-				<label className='bookingFormLabel' htmlFor='endDate'>
-					End Date
-				</label>
-				<DatePicker
-					selected={formData.endDate ? new Date(formData.endDate) : null}
-					onChange={(date) => handleDateChange(date, 'endDate')}
-					//needs to be typed
-					excludeDates={unavailableDates}
-					dateFormat='yyyy-MM-dd'
-					className='bookingFormInput'
-				/>
-			</div>
-			<div className='bookingFormGroup'>
-				<h3 className='bookingFormHeading'>Hunting Method</h3>
-				{hunting_methods?.map((method) => (
-					<div key={method.id} className='bookingFormCheckbox'>
-						<input
-							type='checkbox'
-							id={`huntingMethod-${method.id}`}
-							name='huntingMethod'
-							value={method.method}
-							//needs to be typed
-							checked={formData.huntingMethods.includes(method.method)}
-							onChange={(e) => {
-								const { checked, value } = e.target;
-								//needs to be typed
-								setFormData((prevData) => {
-									const updatedMethods = checked
-										? [...prevData.huntingMethods, value]
-										: prevData.huntingMethods.filter(
-												(method) => method !== value
-										  );
-									return { ...prevData, huntingMethods: updatedMethods };
-								});
-							}}
-						/>
-						<label htmlFor={`huntingMethod-${method.id}`}>
-							{method.method}
-						</label>
+						{errors.numberOfGuests && (
+							<FaExclamationCircle
+								className='errorIcon'
+								title={errors.numberOfGuests}
+							/>
+						)}
 					</div>
-				))}
-			</div>
-			<button className='bookingFormSubmit' type='submit'>
-				Submit
-			</button>
-		</form>
+					{formData.numberOfGuests > 1 && (
+						<>
+							<label className='bookingFormLabel' htmlFor='numberOfAdults'>
+								Number of Adults
+							</label>
+							<div className='inputWithError'>
+								<input
+									className={`bookingFormInput ${
+										errors.numberOfAdults ? 'errorInput' : ''
+									}`}
+									type='number'
+									id='numberOfAdults'
+									min={1}
+									max={formData.numberOfGuests - formData.numberOfChildren}
+									value={formData.numberOfAdults}
+									onChange={handleChange}
+								/>
+								{errors.numberOfAdults && (
+									<FaExclamationCircle
+										className='errorIcon'
+										title={errors.numberOfAdults}
+									/>
+								)}
+							</div>
+							<label className='bookingFormLabel' htmlFor='numberOfChildren'>
+								Number of Children
+							</label>
+							<div className='inputWithError'>
+								<input
+									className={`bookingFormInput ${
+										errors.numberOfChildren ? 'errorInput' : ''
+									}`}
+									type='number'
+									id='numberOfChildren'
+									value={formData.numberOfChildren}
+									min={0}
+									max={formData.numberOfGuests - formData.numberOfAdults}
+									onChange={handleChange}
+								/>
+								{errors.numberOfChildren && (
+									<FaExclamationCircle
+										className='errorIcon'
+										title={errors.numberOfChildren}
+									/>
+								)}
+							</div>
+						</>
+					)}
+					{formData.numberOfChildren > 0 && (
+						<>
+							<p className='bookingFormNote'>
+								Children must be 13 years of age or older & must be accompanied
+								by a legal guardian.
+							</p>
+						</>
+					)}
+				</div>
+				<div className='bookingFormGroup'>
+					<h3 className='bookingFormHeading'>Select Dates</h3>
+					<label className='bookingFormLabel' htmlFor='startDate'>
+						Start Date
+					</label>
+					<DatePicker
+						selected={formData.startDate ? new Date(formData.startDate) : null}
+						onChange={(date) => handleDateChange(date, 'startDate')}
+						excludeDates={unavailableDates}
+						dateFormat='yyyy-MM-dd'
+						className='bookingFormInput'
+					/>
+					<label className='bookingFormLabel' htmlFor='endDate'>
+						End Date
+					</label>
+					<div className='inputWithError'>
+						<DatePicker
+							selected={formData.endDate ? new Date(formData.endDate) : null}
+							onChange={(date) => handleDateChange(date, 'endDate')}
+							excludeDates={unavailableDates}
+							dateFormat='yyyy-MM-dd'
+							className='bookingFormInput'
+						/>
+						{errors.endDate && (
+							<FaExclamationCircle
+								className='errorIcon'
+								title={errors.endDate}
+							/>
+						)}
+					</div>
+				</div>
+				<div className='bookingFormGroup'>
+					<h3 className='bookingFormHeading'>Hunting Method</h3>
+					{hunting_methods?.map((method) => (
+						<div key={method.id} className='bookingFormCheckbox'>
+							<input
+								type='checkbox'
+								id={`huntingMethod-${method.id}`}
+								name='huntingMethod'
+								value={method.method}
+								checked={formData.huntingMethods.includes(method.method)}
+								onChange={(e) => {
+									const { checked, value } = e.target;
+									setFormData((prevData) => {
+										const updatedMethods = checked
+											? [...prevData.huntingMethods, value as huntingMethod]
+											: prevData.huntingMethods.filter(
+													(method) => method !== value
+											  );
+										return { ...prevData, huntingMethods: updatedMethods };
+									});
+								}}
+							/>
+							<label htmlFor={`huntingMethod-${method.id}`}>
+								{method.method}
+							</label>
+						</div>
+					))}
+					{errors.huntingMethods && (
+						<div className='errorMessage'>
+							<FaExclamationCircle className='errorIcon' />
+							{errors.huntingMethods}
+						</div>
+					)}
+				</div>
+				<button className='bookingFormSubmit' type='submit'>
+					Submit
+				</button>
+			</form>
+			<Modal isOpen={isModalOpen} onRequestClose={closeModal}>
+				<h2>Confirm Your Booking</h2>
+				<div className='bookingDetails'>
+					<p>Hunt: {title}</p>
+					<p>Start Date: {formData.startDate}</p>
+					<p>End Date: {formData.endDate}</p>
+					<p>Number of Days: {formData.numberOfDays}</p>
+					<p>Number of Guests: {formData.numberOfGuests}</p>
+					<p>Total Price: ${formData.totalPrice}</p>
+					<p>Deposit (50%): ${formData.deposit}</p>
+				</div>
+				<div className='modalActions'>
+					<button onClick={confirmBooking}>Confirm Booking</button>
+					<button onClick={closeModal}>Cancel</button>
+				</div>
+			</Modal>
+		</>
 	);
 };
 export default BookingForm;

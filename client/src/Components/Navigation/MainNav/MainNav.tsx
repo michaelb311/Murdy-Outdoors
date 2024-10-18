@@ -30,15 +30,6 @@ const MainNav = () => {
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
 
-	// useEffect(() => {
-	// 	const handleScroll = () => {
-	// 		setIsScrolled(window.scrollY > 50);
-	// 	};
-
-	// 	window.addEventListener('scroll', handleScroll);
-	// 	return () => window.removeEventListener('scroll', handleScroll);
-	// }, []);
-
 	return (
 		<nav className={`mainNav ${isScrolled ? 'scrolled' : ''}`}>
 			<Link to={'/'} style={linkStyles}>
@@ -52,7 +43,7 @@ const MainNav = () => {
 				<Link to={'/Hunts'}>
 					<li className={`navListItem ${isScrolled ? 'small' : ''}`}>Hunts</li>
 				</Link>
-				<Link to={'/User'}>
+				<Link to={'/api/connect/google'}>
 					<li className={`navListItem ${isScrolled ? 'small' : ''}`}>
 						<FaUserAlt />
 					</li>

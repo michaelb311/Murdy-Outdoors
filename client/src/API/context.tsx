@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, ReactElement, useReducer, useCallback } from 'react';
 import {
 	ActionType,
@@ -9,6 +8,7 @@ import {
 import { getHunts } from './hunts';
 import { HuntsResponseType } from '../Types/huntTypes';
 import { fetchGoogleCalendarEvents } from './google';
+import { GoogleCalendarEvent } from '../Types/googleTypes';
 
 const initState: StateType = {
 	init: false,
@@ -16,6 +16,8 @@ const initState: StateType = {
 	darkMode: false,
 	hunts: null,
 	events: null,
+	user: null,
+	currentBooking: null,
 };
 
 const reducer = (state: StateType, action: ActionType): StateType => {
@@ -33,8 +35,13 @@ const reducer = (state: StateType, action: ActionType): StateType => {
 			return { ...state, hunts: action.payload };
 
 		case 'SET_EVENTS':
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			return { ...state, events: action.payload };
+
+		case 'SET_USER':
+			return { ...state, user: action.payload };
+
+		case 'SET_CURRENT_BOOKING':
+			return { ...state, currentBooking: action.payload };
 
 		default:
 			return state;
@@ -53,9 +60,8 @@ export const GlobalContextProvider = ({
 	const init = useCallback(async () => {
 		dispatch({ type: 'SET_LOADING', payload: true });
 		try {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-			const eventsResponse: any = await fetchGoogleCalendarEvents();
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			const eventsResponse: GoogleCalendarEvent[] =
+				await fetchGoogleCalendarEvents();
 			dispatch({ type: 'SET_EVENTS', payload: eventsResponse });
 			const huntsResponse: HuntsResponseType = await getHunts();
 			dispatch({ type: 'SET_HUNTS', payload: huntsResponse });
