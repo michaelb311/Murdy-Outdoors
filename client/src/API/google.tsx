@@ -1,4 +1,4 @@
-import { GoogleCalendarEvent } from '../Types/googleTypes';
+import { GoogleCalendarEvent, GoogleUser } from '../Types/googleTypes';
 
 const baseURL = import.meta.env.VITE_DATABASE_URL as string;
 const token = import.meta.env.VITE_DATABASE_TOKEN as string;
@@ -76,6 +76,24 @@ export const updateGoogleCalendarEvent = async (
 		return data;
 	} catch (error) {
 		console.error('Error updating Google Calendar event:', error);
+		throw error;
+	}
+};
+
+export const getGoogleUser = async (): Promise<GoogleUser> => {
+	try {
+		const response = await fetch(`${baseURL}/user/google/login`, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		console.log(response);
+		const data = (await response.json()) as GoogleUser;
+		return data;
+	} catch (error) {
+		console.error('Error fetching Google user:', error);
 		throw error;
 	}
 };

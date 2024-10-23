@@ -21,6 +21,29 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "admin::user"
+    },
+    "users": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "bookings"
+    },
+    "startDate": {
+      "type": "string"
+    },
+    "imageUrls": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "endDate": {
+      "type": "string"
     }
   }
 }

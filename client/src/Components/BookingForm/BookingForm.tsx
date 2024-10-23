@@ -1,5 +1,4 @@
 import './styles.css';
-import { FormProps } from '../../Types/uiTypes';
 import React, { useContext, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -7,6 +6,7 @@ import { eachDayOfInterval, differenceInDays } from 'date-fns';
 import { GlobalContext } from '../../API/context';
 import { GoogleCalendarEvent } from '../../Types/googleTypes';
 import { huntingMethod } from '../../Types/huntTypes';
+import { FormProps } from '../../Types/uiTypes';
 import { FaExclamationCircle } from 'react-icons/fa';
 import Modal from '../Modal/Modal';
 

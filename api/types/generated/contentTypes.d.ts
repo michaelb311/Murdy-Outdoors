@@ -441,7 +441,6 @@ export interface PluginUsersPermissionsUser
     displayName: 'User';
   };
   options: {
-    timestamps: true;
     draftAndPublish: false;
   };
   attributes: {
@@ -470,6 +469,9 @@ export interface PluginUsersPermissionsUser
       'manyToOne',
       'plugin::users-permissions.role'
     >;
+    firstName: Schema.Attribute.String;
+    lastName: Schema.Attribute.String;
+    bookings: Schema.Attribute.Relation<'manyToMany', 'api::booking.booking'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -590,6 +592,16 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
   attributes: {
     hunt: Schema.Attribute.Relation<'oneToOne', 'api::hunt.hunt'>;
     admin_user: Schema.Attribute.Relation<'oneToOne', 'admin::user'>;
+    users: Schema.Attribute.Relation<
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    startDate: Schema.Attribute.String;
+    imageUrls: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    endDate: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

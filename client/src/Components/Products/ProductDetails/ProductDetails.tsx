@@ -1,7 +1,7 @@
 import './styles.css';
 import { GlobalContext } from '../../../API/context';
 import { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import BookingForm from '../../BookingForm/BookingForm';
 import { FaPersonRifle } from 'react-icons/fa6';
 import { FaRegStar } from 'react-icons/fa6';
@@ -20,6 +20,21 @@ const ProductDetails = () => {
 	const { state } = useContext(GlobalContext);
 	const [starRating, setStarRating] = useState<JSX.Element[]>([]);
 	const hunt = state.hunts?.data.find((hunt) => hunt.title === slug);
+
+	useEffect(() => {
+		if (hunt) {
+			setStarRating(starFactory(hunt.rating ?? 0));
+		}
+	}, [hunt]);
+
+	if (!hunt) {
+		return (
+			<>
+				<div>Hunt not found</div>
+				<Link to='/Hunts'>Back to hunts</Link>
+			</>
+		);
+	}
 	const {
 		title,
 		description,
@@ -28,7 +43,7 @@ const ProductDetails = () => {
 		price,
 		imageUrl,
 		hunting_methods,
-	} = hunt ?? {};
+	} = hunt;
 
 	const starFactory = (rating: number) => {
 		const stars = [];
@@ -50,10 +65,6 @@ const ProductDetails = () => {
 		}
 		return stars;
 	};
-
-	useEffect(() => {
-		setStarRating(starFactory(rating ?? 0));
-	}, [rating]);
 
 	return (
 		<section className='productDetailsSection'>
@@ -121,7 +132,7 @@ const ProductDetails = () => {
 					</div>
 				</div>
 				<div className='productDetailsBookingFormContainer'>
-					<BookingForm hunt={hunt ?? {}} />
+					<BookingForm hunt={hunt} />
 				</div>
 			</div>
 		</section>

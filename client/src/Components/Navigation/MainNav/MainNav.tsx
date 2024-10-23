@@ -43,7 +43,7 @@ const MainNav = () => {
 				<Link to={'/Hunts'}>
 					<li className={`navListItem ${isScrolled ? 'small' : ''}`}>Hunts</li>
 				</Link>
-				<Link to={'/api/connect/google'}>
+				<Link to={'/User'}>
 					<li className={`navListItem ${isScrolled ? 'small' : ''}`}>
 						<FaUserAlt />
 					</li>
