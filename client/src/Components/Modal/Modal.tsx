@@ -3,7 +3,6 @@ import ReactModal from 'react-modal';
 import './styles.css';
 
 // Bind modal to your appElement for accessibility
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 ReactModal.setAppElement('#root');
 
 interface ModalProps {

@@ -22,6 +22,11 @@ export interface UserLoginResponseType {
 	user: UserType;
 }
 
+export interface UserRegisterResponseType {
+	jwt: string;
+	user: UserType;
+}
+
 export interface UserStateType {
 	// Record<string, never> means empty object per typescript docs
 	user: UserType | null;
@@ -37,4 +42,13 @@ export type UserDispatchType = (action: UserActionType) => void;
 export interface UserLoginType {
 	identifier: string;
 	password: string;
+}
+
+export interface UserRegisterType {
+	firstName: string;
+	lastName: string;
+	username: string;
+	email: string;
+	password: string;
+	confirmPassword: string;
 }

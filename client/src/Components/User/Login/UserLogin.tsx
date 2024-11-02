@@ -2,9 +2,13 @@ import './styles.css';
 import { useContext, useState } from 'react';
 import { UserContext } from '../../../API/userContext';
 import { loginUser } from '../../../API/user';
+import { useNavigate } from 'react-router-dom';
+
+//figure out user data structure and user function types
 
 const UserLogin = () => {
-	const { state, dispatch } = useContext(UserContext);
+	const { dispatch } = useContext(UserContext);
+	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
 		identifier: '',
 		password: '',
@@ -14,12 +18,18 @@ const UserLogin = () => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		const data = await loginUser(formData);
-		if (data.jwt) {
-			console.log(data);
-		}
+		loginUser(formData)
+			.then((data) => {
+				if (data.jwt) {
+					dispatch({ type: 'SET_USER', payload: data.user });
+				}
+			})
+			.catch((error) => {
+				console.error('Login failed:', error);
+				// handle error appropriately
+			});
 	};
 
 	return (
@@ -40,7 +50,18 @@ const UserLogin = () => {
 					name='password'
 					onChange={handleChange}
 				/>
-				<button type='submit'>Login</button>
+				<div className='user-login-button-container'>
+					<button type='submit' className='user-login-button'>
+						Login
+					</button>
+					<button
+						type='button'
+						onClick={() => navigate('/user/register')}
+						className='user-register-button'
+					>
+						Register
+					</button>
+				</div>
 			</form>
 		</section>
 	);

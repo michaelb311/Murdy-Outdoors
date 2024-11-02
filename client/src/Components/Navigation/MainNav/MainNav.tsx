@@ -8,7 +8,6 @@ const linkStyles = {
 	display: 'flex',
 	justContent: 'center',
 	alignItems: 'center',
-	width: '50%',
 };
 
 const MainNav = () => {

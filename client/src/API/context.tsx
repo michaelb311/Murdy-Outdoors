@@ -59,18 +59,29 @@ export const GlobalContextProvider = ({
 
 	const init = useCallback(async () => {
 		dispatch({ type: 'SET_LOADING', payload: true });
-		try {
-			const eventsResponse: GoogleCalendarEvent[] =
-				await fetchGoogleCalendarEvents();
-			dispatch({ type: 'SET_EVENTS', payload: eventsResponse });
-			const huntsResponse: HuntsResponseType = await getHunts();
-			dispatch({ type: 'SET_HUNTS', payload: huntsResponse });
-			dispatch({ type: 'SET_INIT', payload: true });
-		} catch (error) {
-			console.error('Failed to initialize:', error);
-		} finally {
-			dispatch({ type: 'SET_LOADING', payload: false });
-		}
+		fetchGoogleCalendarEvents()
+			.then((eventsResponse: GoogleCalendarEvent[]) => {
+				dispatch({ type: 'SET_EVENTS', payload: eventsResponse });
+			})
+			.catch((error) => {
+				console.error('Failed to fetch events:', error);
+			});
+
+		getHunts()
+			.then((huntsResponse: HuntsResponseType) => {
+				dispatch({ type: 'SET_HUNTS', payload: huntsResponse });
+			})
+			.catch((error) => {
+				console.error('Failed to fetch hunts:', error);
+			});
+
+		dispatch({ type: 'SET_INIT', payload: true });
+
+		await Promise.allSettled([fetchGoogleCalendarEvents(), getHunts()]).finally(
+			() => {
+				dispatch({ type: 'SET_LOADING', payload: false });
+			}
+		);
 	}, []);
 
 	return (

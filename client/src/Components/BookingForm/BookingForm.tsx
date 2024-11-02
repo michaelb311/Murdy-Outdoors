@@ -150,8 +150,17 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 		}
 	};
 
+	//TODO: Add confirm booking api call
 	const confirmBooking = () => {
+		formData.status = 'confirmed';
 		console.log('Booking confirmed');
+		closeModal();
+	};
+
+	//TODO: Add cancel booking api call
+	const cancelBooking = () => {
+		formData.status = 'cancelled';
+
 		closeModal();
 	};
 
@@ -321,7 +330,7 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 				</div>
 				<div className='modalActions'>
 					<button onClick={confirmBooking}>Confirm Booking</button>
-					<button onClick={closeModal}>Cancel</button>
+					<button onClick={cancelBooking}>Cancel</button>
 				</div>
 			</Modal>
 		</>
