@@ -4,8 +4,10 @@ import { UserContext } from '../../../API/userContext';
 import { UserRegisterType } from '../../../Types/userTypes';
 import './styles.css';
 import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const UserRegister = () => {
+	const navigate = useNavigate();
 	const { dispatch } = useContext(UserContext);
 	const [formData, setFormData] = useState<UserRegisterType>({
 		firstName: '',
@@ -15,7 +17,13 @@ const UserRegister = () => {
 		password: '',
 		confirmPassword: '',
 	});
-
+	const [validatedForm, setValidatedForm] = useState<UserRegisterType>({
+		firstName: '',
+		lastName: '',
+		username: '',
+		email: '',
+		password: '',
+	});
 	const [errors, setErrors] = useState<UserRegisterType>({
 		firstName: '',
 		lastName: '',
@@ -29,7 +37,6 @@ const UserRegister = () => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
-	//not validating correctly
 	const validateForm = () => {
 		if (!formData.firstName || !formData.lastName) {
 			setErrors({
@@ -80,6 +87,13 @@ const UserRegister = () => {
 			});
 			return false;
 		}
+		setValidatedForm({
+			firstName: formData.firstName,
+			lastName: formData.lastName,
+			username: formData.username,
+			email: formData.email,
+			password: formData.password,
+		});
 		return true;
 	};
 
@@ -87,11 +101,12 @@ const UserRegister = () => {
 		e.preventDefault();
 		const validationResult = validateForm();
 		if (validationResult === true) {
-			registerUser(formData)
+			registerUser(validatedForm)
 				.then((data) => {
 					if (data.jwt) {
 						dispatch({ type: 'SET_USER', payload: data.user });
 					}
+					navigate('/user');
 				})
 				.catch((error) => {
 					// Handle the error appropriately

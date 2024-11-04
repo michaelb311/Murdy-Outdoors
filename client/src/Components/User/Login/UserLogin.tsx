@@ -4,8 +4,6 @@ import { UserContext } from '../../../API/userContext';
 import { loginUser } from '../../../API/user';
 import { useNavigate } from 'react-router-dom';
 
-//figure out user data structure and user function types
-
 const UserLogin = () => {
 	const { dispatch } = useContext(UserContext);
 	const navigate = useNavigate();
@@ -24,6 +22,10 @@ const UserLogin = () => {
 			.then((data) => {
 				if (data.jwt) {
 					dispatch({ type: 'SET_USER', payload: data.user });
+					navigate('/user');
+				} else {
+					//use some alert to tell user to register
+					navigate('/user/register');
 				}
 			})
 			.catch((error) => {

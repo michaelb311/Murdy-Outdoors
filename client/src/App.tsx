@@ -34,7 +34,7 @@ function App() {
 							<Route path=':slug' element={<ProductPage />} />
 						</Route>
 						<Route path='/User' element={<ProtectedRoute />}>
-							<Route path='UserPage' element={<UserPage />} />
+							<Route index element={<UserPage />} />
 						</Route>
 						<Route path='/User/login' element={<UserLogin />} />
 						<Route path='/User/register' element={<UserRegister />} />

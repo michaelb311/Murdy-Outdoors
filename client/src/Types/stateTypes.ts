@@ -1,7 +1,8 @@
 import { ReactElement } from 'react';
-import { BookingType, HuntsResponseType } from './huntTypes';
+import { HuntsResponseType } from './huntTypes';
 import { GoogleCalendarEvent } from './googleTypes';
 import { UserType } from './userTypes';
+import { BookingType } from './bookingTypes';
 
 // Record<string, never>; means empty object but like really strict about it
 

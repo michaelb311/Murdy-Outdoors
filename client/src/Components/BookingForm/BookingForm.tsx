@@ -9,10 +9,12 @@ import { huntingMethod } from '../../Types/huntTypes';
 import { FormProps } from '../../Types/uiTypes';
 import { FaExclamationCircle } from 'react-icons/fa';
 import Modal from '../Modal/Modal';
+import { UserContext } from '../../API/userContext';
 
 const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const { state } = useContext(GlobalContext);
+	const { state: userState } = useContext(UserContext);
 	const events: GoogleCalendarEvent[] | null = state.events;
 	const [errors, setErrors] = useState<Record<string, string>>({});
 	const { title, price, hunting_methods, maxGuests } = hunt;
@@ -25,7 +27,7 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 		numberOfGuests: 1,
 		numberOfAdults: 0,
 		numberOfChildren: 0,
-		user: state.user ?? null,
+		user: userState.user ?? null,
 
 		// Booking details
 		startDate: '',
@@ -142,7 +144,8 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 				formData.numberOfDays * formData.numberOfGuests * price;
 			formData.deposit = formData.totalPrice * 0.5;
 			formData.status = 'pending';
-			formData.user = state.user;
+			formData.user = userState.user;
+			console.log('formData', formData);
 
 			openModal();
 		} else {

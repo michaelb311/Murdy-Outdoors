@@ -9,6 +9,7 @@ import { getHunts } from './hunts';
 import { HuntsResponseType } from '../Types/huntTypes';
 import { fetchGoogleCalendarEvents } from './google';
 import { GoogleCalendarEvent } from '../Types/googleTypes';
+import { verifyUser } from './user';
 
 const initState: StateType = {
 	init: false,
@@ -74,6 +75,12 @@ export const GlobalContextProvider = ({
 			.catch((error) => {
 				console.error('Failed to fetch hunts:', error);
 			});
+
+		const user = verifyUser();
+		if (user) {
+			console.log('user', user);
+			dispatch({ type: 'SET_USER', payload: user.user });
+		}
 
 		dispatch({ type: 'SET_INIT', payload: true });
 

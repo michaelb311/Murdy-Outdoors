@@ -17,12 +17,7 @@ export interface UserType {
 	bookings: HuntItemType[];
 }
 
-export interface UserLoginResponseType {
-	jwt: string;
-	user: UserType;
-}
-
-export interface UserRegisterResponseType {
+export interface UserResponseType {
 	jwt: string;
 	user: UserType;
 }
@@ -50,5 +45,5 @@ export interface UserRegisterType {
 	username: string;
 	email: string;
 	password: string;
-	confirmPassword: string;
+	confirmPassword?: string;
 }
