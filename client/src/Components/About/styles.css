@@ -15,6 +15,10 @@
 	font-family: var(--title-text);
 	color: var(--primary-color);
 	margin-bottom: 50px;
+
+	@media (max-width: 768px) {
+		font-size: 2.5rem;
+	}
 }
 
 .aboutTitle::after {
@@ -51,6 +55,7 @@
 .aboutArticleTitle {
 	margin-bottom: 15px;
 	font-family: var(--heading-text);
+	color: var(--stroke-black);
 	font-size: 2.5rem;
 	font-weight: 900;
 	z-index: 1;
@@ -63,6 +68,12 @@
 	word-spacing: 0.25rem;
 	color: var(--accent-color);
 	z-index: 1;
+
+	@media (max-width: 768px) {
+		font-size: 1rem;
+		line-height: 1.5rem;
+		word-spacing: 0.1rem;
+	}
 }
 
 .aboutVideo {

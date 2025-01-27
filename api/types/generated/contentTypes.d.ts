@@ -500,7 +500,6 @@ export interface ApiHuntHunt extends Struct.CollectionTypeSchema {
   };
   attributes: {
     title: Schema.Attribute.String;
-    description: Schema.Attribute.Text;
     price: Schema.Attribute.Float;
     imageUrl: Schema.Attribute.String;
     rating: Schema.Attribute.Decimal;
@@ -511,6 +510,7 @@ export interface ApiHuntHunt extends Struct.CollectionTypeSchema {
       'api::hunting-method.hunting-method'
     >;
     maxGuests: Schema.Attribute.Integer;
+    description: Schema.Attribute.RichText;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

@@ -34,12 +34,16 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+
+	@media (max-width: 768px) {
+		font-size: 2rem;
+		line-height: 1.5;
+	}
 }
 
 .productSymbolsContainer {
 	width: 100%;
 	padding: 1rem;
-	overflow: wrap;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -47,6 +51,10 @@
 	position: sticky;
 	top: 150px;
 	z-index: 11;
+
+	@media (max-width: 768px) {
+		padding: 0.5rem;
+	}
 }
 
 .productSymbol {
@@ -59,6 +67,41 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	@media (max-width: 768px) {
+		margin: 0.25rem;
+		padding: 0.25rem;
+	}
+}
+
+.productSymbol > span {
+	font-size: 1.5rem;
+	font-weight: 700;
+
+	@media (max-width: 768px) {
+		font-size: 0.75rem;
+		font-weight: 400;
+	}
+}
+
+.productSymbol > div {
+	font-size: 1.5rem;
+	font-weight: 700;
+
+	@media (max-width: 768px) {
+		font-size: 0.75rem;
+		font-weight: 400;
+	}
+}
+.productSymbol > svg {
+	font-size: 1.5rem;
+	font-weight: 700;
+	margin-right: 0.5rem;
+
+	@media (max-width: 768px) {
+		font-size: 0.75rem;
+		font-weight: 400;
+	}
 }
 
 .stockCount {
@@ -84,6 +127,11 @@
 .rating span:last-child {
 	font-size: 1.5rem;
 	font-weight: 700;
+
+	@media (max-width: 768px) {
+		font-size: 0.75rem;
+		font-weight: 400;
+	}
 }
 
 .price {
@@ -97,10 +145,20 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+
+	@media (max-width: 768px) {
+		font-size: 0.75rem;
+		font-weight: 400;
+	}
 }
 
 .price span:last-child {
 	font-size: 1.5rem;
+
+	@media (max-width: 768px) {
+		font-size: 0.75rem;
+		font-weight: 400;
+	}
 }
 
 .productDetialsContainer {
@@ -112,15 +170,19 @@
 }
 
 .productDetailsContentContainer {
-	width: 70%;
+	/* width: 70%; */
 	padding: 1rem;
+
+	@media (max-width: 768px) {
+		padding: 0.5rem;
+	}
 }
 
 .productDetailsHeading {
 	font-size: 2rem;
 	font-weight: 700;
 	margin-bottom: 1rem;
-	font-family: var(--heading-text);
+	font-family: var(--title-text);
 }
 
 .productDetailsBody {
@@ -136,6 +198,18 @@
 	padding: 1rem;
 	border-radius: 0.5rem;
 	box-shadow: 0 2px 5px var(--opaque-black);
+
+	@media (max-width: 768px) {
+		font-size: 0.75rem;
+		word-spacing: 0.01rem;
+	}
+}
+
+.productDetailsBody > h2 {
+	font-family: var(--heading-text);
+}
+.productDetailsBody > h3 {
+	font-family: var(--heading-text);
 }
 
 .reviewsContainer {

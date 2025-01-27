@@ -144,7 +144,7 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 				formData.numberOfDays * formData.numberOfGuests * price;
 			formData.deposit = formData.totalPrice * 0.5;
 			formData.status = 'pending';
-			formData.user = userState.user;
+			formData.user = state.user;
 			console.log('formData', formData);
 
 			openModal();

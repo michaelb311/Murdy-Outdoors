@@ -162,6 +162,7 @@ const PhotoWall = () => {
 							emulateTouch={true}
 							swipeable={true}
 							onClickItem={closeCarousel}
+							width='100%'
 						>
 							{photoWallData.map((photo, index) => (
 								<div key={index}>

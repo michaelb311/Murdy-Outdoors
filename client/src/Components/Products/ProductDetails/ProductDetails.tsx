@@ -2,18 +2,15 @@ import './styles.css';
 import { GlobalContext } from '../../../API/context';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import BookingForm from '../../BookingForm/BookingForm';
 import { FaPersonRifle } from 'react-icons/fa6';
-import { FaRegStar } from 'react-icons/fa6';
-import { FaRegStarHalfStroke } from 'react-icons/fa6';
-import { FaStar } from 'react-icons/fa6';
 import { FaDollarSign } from 'react-icons/fa6';
-
+import starFactory from '../../../helpers/starfactory';
 import { GiWinchesterRifle } from 'react-icons/gi';
 import { GiSawedOffShotgun } from 'react-icons/gi';
 import { GiBowString } from 'react-icons/gi';
 import { GiCrossbow } from 'react-icons/gi';
 import Reviews from '../../Reviews/Reviews';
+import ReactMarkdown from 'react-markdown';
 
 const ProductDetails = () => {
 	const { slug } = useParams();
@@ -45,27 +42,6 @@ const ProductDetails = () => {
 		hunting_methods,
 	} = hunt;
 
-	const starFactory = (rating: number) => {
-		const stars = [];
-		if (rating === 0) {
-			for (let i = 0; i < 5; i++) {
-				stars.push(<FaRegStar key={i} />);
-			}
-			return stars;
-		}
-
-		for (let i = 0; i < 5; i++) {
-			if (i < rating) {
-				stars.push(<FaStar key={i} />);
-			} else if (i === rating) {
-				stars.push(<FaRegStarHalfStroke key={i} />);
-			} else {
-				stars.push(<FaRegStar key={i} />);
-			}
-		}
-		return stars;
-	};
-
 	return (
 		<section className='productDetailsSection'>
 			<div className='productDetailsImageContainer'>
@@ -75,11 +51,11 @@ const ProductDetails = () => {
 
 			<div className='productSymbolsContainer'>
 				<div className='productSymbol'>
-					<FaPersonRifle
-						style={{ fontSize: '1.5rem', marginRight: '0.5rem' }}
-					/>
+					<FaPersonRifle style={{ marginRight: '0.5rem' }} />
 					{stockCount !== 0 ? (
-						<div className='stockCount'>{`${stockCount} spots left`}</div>
+						<span className='stockCount'>{`${stockCount} spot${
+							stockCount > 1 ? 's' : ''
+						} left`}</span>
 					) : (
 						<div className='stockCount'>Out of Stock</div>
 					)}
@@ -102,21 +78,13 @@ const ProductDetails = () => {
 					<div className='productSymbol huntingMethod' key={index}>
 						<span>
 							{method.method === 'Rifle' ? (
-								<GiWinchesterRifle
-									style={{ fontSize: '1.5rem', marginRight: '0.5rem' }}
-								/>
+								<GiWinchesterRifle style={{ marginRight: '0.5rem' }} />
 							) : method.method === 'Muzzleloader' ? (
-								<GiSawedOffShotgun
-									style={{ fontSize: '1.5rem', marginRight: '0.5rem' }}
-								/>
+								<GiSawedOffShotgun style={{ marginRight: '0.5rem' }} />
 							) : method.method === 'Bow' ? (
-								<GiBowString
-									style={{ fontSize: '1.5rem', marginRight: '0.5rem' }}
-								/>
+								<GiBowString style={{ marginRight: '0.5rem' }} />
 							) : method.method === 'Crossbow' ? (
-								<GiCrossbow
-									style={{ fontSize: '1.5rem', marginRight: '0.5rem' }}
-								/>
+								<GiCrossbow style={{ marginRight: '0.5rem' }} />
 							) : null}
 						</span>
 						<span>{method.method}</span>
@@ -126,13 +94,12 @@ const ProductDetails = () => {
 			<div className='productDetialsContainer'>
 				<div className='productDetailsContentContainer'>
 					<h2 className='productDetailsHeading'>Hunt Details</h2>
-					<p className='productDetailsBody'>{description}</p>
+					<ReactMarkdown className='productDetailsBody'>
+						{description}
+					</ReactMarkdown>
 					<div className='reviewsContainer'>
 						<Reviews />
 					</div>
-				</div>
-				<div className='productDetailsBookingFormContainer'>
-					<BookingForm hunt={hunt} />
 				</div>
 			</div>
 		</section>

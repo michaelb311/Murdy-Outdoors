@@ -26,11 +26,21 @@
 .logo {
 	max-height: 150px;
 	max-width: 150px;
+
+	@media (max-width: 768px) {
+		max-height: 100px;
+		max-width: 100px;
+	}
 }
 
 .logo.small {
 	max-height: 100px;
 	max-width: 100px;
+
+	@media (max-width: 768px) {
+		max-height: 50px;
+		max-width: 50px;
+	}
 }
 
 .navList {

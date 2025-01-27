@@ -32,6 +32,10 @@
 	width: 100%;
 	border-radius: 0 0 15px 15px;
 	background-color: var(--primary-color);
+
+	@media (max-width: 768px) {
+		top: 100%;
+	}
 }
 
 .contact-form {
@@ -45,6 +49,10 @@
 
 	color: var(--accent-color);
 	transition: all 0.5s ease-in-out;
+
+	@media (max-width: 768px) {
+		padding: 15px 0;
+	}
 }
 
 .form-item {

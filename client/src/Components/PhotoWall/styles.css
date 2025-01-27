@@ -10,6 +10,11 @@
 	gap: 10px;
 	max-width: 100%;
 	margin: 0 auto;
+
+	@media (max-width: 768px) {
+		grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+		grid-auto-rows: 150px;
+	}
 }
 
 .photo-item {
@@ -56,14 +61,31 @@
 	z-index: 1000;
 }
 
+.carousel-overlay > div {
+	width: 100%;
+}
+
+.carousel-root {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
 .close-button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	position: absolute;
+	height: 30px;
+	width: 30px;
 	top: 20px;
 	right: 20px;
 	font-size: 30px;
-	color: var(--white);
-	background: none;
-	border: none;
+	color: var(--primary-color);
+	background: var(--opaque-accent);
+	border: 1px solid var(--primary-color);
+	border-radius: 50%;
 	cursor: pointer;
 	z-index: 1001;
 }
@@ -75,7 +97,7 @@
 
 .carousel .slide img {
 	max-height: 60vh;
-	width: auto;
+	width: 100%;
 	object-fit: contain;
 }
 

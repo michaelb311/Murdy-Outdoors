@@ -15,8 +15,8 @@ const Products = () => {
 	return (
 		<section className='productsSection'>
 			<h1 className='productsSectionTitle'>Hunts</h1>
-			{hunts?.data.map((hunt) => (
-				<ProductCard key={hunt.id} hunt={hunt} />
+			{hunts?.data.map((hunt, index) => (
+				<ProductCard key={hunt.id} hunt={hunt} index={index} />
 			))}
 		</section>
 	);

@@ -18,11 +18,6 @@
 	box-shadow: 0 4px 8px var(--opaque-primary);
 }
 
-.productCard:nth-of-type(even) {
-	color: black;
-	background-color: hotpink;
-}
-
 .productCardTitle {
 	margin-bottom: 15px;
 	width: 100%;
@@ -54,8 +49,6 @@
 .productCardImage {
 	height: 100%;
 	width: 100%;
-	object-fit: cover;
-	object-position: center;
 	position: absolute;
 	top: 0;
 	left: 0;

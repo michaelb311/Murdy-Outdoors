@@ -15,9 +15,6 @@
     "title": {
       "type": "string"
     },
-    "description": {
-      "type": "text"
-    },
     "price": {
       "type": "float"
     },
@@ -41,6 +38,9 @@
     },
     "maxGuests": {
       "type": "integer"
+    },
+    "description": {
+      "type": "richtext"
     }
   }
 }
