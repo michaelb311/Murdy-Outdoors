@@ -76,6 +76,21 @@
       "relation": "manyToMany",
       "target": "api::booking.booking",
       "inversedBy": "users"
+    },
+    "profilePicture": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review",
+      "mappedBy": "user"
     }
   }
 }

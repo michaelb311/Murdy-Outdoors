@@ -2,7 +2,6 @@ import React from 'react';
 import ReactModal from 'react-modal';
 import './styles.css';
 
-// Bind modal to your appElement for accessibility
 ReactModal.setAppElement('#root');
 
 interface ModalProps {
@@ -20,6 +19,9 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onRequestClose, children }) => {
 			className='Modal'
 			overlayClassName='Overlay'
 		>
+			<button className='closeModalButton' onClick={onRequestClose}>
+				X
+			</button>
 			{children}
 		</ReactModal>
 	);

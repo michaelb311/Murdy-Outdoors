@@ -472,6 +472,8 @@ export interface PluginUsersPermissionsUser
     firstName: Schema.Attribute.String;
     lastName: Schema.Attribute.String;
     bookings: Schema.Attribute.Relation<'manyToMany', 'api::booking.booking'>;
+    profilePicture: Schema.Attribute.Media<'images' | 'files'>;
+    reviews: Schema.Attribute.Relation<'oneToMany', 'api::review.review'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -558,14 +560,23 @@ export interface ApiReviewReview extends Struct.CollectionTypeSchema {
     singularName: 'review';
     pluralName: 'reviews';
     displayName: 'Review';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
     Title: Schema.Attribute.String;
-    stars: Schema.Attribute.Decimal;
+    rating: Schema.Attribute.Decimal;
     review: Schema.Attribute.Text;
+    createdDate: Schema.Attribute.String;
+    updatedDate: Schema.Attribute.String;
+    bookings: Schema.Attribute.Relation<'oneToMany', 'api::booking.booking'>;
+    admin_user: Schema.Attribute.Relation<'oneToOne', 'admin::user'>;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -602,6 +613,7 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
       true
     >;
     endDate: Schema.Attribute.String;
+    review: Schema.Attribute.Relation<'manyToOne', 'api::review.review'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

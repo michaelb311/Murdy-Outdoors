@@ -4,6 +4,7 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	position: relative;
 }
 
 .productDetailsImageContainer {
@@ -222,4 +223,36 @@
 	padding: 1rem;
 	position: sticky;
 	top: 250px;
+}
+
+.bookingButtonContainer {
+	position: fixed;
+	bottom: 1rem;
+	right: 1rem;
+	/* transform: translateX(-50%); */
+	text-align: center;
+	z-index: 1000;
+}
+
+.bookingButton {
+	width: 100%;
+	padding: 1rem;
+	font-size: 0.85rem;
+	font-weight: 400;
+	font-family: var(--title-text);
+	background-color: var(--opaque-primary);
+	color: var(--white);
+	border: 1px solid var(--opaque-white);
+	border-radius: 0.5rem;
+	transition: all 0.3s ease;
+	cursor: pointer;
+}
+
+.bookingButton:hover {
+	background-color: var(--opaque-black);
+	color: var(--white);
+	box-shadow: 0 2px 5px var(--opaque-black);
+	transform: scale(1.05);
+	font-weight: 700;
+	font-size: 1rem;
 }

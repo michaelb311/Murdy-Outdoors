@@ -106,10 +106,8 @@ export const registerUser = async (formData: UserRegisterType) => {
 
 export const verifyUser = (): UserResponseType | false => {
 	const user = localUserData();
-	console.log('verifyUser', user);
 
 	if (user.user === null) {
-		console.log('No user found');
 		return false;
 	}
 
@@ -117,8 +115,6 @@ export const verifyUser = (): UserResponseType | false => {
 		logoutLocalUser();
 		return false;
 	}
-
-	console.log('verifyUser user', user.user);
 
 	return user.user;
 };

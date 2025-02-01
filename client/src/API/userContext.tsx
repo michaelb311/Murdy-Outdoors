@@ -10,7 +10,7 @@ const initUserState: UserStateType = {
 	user: null,
 };
 
-const reducer = (
+const userReducer = (
 	state: UserStateType,
 	action: UserActionType
 ): UserStateType => {
@@ -31,7 +31,7 @@ export const UserContext = createContext<{
 export const UserContextProvider = ({
 	children,
 }: ChildrenType): ReactElement => {
-	const [state, dispatch] = useReducer(reducer, initUserState);
+	const [state, dispatch] = useReducer(userReducer, initUserState);
 
 	return (
 		<UserContext.Provider value={{ state, dispatch }}>

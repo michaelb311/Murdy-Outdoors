@@ -14,6 +14,8 @@ export interface StateType {
 	events: GoogleCalendarEvent[] | null;
 	user: UserType | null;
 	currentBooking: BookingType | null;
+	isModalOpen: boolean;
+	modalContent: ReactElement | null;
 }
 
 export type ActionType =
@@ -23,7 +25,9 @@ export type ActionType =
 	| { type: 'SET_HUNTS'; payload: HuntsResponseType | null }
 	| { type: 'SET_EVENTS'; payload: GoogleCalendarEvent[] | null }
 	| { type: 'SET_USER'; payload: UserType | null }
-	| { type: 'SET_CURRENT_BOOKING'; payload: BookingType | null };
+	| { type: 'SET_CURRENT_BOOKING'; payload: BookingType | null }
+	| { type: 'SET_IS_MODAL_OPEN'; payload: boolean }
+	| { type: 'SET_MODAL_CONTENT'; payload: ReactElement | null };
 
 export type DispatchType = (action: ActionType) => void;
 

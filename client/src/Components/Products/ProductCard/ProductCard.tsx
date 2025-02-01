@@ -14,17 +14,29 @@ const ProductCard: React.FC<ProductCardProps> = ({ hunt, index }) => {
 		: `Hunts/${title}`;
 	const starRating = starFactory(rating);
 
-	const fit: ObjectFitType[] = ['cover', 'cover', 'none'];
+	const fit: ObjectFitType[] = ['cover', 'none', 'cover'];
 
-	const position: string[] = ['50% 10%', '50% 50%', '10% 22%'];
+	const position: string[] = ['50% 10%', '10% 22%', '50% 10%'];
 
-	const mobileFit: ObjectFitType[] = ['cover', 'cover', 'cover'];
-	const mobilePosition: string[] = ['75% 10%', '50% 50%', '40% 10%'];
+	const mobileFit: ObjectFitType[] = ['cover', 'none', 'cover'];
+	const mobilePosition: string[] = ['75% 10%', '35% 27%', '40% 10%'];
 
-	const isMobile = window.innerWidth < 768;
+	const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768);
+
+	React.useEffect(() => {
+		const handleResize = () => {
+			setIsMobile(window.innerWidth < 768);
+		};
+
+		window.addEventListener('resize', handleResize);
+
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, []);
 
 	return (
-		<Link style={{ width: '100%' }} to={linkPath}>
+		<Link to={linkPath}>
 			<article className='productCard'>
 				<h2 className='productCardTitle'>{title}</h2>
 				<p className='productCardBody'>{description?.slice(0, 100) || ''}...</p>

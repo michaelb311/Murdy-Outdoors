@@ -1,4 +1,5 @@
-import { HuntItemType } from './huntTypes';
+import { BookingType } from './bookingTypes';
+import { ReviewType } from './reviewTypes';
 
 export interface UserType {
 	id: number;
@@ -14,7 +15,9 @@ export interface UserType {
 	publishedAt: string | null;
 	firstName: string | null;
 	lastName: string | null;
-	bookings: HuntItemType[];
+	bookings: BookingType[];
+	reviews: ReviewType[];
+	profilePicture: string | null;
 }
 
 export interface UserResponseType {

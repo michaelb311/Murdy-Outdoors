@@ -3,16 +3,15 @@ import React, { useContext, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { eachDayOfInterval, differenceInDays } from 'date-fns';
-import { GlobalContext } from '../../API/context';
-import { GoogleCalendarEvent } from '../../Types/googleTypes';
-import { huntingMethod } from '../../Types/huntTypes';
-import { FormProps } from '../../Types/uiTypes';
+import { GlobalContext } from '../../../API/context';
+import { GoogleCalendarEvent } from '../../../Types/googleTypes';
+import { huntingMethod } from '../../../Types/huntTypes';
+import { FormProps } from '../../../Types/uiTypes';
 import { FaExclamationCircle } from 'react-icons/fa';
-import Modal from '../Modal/Modal';
-import { UserContext } from '../../API/userContext';
+// import Modal from '../Modal/Modal';
+import { UserContext } from '../../../API/userContext';
 
 const BookingForm: React.FC<FormProps> = ({ hunt }) => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
 	const { state } = useContext(GlobalContext);
 	const { state: userState } = useContext(UserContext);
 	const events: GoogleCalendarEvent[] | null = state.events;
@@ -47,9 +46,6 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 		// Additional information
 		documents: [],
 	});
-
-	const openModal = () => setIsModalOpen(true);
-	const closeModal = () => setIsModalOpen(false);
 
 	const unavailableDates: Date[] =
 		events?.flatMap((event) => {
@@ -146,26 +142,21 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 			formData.status = 'pending';
 			formData.user = state.user;
 			console.log('formData', formData);
-
-			openModal();
 		} else {
 			console.log('Form is invalid');
 		}
 	};
 
 	//TODO: Add confirm booking api call
-	const confirmBooking = () => {
-		formData.status = 'confirmed';
-		console.log('Booking confirmed');
-		closeModal();
-	};
+	// const confirmBooking = () => {
+	// 	formData.status = 'confirmed';
+	// 	console.log('Booking confirmed');
+	// };
 
 	//TODO: Add cancel booking api call
-	const cancelBooking = () => {
-		formData.status = 'cancelled';
-
-		closeModal();
-	};
+	// const cancelBooking = () => {
+	// 	formData.status = 'cancelled';
+	// };
 
 	return (
 		<>
@@ -320,7 +311,7 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 					Submit
 				</button>
 			</form>
-			<Modal isOpen={isModalOpen} onRequestClose={closeModal}>
+			{/* <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
 				<h2>Confirm Your Booking</h2>
 				<div className='bookingDetails'>
 					<p>Hunt: {title}</p>
@@ -335,7 +326,7 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 					<button onClick={confirmBooking}>Confirm Booking</button>
 					<button onClick={cancelBooking}>Cancel</button>
 				</div>
-			</Modal>
+			</Modal> */}
 		</>
 	);
 };

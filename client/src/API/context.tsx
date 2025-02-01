@@ -19,6 +19,8 @@ const initState: StateType = {
 	events: null,
 	user: null,
 	currentBooking: null,
+	isModalOpen: false,
+	modalContent: null,
 };
 
 const reducer = (state: StateType, action: ActionType): StateType => {
@@ -43,6 +45,12 @@ const reducer = (state: StateType, action: ActionType): StateType => {
 
 		case 'SET_CURRENT_BOOKING':
 			return { ...state, currentBooking: action.payload };
+
+		case 'SET_IS_MODAL_OPEN':
+			return { ...state, isModalOpen: action.payload };
+
+		case 'SET_MODAL_CONTENT':
+			return { ...state, modalContent: action.payload };
 
 		default:
 			return state;
