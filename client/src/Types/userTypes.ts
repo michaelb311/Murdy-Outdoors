@@ -50,3 +50,13 @@ export interface UserRegisterType {
 	password: string;
 	confirmPassword?: string;
 }
+
+export interface GuestType {
+	firstName: string;
+	lastName: string;
+	email: string;
+}
+
+export interface GuestInfoProps {
+	guest: GuestType;
+}

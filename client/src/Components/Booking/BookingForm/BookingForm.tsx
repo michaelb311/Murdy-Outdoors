@@ -8,25 +8,32 @@ import { GoogleCalendarEvent } from '../../../Types/googleTypes';
 import { huntingMethod } from '../../../Types/huntTypes';
 import { FormProps } from '../../../Types/uiTypes';
 import { FaExclamationCircle } from 'react-icons/fa';
-// import Modal from '../Modal/Modal';
+import useModal from '../../../Hooks/useModal';
 import { UserContext } from '../../../API/userContext';
+import BookingDetails from '../BookingDetails/BookingDetails';
+import { BookingType } from '../../../Types/bookingTypes';
+import GuestInfo from '../../User/GuestInfo/GuestInfo';
+import { UserType } from '../../../Types/userTypes';
 
 const BookingForm: React.FC<FormProps> = ({ hunt }) => {
-	const { state } = useContext(GlobalContext);
-	const { state: userState } = useContext(UserContext);
+	const { openModal } = useModal();
+	const { state, dispatch } = useContext(GlobalContext);
+	const { userState } = useContext(UserContext);
 	const events: GoogleCalendarEvent[] | null = state.events;
 	const [errors, setErrors] = useState<Record<string, string>>({});
 	const { title, price, hunting_methods, maxGuests } = hunt;
-	const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState<BookingType>({
 		// Hunt details
-		huntId: '',
+		id: '',
+		hunt: hunt,
 		huntingMethods: [] as huntingMethod[],
 
 		// Guest information
 		numberOfGuests: 1,
 		numberOfAdults: 0,
 		numberOfChildren: 0,
-		user: userState.user ?? null,
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+		user: userState.user || null,
 
 		// Booking details
 		startDate: '',
@@ -40,7 +47,7 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 		fullPayment: false,
 
 		// Booking status
-		status: '',
+		status: 'pending',
 		confirmed: false,
 
 		// Additional information
@@ -103,6 +110,10 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 				newErrors.numberOfChildren =
 					'Total of adults and children must equal number of guests';
 			}
+		} else if (formData.numberOfGuests === 1) {
+			formData.numberOfAdults = 1;
+		} else if (formData.numberOfGuests === 0) {
+			newErrors.numberOfGuests = 'Number of guests is required';
 		}
 
 		if (!formData.startDate) {
@@ -128,9 +139,24 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 		return Object.keys(newErrors).length === 0;
 	};
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const checkUser = async (): Promise<UserType> => {
+		console.log('userState', userState.user);
+		if (userState.user) {
+			return userState.user;
+		} else {
+			dispatch({ type: 'SET_CURRENT_BOOKING', payload: formData });
+			return new Promise((resolve) => {
+				const handleGuestInfoSubmit = (guestInfo: UserType) => {
+					resolve(guestInfo);
+					openModal(<BookingDetails booking={formData} />);
+				};
+				openModal(<GuestInfo onSubmit={handleGuestInfoSubmit} />);
+			});
+		}
+	};
+
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log(formData);
 		if (validateForm()) {
 			formData.numberOfDays = differenceInDays(
 				formData.endDate,
@@ -140,8 +166,11 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 				formData.numberOfDays * formData.numberOfGuests * price;
 			formData.deposit = formData.totalPrice * 0.5;
 			formData.status = 'pending';
-			formData.user = state.user;
+			formData.user = await checkUser();
 			console.log('formData', formData);
+			if (formData.user) {
+				openModal(<BookingDetails booking={formData} />);
+			}
 		} else {
 			console.log('Form is invalid');
 		}

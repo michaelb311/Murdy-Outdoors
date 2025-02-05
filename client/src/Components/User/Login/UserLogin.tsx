@@ -5,7 +5,7 @@ import { loginUser } from '../../../API/user';
 import { useNavigate } from 'react-router-dom';
 
 const UserLogin = () => {
-	const { dispatch } = useContext(UserContext);
+	const { userDispatch } = useContext(UserContext);
 	const navigate = useNavigate();
 	const [formData, setFormData] = useState({
 		identifier: '',
@@ -21,7 +21,7 @@ const UserLogin = () => {
 		loginUser(formData)
 			.then((data) => {
 				if (data.jwt) {
-					dispatch({ type: 'SET_USER', payload: data.user });
+					userDispatch({ type: 'SET_USER', payload: data.user });
 					navigate('/user');
 				} else {
 					//use some alert to tell user to register

@@ -4,13 +4,13 @@ import { UserContext } from '../../../API/userContext';
 import { FaUserAlt } from 'react-icons/fa';
 
 const DashNav = () => {
-	const { state } = useContext(UserContext);
+	const { userState } = useContext(UserContext);
 
 	return (
 		<nav className='dashNav'>
 			<div className='dashNavProfilePic'>
-				{state.user?.profilePicture ? (
-					<img src={state.user?.profilePicture} alt='profile picture' />
+				{userState.user?.profilePicture ? (
+					<img src={userState.user?.profilePicture} alt='profile picture' />
 				) : (
 					<FaUserAlt />
 				)}

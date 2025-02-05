@@ -1,24 +1,18 @@
 import { huntingMethod } from './huntTypes';
-import { UserType } from './userTypes';
+import { GuestType, UserType } from './userTypes';
+import { HuntItemType } from './huntTypes';
 
 export interface BookingType {
 	// Hunt details
-	id: string;
+	id?: string;
 	huntingMethods: huntingMethod[];
+	hunt: HuntItemType;
 
 	// Guest information
 	numberOfGuests: number;
 	numberOfAdults: number;
 	numberOfChildren: number;
-	user:
-		| {
-				userId: string;
-				firstName: string;
-				lastName: string;
-				email: string;
-				phone: string;
-		  }
-		| UserType;
+	user: GuestType | UserType | null;
 
 	// Booking details
 	startDate: string;

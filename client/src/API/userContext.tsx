@@ -23,18 +23,20 @@ const userReducer = (
 };
 
 export const UserContext = createContext<{
-	state: UserStateType;
-	dispatch: UserDispatchType;
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
-}>({ state: initUserState, dispatch: () => {} });
+	userState: UserStateType;
+	userDispatch: UserDispatchType;
+}>({
+	userState: initUserState,
+	userDispatch: () => undefined,
+});
 
 export const UserContextProvider = ({
 	children,
 }: ChildrenType): ReactElement => {
-	const [state, dispatch] = useReducer(userReducer, initUserState);
+	const [userState, userDispatch] = useReducer(userReducer, initUserState);
 
 	return (
-		<UserContext.Provider value={{ state, dispatch }}>
+		<UserContext.Provider value={{ userState, userDispatch }}>
 			{children}
 		</UserContext.Provider>
 	);

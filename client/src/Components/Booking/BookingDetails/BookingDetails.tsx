@@ -2,7 +2,7 @@ import React from 'react';
 import './styles.css';
 import { BookingType } from '../../../Types/bookingTypes';
 
-//rough draft of the booking details component
+//rough draft of the booking details componentd
 
 const BookingDetails: React.FC<{ booking: BookingType }> = ({ booking }) => {
 	return (
@@ -18,9 +18,9 @@ const BookingDetails: React.FC<{ booking: BookingType }> = ({ booking }) => {
 				<p>Number of Adults: {booking.numberOfAdults}</p>
 				<p>Number of Children: {booking.numberOfChildren}</p>
 				<p>
-					Name: {booking.user.firstName} {booking.user.lastName}
+					Name: {booking.user?.firstName} {booking.user?.lastName}
 				</p>
-				<p>Email: {booking.user.email}</p>
+				<p>Email: {booking.user?.email}</p>
 
 				<h2>Booking Details</h2>
 				<p>Start Date: {booking.startDate}</p>

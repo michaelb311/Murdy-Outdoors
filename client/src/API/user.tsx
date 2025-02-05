@@ -2,9 +2,14 @@ import {
 	UserResponseType,
 	UserRegisterType,
 	UserLoginType,
+	GuestType,
 } from '../Types/userTypes';
 
 const baseURL = import.meta.env.VITE_DATABASE_URL as string;
+
+export const storeGuest = (data: GuestType) => {
+	localStorage.setItem('guest', JSON.stringify(data));
+};
 
 const storeUser = (data: UserResponseType) => {
 	if (!data.user || !data.jwt) {

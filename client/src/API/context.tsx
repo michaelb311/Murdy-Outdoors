@@ -1,4 +1,10 @@
-import { createContext, ReactElement, useReducer, useCallback } from 'react';
+import {
+	createContext,
+	ReactElement,
+	useReducer,
+	useCallback,
+	useContext,
+} from 'react';
 import {
 	ActionType,
 	ChildrenType,
@@ -10,6 +16,7 @@ import { HuntsResponseType } from '../Types/huntTypes';
 import { fetchGoogleCalendarEvents } from './google';
 import { GoogleCalendarEvent } from '../Types/googleTypes';
 import { verifyUser } from './user';
+import { UserContext } from './userContext';
 
 const initState: StateType = {
 	init: false,
@@ -65,6 +72,7 @@ export const GlobalContextProvider = ({
 	children,
 }: ChildrenType): ReactElement => {
 	const [state, dispatch] = useReducer(reducer, initState);
+	const { userDispatch } = useContext(UserContext);
 
 	const init = useCallback(async () => {
 		dispatch({ type: 'SET_LOADING', payload: true });
@@ -87,7 +95,7 @@ export const GlobalContextProvider = ({
 		const user = verifyUser();
 		if (user) {
 			console.log('user', user);
-			dispatch({ type: 'SET_USER', payload: user.user });
+			userDispatch({ type: 'SET_USER', payload: user.user });
 		}
 
 		dispatch({ type: 'SET_INIT', payload: true });

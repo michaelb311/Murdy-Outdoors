@@ -5,8 +5,8 @@ import UserDashboard from '../../Components/User/UserDashboard/UserDashboard';
 import './styles.css';
 
 const UserPage = () => {
-	const { state } = useContext(UserContext);
-	const user = state.user;
+	const { userState } = useContext(UserContext);
+	const user = userState.user;
 	return (
 		<section className='userPage'>
 			<aside className='userDashNavWrapper'>
