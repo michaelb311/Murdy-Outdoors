@@ -1,25 +1,45 @@
 import './styles.css';
-import { GuestType } from '../../../Types/userTypes';
-import { useState } from 'react';
+import { GuestInfoProps, GuestType } from '../../../Types/userTypes';
+import { useContext, useState } from 'react';
 import { storeGuest } from '../../../API/user';
+import { GlobalContext } from '../../../API/context';
+import { BookingType } from '../../../Types/bookingTypes';
 
-const GuestInfo: React.FC = () => {
-	const [guestInfo, setGuestInfo] = useState<GuestType | null>(null);
+const GuestInfo = ({ onGuestInfoSubmit }: GuestInfoProps) => {
+	const { state, dispatch } = useContext(GlobalContext);
+	const [guestInfo, setGuestInfo] = useState<GuestType>({
+		firstName: '',
+		lastName: '',
+		email: '',
+	});
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setGuestInfo(
-			(prev) =>
-				({
-					...prev,
-					[e.target.name]: e.target.value || '',
-				} as GuestType)
-		);
+		setGuestInfo((prev) => ({
+			...prev,
+			[e.target.name]: e.target.value || '',
+		}));
 	};
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (guestInfo) {
-			storeGuest(guestInfo);
+			try {
+				storeGuest(guestInfo);
+				dispatch({
+					type: 'SET_CURRENT_BOOKING',
+					payload: {
+						...state.currentBooking,
+						user: {
+							firstName: guestInfo.firstName,
+							lastName: guestInfo.lastName,
+							email: guestInfo.email,
+						},
+					} as BookingType,
+				});
+				onGuestInfoSubmit(guestInfo);
+			} catch (error) {
+				console.error('Failed to store guest information', error);
+			}
 		} else {
 			console.error('Guest information is not set');
 		}
@@ -34,7 +54,7 @@ const GuestInfo: React.FC = () => {
 					type='text'
 					id='firstName'
 					name='firstName'
-					value={guestInfo?.firstName}
+					value={guestInfo.firstName}
 					onChange={handleChange}
 				/>
 			</div>
@@ -44,7 +64,7 @@ const GuestInfo: React.FC = () => {
 					type='text'
 					id='lastName'
 					name='lastName'
-					value={guestInfo?.lastName}
+					value={guestInfo.lastName}
 					onChange={handleChange}
 				/>
 			</div>
@@ -54,7 +74,7 @@ const GuestInfo: React.FC = () => {
 					type='email'
 					id='email'
 					name='email'
-					value={guestInfo?.email}
+					value={guestInfo.email}
 					onChange={handleChange}
 				/>
 			</div>

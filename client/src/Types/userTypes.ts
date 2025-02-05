@@ -58,5 +58,5 @@ export interface GuestType {
 }
 
 export interface GuestInfoProps {
-	guest: GuestType;
+	onGuestInfoSubmit: (guestInfo: GuestType) => void;
 }

@@ -13,7 +13,7 @@ import { UserContext } from '../../../API/userContext';
 import BookingDetails from '../BookingDetails/BookingDetails';
 import { BookingType } from '../../../Types/bookingTypes';
 import GuestInfo from '../../User/GuestInfo/GuestInfo';
-import { UserType } from '../../../Types/userTypes';
+import { GuestType, UserType } from '../../../Types/userTypes';
 
 const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 	const { openModal } = useModal();
@@ -139,41 +139,49 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 		return Object.keys(newErrors).length === 0;
 	};
 
-	const checkUser = async (): Promise<UserType> => {
+	const checkUser = async (): Promise<UserType | GuestType> => {
 		console.log('userState', userState.user);
 		if (userState.user) {
 			return userState.user;
 		} else {
 			dispatch({ type: 'SET_CURRENT_BOOKING', payload: formData });
 			return new Promise((resolve) => {
-				const handleGuestInfoSubmit = (guestInfo: UserType) => {
+				const handleGuestInfoSubmit = (guestInfo: GuestType) => {
 					resolve(guestInfo);
 					openModal(<BookingDetails booking={formData} />);
 				};
-				openModal(<GuestInfo onSubmit={handleGuestInfoSubmit} />);
+				openModal(<GuestInfo onGuestInfoSubmit={handleGuestInfoSubmit} />);
 			});
 		}
 	};
 
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (validateForm()) {
-			formData.numberOfDays = differenceInDays(
-				formData.endDate,
-				formData.startDate
-			);
-			formData.totalPrice =
-				formData.numberOfDays * formData.numberOfGuests * price;
-			formData.deposit = formData.totalPrice * 0.5;
-			formData.status = 'pending';
-			formData.user = await checkUser();
-			console.log('formData', formData);
-			if (formData.user) {
-				openModal(<BookingDetails booking={formData} />);
+		(async () => {
+			try {
+				if (validateForm()) {
+					formData.numberOfDays = differenceInDays(
+						new Date(formData.endDate),
+						new Date(formData.startDate)
+					);
+					formData.totalPrice =
+						formData.numberOfDays * formData.numberOfGuests * price;
+					formData.deposit = formData.totalPrice * 0.5;
+					formData.status = 'pending';
+					formData.user = await checkUser();
+					console.log('formData', formData);
+					if (formData.user) {
+						openModal(<BookingDetails booking={formData} />);
+					}
+				} else {
+					console.log('Form is invalid');
+				}
+			} catch (error) {
+				console.error('Error during form submission:', error);
 			}
-		} else {
-			console.log('Form is invalid');
-		}
+		})().catch((error) => {
+			console.error('Unhandled error in async function:', error);
+		});
 	};
 
 	//TODO: Add confirm booking api call
