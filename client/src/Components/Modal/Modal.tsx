@@ -15,7 +15,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onRequestClose, children }) => {
 		<ReactModal
 			isOpen={isOpen}
 			onRequestClose={onRequestClose}
-			contentLabel='Example Modal'
+			contentLabel='Form Modal'
 			className='Modal'
 			overlayClassName='Overlay'
 		>

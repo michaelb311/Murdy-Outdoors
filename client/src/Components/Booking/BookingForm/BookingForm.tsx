@@ -14,6 +14,7 @@ import BookingDetails from '../BookingDetails/BookingDetails';
 import { BookingType } from '../../../Types/bookingTypes';
 import GuestInfo from '../../User/GuestInfo/GuestInfo';
 import { GuestType, UserType } from '../../../Types/userTypes';
+import { localGuestData, localUserData } from '../../../API/user';
 
 const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 	const { openModal } = useModal();
@@ -140,9 +141,13 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 	};
 
 	const checkUser = async (): Promise<UserType | GuestType> => {
-		console.log('userState', userState.user);
-		if (userState.user) {
-			return userState.user;
+		const guest = localGuestData();
+		const user = localUserData();
+
+		const currentUser = userState.user ?? user.user?.user ?? guest.guest;
+
+		if (currentUser) {
+			return currentUser;
 		} else {
 			dispatch({ type: 'SET_CURRENT_BOOKING', payload: formData });
 			return new Promise((resolve) => {
@@ -169,7 +174,6 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 					formData.deposit = formData.totalPrice * 0.5;
 					formData.status = 'pending';
 					formData.user = await checkUser();
-					console.log('formData', formData);
 					if (formData.user) {
 						openModal(<BookingDetails booking={formData} />);
 					}

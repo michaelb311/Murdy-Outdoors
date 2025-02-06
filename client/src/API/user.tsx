@@ -36,6 +36,13 @@ export const localUserData = () => {
 	};
 };
 
+export const localGuestData = () => {
+	const stringifiedGuest = localStorage.getItem('guest') ?? 'null';
+	return {
+		guest: JSON.parse(stringifiedGuest) as GuestType,
+	};
+};
+
 export const loginUser = async (formData: UserLoginType) => {
 	try {
 		const response = await fetch(`${baseURL}/auth/local`, {

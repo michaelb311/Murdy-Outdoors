@@ -1,4 +1,5 @@
 .Modal {
+	max-height: 90vh;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -7,6 +8,8 @@
 	padding: 20px;
 	border-radius: 4px;
 	outline: none;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 .Overlay {
@@ -29,4 +32,22 @@
 	border: none;
 	border-radius: 50%;
 	padding: 10px;
+}
+
+.Modal::-webkit-scrollbar {
+	width: 8px;
+}
+
+.Modal::-webkit-scrollbar-track {
+	background: #f1f1f1;
+	border-radius: 10px;
+}
+
+.Modal::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 10px;
+}
+
+.Modal::-webkit-scrollbar-thumb:hover {
+	background: #555;
 }
