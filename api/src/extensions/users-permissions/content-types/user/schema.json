@@ -71,12 +71,6 @@
     "lastName": {
       "type": "string"
     },
-    "bookings": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::booking.booking",
-      "inversedBy": "users"
-    },
     "profilePicture": {
       "type": "media",
       "multiple": false,
@@ -90,6 +84,12 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::review.review",
+      "mappedBy": "user"
+    },
+    "bookings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::booking.booking",
       "mappedBy": "user"
     }
   }

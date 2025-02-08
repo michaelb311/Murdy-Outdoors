@@ -4,7 +4,8 @@
   "info": {
     "singularName": "hunting-method",
     "pluralName": "hunting-methods",
-    "displayName": "Hunting Method"
+    "displayName": "Hunting Method",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -18,7 +19,7 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::hunt.hunt",
-      "mappedBy": "hunting_methods"
+      "inversedBy": "hunting_methods"
     }
   }
 }

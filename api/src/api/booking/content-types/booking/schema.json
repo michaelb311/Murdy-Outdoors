@@ -17,16 +17,11 @@
       "relation": "oneToOne",
       "target": "api::hunt.hunt"
     },
-    "admin_user": {
+    "user": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "admin::user"
-    },
-    "users": {
-      "type": "relation",
-      "relation": "manyToMany",
+      "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "mappedBy": "bookings"
+      "inversedBy": "bookings"
     },
     "startDate": {
       "type": "string"
@@ -50,6 +45,48 @@
       "relation": "manyToOne",
       "target": "api::review.review",
       "inversedBy": "bookings"
+    },
+    "huntingMethods": {
+      "type": "string"
+    },
+    "numberOfGuests": {
+      "type": "integer"
+    },
+    "numberOfAdults": {
+      "type": "integer"
+    },
+    "numberOfChildren": {
+      "type": "integer"
+    },
+    "numberOfDays": {
+      "type": "integer"
+    },
+    "totalPrice": {
+      "type": "decimal"
+    },
+    "deposit": {
+      "type": "decimal"
+    },
+    "depositPayed": {
+      "type": "boolean"
+    },
+    "fullPayment": {
+      "type": "boolean"
+    },
+    "bookingStatus": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "confirmed",
+        "cancelled",
+        "refunded"
+      ]
+    },
+    "documents": {
+      "type": "json"
+    },
+    "confirmed": {
+      "type": "boolean"
     }
   }
 }

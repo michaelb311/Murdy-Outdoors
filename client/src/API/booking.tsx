@@ -5,7 +5,11 @@
 //find user booking by id api call
 import { BookingType } from '../Types/bookingTypes';
 import { localUserData } from './user';
+import { huntingMethod } from '../Types/huntTypes';
 const baseURL = import.meta.env.VITE_DATABASE_URL as string;
+const databaseToken = import.meta.env.VITE_DATABASE_TOKEN as string;
+
+
 
 //get all bookings for a user
 export const userBookings = async () => {
@@ -40,28 +44,46 @@ export const userBookings = async () => {
 //creat a booking
 export const createBooking = async (booking: BookingType) => {
 	const user = localUserData();
-	console.log('createBooking user', user);
 
-	if (!user?.user) {
-		console.error('User data is not available or malformed');
-		throw new Error('User data is not available or malformed');
+	const headers: HeadersInit = {
+		'Content-Type': 'application/json',
+	};
+
+	if (user?.user?.jwt) {
+		headers.Authorization = `Bearer ${user.user.jwt}`;
+	} else {
+		headers.Authorization = `Bearer ${databaseToken}`;
 	}
 
-	const jwt = user.user.jwt;
-	if (!jwt) {
-		console.log('JWT is not available, proceeding without authorization');
-	}
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { id,...huntData } = booking.hunt;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	booking.hunt.hunting_methods = booking.hunt.hunting_methods.map(({ documentId, ...method }) => method);
+	// Convert huntingMethods to a comma-separated string
+	const huntingMethodsString = booking.huntingMethods.map(({ method }: { method: huntingMethod }) => method).join(', ');
+	// Assign the string back to booking.huntingMethods if needed
+	booking.huntingMethods = huntingMethodsString;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { documentId: userDocumentId, ...userData } = booking.user;
+
+
+	const bookingData = {
+		...booking,
+		hunt: {
+			...huntData,
+			hunting_methods: booking.hunt.hunting_methods,
+		},
+		user: userData,
+	};
 
 	try {
-		console.log('createBooking booking', booking);
+		console.log('createBooking booking', bookingData);
 		const response = await fetch(`${baseURL}/bookings`, {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				...(jwt && { Authorization: `Bearer ${jwt}` }),
-			},
-			body: JSON.stringify(booking),
+			headers,
+			body: JSON.stringify({ data: bookingData }),
 		});
+
 
 		if (!response.ok) {
 			const errorText = await response.text();

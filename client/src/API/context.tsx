@@ -94,7 +94,6 @@ export const GlobalContextProvider = ({
 
 		const user = verifyUser();
 		if (user) {
-			console.log('user', user);
 			userDispatch({ type: 'SET_USER', payload: user.user });
 		}
 

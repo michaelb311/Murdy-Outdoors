@@ -471,9 +471,9 @@ export interface PluginUsersPermissionsUser
     >;
     firstName: Schema.Attribute.String;
     lastName: Schema.Attribute.String;
-    bookings: Schema.Attribute.Relation<'manyToMany', 'api::booking.booking'>;
     profilePicture: Schema.Attribute.Media<'images' | 'files'>;
     reviews: Schema.Attribute.Relation<'oneToMany', 'api::review.review'>;
+    bookings: Schema.Attribute.Relation<'oneToMany', 'api::booking.booking'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -507,12 +507,12 @@ export interface ApiHuntHunt extends Struct.CollectionTypeSchema {
     rating: Schema.Attribute.Decimal;
     stockCount: Schema.Attribute.Integer;
     inStock: Schema.Attribute.Boolean;
+    maxGuests: Schema.Attribute.Integer;
+    description: Schema.Attribute.RichText;
     hunting_methods: Schema.Attribute.Relation<
       'manyToMany',
       'api::hunting-method.hunting-method'
     >;
-    maxGuests: Schema.Attribute.Integer;
-    description: Schema.Attribute.RichText;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -532,6 +532,7 @@ export interface ApiHuntingMethodHuntingMethod
     singularName: 'hunting-method';
     pluralName: 'hunting-methods';
     displayName: 'Hunting Method';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -602,9 +603,8 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
   };
   attributes: {
     hunt: Schema.Attribute.Relation<'oneToOne', 'api::hunt.hunt'>;
-    admin_user: Schema.Attribute.Relation<'oneToOne', 'admin::user'>;
-    users: Schema.Attribute.Relation<
-      'manyToMany',
+    user: Schema.Attribute.Relation<
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
     startDate: Schema.Attribute.String;
@@ -614,6 +614,20 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
     >;
     endDate: Schema.Attribute.String;
     review: Schema.Attribute.Relation<'manyToOne', 'api::review.review'>;
+    huntingMethods: Schema.Attribute.String;
+    numberOfGuests: Schema.Attribute.Integer;
+    numberOfAdults: Schema.Attribute.Integer;
+    numberOfChildren: Schema.Attribute.Integer;
+    numberOfDays: Schema.Attribute.Integer;
+    totalPrice: Schema.Attribute.Decimal;
+    deposit: Schema.Attribute.Decimal;
+    depositPayed: Schema.Attribute.Boolean;
+    fullPayment: Schema.Attribute.Boolean;
+    bookingStatus: Schema.Attribute.Enumeration<
+      ['pending', 'confirmed', 'cancelled', 'refunded']
+    >;
+    documents: Schema.Attribute.JSON;
+    confirmed: Schema.Attribute.Boolean;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

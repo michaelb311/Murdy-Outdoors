@@ -30,17 +30,17 @@
     "inStock": {
       "type": "boolean"
     },
-    "hunting_methods": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::hunting-method.hunting-method",
-      "inversedBy": "hunts"
-    },
     "maxGuests": {
       "type": "integer"
     },
     "description": {
       "type": "richtext"
+    },
+    "hunting_methods": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::hunting-method.hunting-method",
+      "mappedBy": "hunts"
     }
   }
 }

@@ -15,12 +15,13 @@ const BookingDetails: React.FC<{ booking: BookingType }> = ({ booking }) => {
 		}
 	};
 
+	console.log('booking', booking);
+
 	return (
 		<div className='bookingDetailsWrapper'>
 			<h1>Booking Details</h1>
 			<div className='bookingDetailsSection'>
 				<h2>Hunt Details</h2>
-				<p>ID: {booking.id}</p>
 				<p>Hunting Methods: {booking.huntingMethods.join(', ')}</p>
 
 				<h2>Guest Information</h2>
@@ -44,8 +45,9 @@ const BookingDetails: React.FC<{ booking: BookingType }> = ({ booking }) => {
 				<p>Full Payment: {booking.fullPayment ? 'Yes' : 'No'}</p>
 
 				<h2>Booking Status</h2>
-				<p>Status: {booking.status}</p>
+				<p>Status: {booking.bookingStatus}</p>
 				<p>Confirmed: {booking.confirmed ? 'Yes' : 'No'}</p>
+
 
 				<h2>Additional Information</h2>
 				<p>Documents: {booking.documents.length > 0 ? 'Available' : 'None'}</p>

@@ -1,12 +1,14 @@
-import { huntingMethod } from './huntTypes';
+import { HuntingMethodType } from './huntTypes';
 import { GuestType, UserType } from './userTypes';
 import { HuntItemType } from './huntTypes';
+
 
 export interface BookingType {
 	// Hunt details
 	id?: string;
-	huntingMethods: huntingMethod[];
+	huntingMethods: HuntingMethodType[];
 	hunt: HuntItemType;
+
 
 	// Guest information
 	numberOfGuests: number;
@@ -26,9 +28,10 @@ export interface BookingType {
 	fullPayment: boolean;
 
 	// Booking status
-	status: 'pending' | 'confirmed' | 'cancelled' | 'refunded';
+	bookingStatus: 'pending' | 'confirmed' | 'cancelled' | 'refunded';
 	confirmed: boolean;
 
 	// Additional information
 	documents: [];
+	imageUrls: string[];
 }

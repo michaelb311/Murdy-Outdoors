@@ -31,8 +31,6 @@ export const localUserData = () => {
 	const stringifiedUser = localStorage.getItem('user') ?? 'null';
 	const userExpiration = localStorage.getItem('userExpiration') ?? '0';
 
-	console.log('localUserData user', stringifiedUser);
-	console.log('localUserData userExpiration', userExpiration);
 	return {
 		user: JSON.parse(stringifiedUser) as UserResponseType,
 		userExpiration: userExpiration,
@@ -64,7 +62,6 @@ export const loginUser = async (formData: UserLoginType) => {
 		}
 
 		const data = (await response.json()) as UserResponseType;
-		console.log('loginUser data', data);
 		storeUser(data);
 		return data;
 	} catch (error) {

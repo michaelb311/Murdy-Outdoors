@@ -5,7 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { eachDayOfInterval, differenceInDays } from 'date-fns';
 import { GlobalContext } from '../../../API/context';
 import { GoogleCalendarEvent } from '../../../Types/googleTypes';
-import { huntingMethod } from '../../../Types/huntTypes';
+import { huntingMethod, HuntingMethodType } from '../../../Types/huntTypes';
 import { FormProps } from '../../../Types/uiTypes';
 import { FaExclamationCircle } from 'react-icons/fa';
 import useModal from '../../../Hooks/useModal';
@@ -25,9 +25,9 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 	const { title, price, hunting_methods, maxGuests } = hunt;
 	const [formData, setFormData] = useState<BookingType>({
 		// Hunt details
-		id: '',
 		hunt: hunt,
-		huntingMethods: [] as huntingMethod[],
+		huntingMethods: [] as HuntingMethodType[],
+
 
 		// Guest information
 		numberOfGuests: 1,
@@ -48,11 +48,12 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 		fullPayment: false,
 
 		// Booking status
-		status: 'pending',
+		bookingStatus: 'pending',
 		confirmed: false,
 
 		// Additional information
 		documents: [],
+		imageUrls: [],
 	});
 
 	const unavailableDates: Date[] =
@@ -172,11 +173,12 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 					formData.totalPrice =
 						formData.numberOfDays * formData.numberOfGuests * price;
 					formData.deposit = formData.totalPrice * 0.5;
-					formData.status = 'pending';
+					formData.bookingStatus = 'pending';
 					formData.user = await checkUser();
 					if (formData.user) {
 						openModal(<BookingDetails booking={formData} />);
 					}
+
 				} else {
 					console.log('Form is invalid');
 				}
@@ -323,15 +325,18 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 								id={`huntingMethod-${method.id}`}
 								name='huntingMethod'
 								value={method.method}
-								checked={formData.huntingMethods.includes(method.method)}
+								checked={formData.huntingMethods.some(
+									(m) => m.method === method.method
+								)}
 								onChange={(e) => {
 									const { checked, value } = e.target;
 									setFormData((prevData) => {
 										const updatedMethods = checked
-											? [...prevData.huntingMethods, value as huntingMethod]
+											? [...prevData.huntingMethods, { method: value as huntingMethod }]
 											: prevData.huntingMethods.filter(
-													(method) => method !== value
+													(method) => method.method !== value
 											  );
+
 										return { ...prevData, huntingMethods: updatedMethods };
 									});
 								}}
@@ -352,22 +357,6 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 					Submit
 				</button>
 			</form>
-			{/* <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
-				<h2>Confirm Your Booking</h2>
-				<div className='bookingDetails'>
-					<p>Hunt: {title}</p>
-					<p>Start Date: {formData.startDate}</p>
-					<p>End Date: {formData.endDate}</p>
-					<p>Number of Days: {formData.numberOfDays}</p>
-					<p>Number of Guests: {formData.numberOfGuests}</p>
-					<p>Total Price: ${formData.totalPrice}</p>
-					<p>Deposit (50%): ${formData.deposit}</p>
-				</div>
-				<div className='modalActions'>
-					<button onClick={confirmBooking}>Confirm Booking</button>
-					<button onClick={cancelBooking}>Cancel</button>
-				</div>
-			</Modal> */}
 		</>
 	);
 };
