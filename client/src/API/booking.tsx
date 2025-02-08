@@ -40,12 +40,25 @@ export const userBookings = async () => {
 //creat a booking
 export const createBooking = async (booking: BookingType) => {
 	const user = localUserData();
+	console.log('createBooking user', user);
+
+	if (!user?.user) {
+		console.error('User data is not available or malformed');
+		throw new Error('User data is not available or malformed');
+	}
+
+	const jwt = user.user.jwt;
+	if (!jwt) {
+		console.log('JWT is not available, proceeding without authorization');
+	}
+
 	try {
+		console.log('createBooking booking', booking);
 		const response = await fetch(`${baseURL}/bookings`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				Authorization: `Bearer ${user.user.jwt}`,
+				...(jwt && { Authorization: `Bearer ${jwt}` }),
 			},
 			body: JSON.stringify(booking),
 		});

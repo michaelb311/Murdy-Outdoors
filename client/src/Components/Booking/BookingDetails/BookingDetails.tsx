@@ -1,10 +1,20 @@
 import React from 'react';
 import './styles.css';
 import { BookingType } from '../../../Types/bookingTypes';
+import { createBooking } from '../../../API/booking.tsx';
 
 //rough draft of the booking details componentd
 
 const BookingDetails: React.FC<{ booking: BookingType }> = ({ booking }) => {
+	const handleSubmit = async () => {
+		try {
+			await createBooking(booking);
+			console.log('Booking created successfully');
+		} catch (error) {
+			console.error('Error creating booking:', error);
+		}
+	};
+
 	return (
 		<div className='bookingDetailsWrapper'>
 			<h1>Booking Details</h1>
@@ -40,6 +50,7 @@ const BookingDetails: React.FC<{ booking: BookingType }> = ({ booking }) => {
 				<h2>Additional Information</h2>
 				<p>Documents: {booking.documents.length > 0 ? 'Available' : 'None'}</p>
 			</div>
+			<button onClick={() => void handleSubmit()}>Submit</button>
 		</div>
 	);
 };
