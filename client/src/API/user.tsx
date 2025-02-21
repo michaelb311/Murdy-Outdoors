@@ -3,6 +3,7 @@ import {
 	UserRegisterType,
 	UserLoginType,
 	GuestType,
+	UserType,
 } from '../Types/userTypes';
 
 const baseURL = import.meta.env.VITE_DATABASE_URL as string;
@@ -44,30 +45,53 @@ export const localGuestData = () => {
 	};
 };
 
-export const loginUser = async (formData: UserLoginType) => {
-	try {
-		const response = await fetch(`${baseURL}/auth/local`, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(formData),
-			// credentials: 'include',
+export const loginUser = (formData: UserLoginType) => {
+	return fetch(`${baseURL}/auth/local?populate=*`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(formData),
+	})
+		.then((response) => {
+			if (!response.ok) {
+				return response.text().then((errorText) => {
+					console.error('Login failed:', errorText);
+					throw new Error(`Login failed: ${response.statusText}`);
+				});
+			}
+			return response.json();
+		})
+		.then((data: UserResponseType) => {
+			console.log('Login successful, JWT received:', data.jwt);
+			return fetch(`${baseURL}/users/me?populate=*`, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${data.jwt}`,
+				},
+			})
+				.then((userResponse) => {
+					if (!userResponse.ok) {
+						return userResponse.text().then((errorText) => {
+							console.error('Fetching user data failed:', errorText);
+							throw new Error(
+								`Fetching user data failed: ${userResponse.statusText}`
+							);
+						});
+					}
+					return userResponse.json();
+				})
+				.then((userData) => {
+					console.log('User data fetched successfully:', userData);
+					const completeData = { ...data, user: userData as UserType };
+					storeUser(completeData);
+					return completeData;
+				});
+		})
+		.catch((error) => {
+			console.error('Error logging in user:', error);
+			throw error;
 		});
-
-		if (!response.ok) {
-			const errorText = await response.text();
-			console.error('Login failed:', errorText);
-			throw new Error(`Login failed: ${response.statusText}`);
-		}
-
-		const data = (await response.json()) as UserResponseType;
-		storeUser(data);
-		return data;
-	} catch (error) {
-		console.error('Error logging in user:', error);
-		throw error;
-	}
 };
 
 export const registerUser = async (formData: UserRegisterType) => {

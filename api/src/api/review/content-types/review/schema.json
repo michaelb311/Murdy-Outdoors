@@ -32,17 +32,6 @@
       "relation": "oneToMany",
       "target": "api::booking.booking",
       "mappedBy": "review"
-    },
-    "admin_user": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "admin::user"
-    },
-    "user": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "reviews"
     }
   }
 }

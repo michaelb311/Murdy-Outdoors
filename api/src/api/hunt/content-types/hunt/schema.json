@@ -40,7 +40,17 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::hunting-method.hunting-method",
-      "mappedBy": "hunts"
+      "inversedBy": "hunts"
+    },
+    "reviews": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::review.review"
+    },
+    "bookings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::booking.booking"
     }
   }
 }

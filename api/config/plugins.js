@@ -5,19 +5,19 @@ module.exports = () => ({
         expiresIn: "1d",
       },
       register: {
-        allowedFields: ["firstName", "lastName", "bookings"],
+        allowedFields: ["firstName", "lastName", "bookings", "reviews"],
       },
       login: {
-        allowedFields: ["email", "password", "bookings"],
+        allowedFields: ["email", "password", "bookings", "reviews"],
       },
       forgotPassword: {
         allowedFields: ["email"],
       },
       update: {
-        allowedFields: ["firstName", "lastName", "bookings"],
+        allowedFields: ["firstName", "lastName", "bookings", "reviews"],
       },
       delete: {
-        allowedFields: ["firstName", "lastName", "bookings"],
+        allowedFields: ["firstName", "lastName", "bookings", "reviews"],
       },
     },
   },

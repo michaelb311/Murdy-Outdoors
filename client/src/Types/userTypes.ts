@@ -3,6 +3,7 @@ import { ReviewType } from './reviewTypes';
 
 export interface UserType {
 	id: number;
+	documentId?: string;
 	username: string;
 	email: string;
 	provider: string;
@@ -10,7 +11,6 @@ export interface UserType {
 	blocked: boolean;
 	createdAt: string;
 	updatedAt: string;
-	documentId: string;
 	locale: string | null;
 	publishedAt: string | null;
 	firstName: string | null;
@@ -52,6 +52,8 @@ export interface UserRegisterType {
 }
 
 export interface GuestType {
+	id?: string;
+	documentId?: string;
 	firstName: string;
 	lastName: string;
 	email: string;

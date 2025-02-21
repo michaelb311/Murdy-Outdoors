@@ -1,14 +1,13 @@
-import { HuntingMethodType } from './huntTypes';
+import { hunting_methodType } from './huntTypes';
 import { GuestType, UserType } from './userTypes';
 import { HuntItemType } from './huntTypes';
-
 
 export interface BookingType {
 	// Hunt details
 	id?: string;
-	huntingMethods: HuntingMethodType[];
+	documentId?: string;
+	huntingMethods: hunting_methodType[];
 	hunt: HuntItemType;
-
 
 	// Guest information
 	numberOfGuests: number;

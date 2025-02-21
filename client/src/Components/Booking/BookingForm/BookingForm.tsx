@@ -1,11 +1,11 @@
 import './styles.css';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useMemo, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { eachDayOfInterval, differenceInDays } from 'date-fns';
+import { eachDayOfInterval, differenceInCalendarDays } from 'date-fns';
 import { GlobalContext } from '../../../API/context';
 import { GoogleCalendarEvent } from '../../../Types/googleTypes';
-import { huntingMethod, HuntingMethodType } from '../../../Types/huntTypes';
+import { hunting_methodType, huntingMethod } from '../../../Types/huntTypes';
 import { FormProps } from '../../../Types/uiTypes';
 import { FaExclamationCircle } from 'react-icons/fa';
 import useModal from '../../../Hooks/useModal';
@@ -23,74 +23,99 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 	const events: GoogleCalendarEvent[] | null = state.events;
 	const [errors, setErrors] = useState<Record<string, string>>({});
 	const { title, price, hunting_methods, maxGuests } = hunt;
-	const [formData, setFormData] = useState<BookingType>({
-		// Hunt details
-		hunt: hunt,
-		huntingMethods: [] as HuntingMethodType[],
+	const [formData, setFormData] = useState<BookingType>(
+		state.currentBooking ?? {
+			// Hunt details
+			hunt: hunt,
+			huntingMethods: [] as hunting_methodType[],
 
+			// Guest information
+			numberOfGuests: 1,
+			numberOfAdults: 0,
+			numberOfChildren: 0,
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+			user: userState.user || null,
 
-		// Guest information
-		numberOfGuests: 1,
-		numberOfAdults: 0,
-		numberOfChildren: 0,
-		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-		user: userState.user || null,
+			// Booking details
+			startDate: '',
+			endDate: '',
+			numberOfDays: 0,
 
-		// Booking details
-		startDate: '',
-		endDate: '',
-		numberOfDays: 0,
+			// Payment information
+			totalPrice: 0,
+			deposit: 0,
+			depositPayed: false,
+			fullPayment: false,
 
-		// Payment information
-		totalPrice: 0,
-		deposit: 0,
-		depositPayed: false,
-		fullPayment: false,
+			// Booking status
+			bookingStatus: 'pending',
+			confirmed: false,
 
-		// Booking status
-		bookingStatus: 'pending',
-		confirmed: false,
+			// Additional information
+			documents: [],
+			imageUrls: [],
+		}
+	);
 
-		// Additional information
-		documents: [],
-		imageUrls: [],
-	});
+	useEffect(() => {
+		console.log('useEffect ran');
+		dispatch({ type: 'SET_CURRENT_BOOKING', payload: formData });
+	}, [setFormData, dispatch, formData]);
 
-	const unavailableDates: Date[] =
-		events?.flatMap((event) => {
-			const start = new Date(event.start.date);
-			const end = new Date(event.end.date);
-			const dateRange = eachDayOfInterval({ start, end });
-			return dateRange;
-		}) ?? [];
+	console.log('hunt', hunt);
+
+	const unavailableDates: Date[] = useMemo(() => {
+		return (
+			events?.flatMap((event) => {
+				const start = new Date(event.start.date);
+				const end = new Date(event.end.date);
+				const dateRange = eachDayOfInterval({ start, end });
+				return dateRange;
+			}) ?? []
+		);
+	}, [events]);
 
 	const handleDateChange = (date: Date | null, id: string) => {
 		if (date) {
-			setFormData({
-				...formData,
+			setFormData((prevData) => ({
+				...prevData,
 				[id]: date.toLocaleDateString(undefined, {
 					year: 'numeric',
 					month: '2-digit',
 					day: '2-digit',
 				}),
-			});
+			}));
 		}
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { id, value } = e.target;
+		console.log('id', id);
+		console.log('value', value);
 		switch (id) {
 			case 'numberOfGuests':
-				setFormData({ ...formData, [id]: parseInt(value) });
+				setFormData((prevData) => ({
+					...prevData,
+					[id]: parseInt(value),
+				}));
 				break;
 			case 'numberOfAdults':
-				setFormData({ ...formData, [id]: parseInt(value) });
+				setFormData((prevData) => ({
+					...prevData,
+					[id]: parseInt(value),
+				}));
 				break;
 			case 'numberOfChildren':
-				setFormData({ ...formData, [id]: parseInt(value) });
+				setFormData((prevData) => ({
+					...prevData,
+					[id]: parseInt(value),
+				}));
 				break;
 			default:
-				setFormData({ ...formData, [id]: value });
+				setFormData((prevData) => ({
+					...prevData,
+					[id]: value,
+				}));
 				break;
 		}
 	};
@@ -166,10 +191,11 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 		(async () => {
 			try {
 				if (validateForm()) {
-					formData.numberOfDays = differenceInDays(
-						new Date(formData.endDate),
-						new Date(formData.startDate)
-					);
+					formData.numberOfDays =
+						differenceInCalendarDays(
+							new Date(formData.endDate),
+							new Date(formData.startDate)
+						) + 1;
 					formData.totalPrice =
 						formData.numberOfDays * formData.numberOfGuests * price;
 					formData.deposit = formData.totalPrice * 0.5;
@@ -178,7 +204,6 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 					if (formData.user) {
 						openModal(<BookingDetails booking={formData} />);
 					}
-
 				} else {
 					console.log('Form is invalid');
 				}
@@ -218,7 +243,11 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 							id='numberOfGuests'
 							min={1}
 							max={maxGuests}
-							value={formData.numberOfGuests}
+							value={
+								formData.numberOfGuests
+									? formData.numberOfGuests
+									: state.currentBooking?.numberOfGuests
+							}
 							onChange={handleChange}
 						/>
 						{errors.numberOfGuests && (
@@ -242,7 +271,11 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 									id='numberOfAdults'
 									min={1}
 									max={formData.numberOfGuests - formData.numberOfChildren}
-									value={formData.numberOfAdults}
+									value={
+										formData.numberOfAdults
+											? formData.numberOfAdults
+											: state.currentBooking?.numberOfAdults
+									}
 									onChange={handleChange}
 								/>
 								{errors.numberOfAdults && (
@@ -262,7 +295,11 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 									}`}
 									type='number'
 									id='numberOfChildren'
-									value={formData.numberOfChildren}
+									value={
+										formData.numberOfChildren
+											? formData.numberOfChildren
+											: state.currentBooking?.numberOfChildren
+									}
 									min={0}
 									max={formData.numberOfGuests - formData.numberOfAdults}
 									onChange={handleChange}
@@ -291,7 +328,13 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 						Start Date
 					</label>
 					<DatePicker
-						selected={formData.startDate ? new Date(formData.startDate) : null}
+						selected={
+							formData.startDate
+								? new Date(formData.startDate)
+								: state.currentBooking?.startDate
+								? new Date(state.currentBooking.startDate)
+								: null
+						}
 						onChange={(date) => handleDateChange(date, 'startDate')}
 						excludeDates={unavailableDates}
 						dateFormat='yyyy-MM-dd'
@@ -302,7 +345,13 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 					</label>
 					<div className='inputWithError'>
 						<DatePicker
-							selected={formData.endDate ? new Date(formData.endDate) : null}
+							selected={
+								formData.endDate
+									? new Date(formData.endDate)
+									: state.currentBooking?.endDate
+									? new Date(state.currentBooking.endDate)
+									: null
+							}
 							onChange={(date) => handleDateChange(date, 'endDate')}
 							excludeDates={unavailableDates}
 							dateFormat='yyyy-MM-dd'
@@ -325,14 +374,29 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 								id={`huntingMethod-${method.id}`}
 								name='huntingMethod'
 								value={method.method}
-								checked={formData.huntingMethods.some(
-									(m) => m.method === method.method
-								)}
+								checked={
+									formData.huntingMethods
+										? Array.isArray(formData.huntingMethods) &&
+										  formData.huntingMethods.some(
+												(m) => m.method === method.method
+										  )
+										: state.currentBooking?.huntingMethods
+										? Array.isArray(state.currentBooking.huntingMethods) &&
+										  state.currentBooking.huntingMethods.some(
+												(m) => m.method === method.method
+										  )
+										: false
+								}
 								onChange={(e) => {
 									const { checked, value } = e.target;
+									console.log('checked', checked);
+									console.log('value', value);
 									setFormData((prevData) => {
-										const updatedMethods = checked
-											? [...prevData.huntingMethods, { method: value as huntingMethod }]
+										const updatedMethods: hunting_methodType[] = checked
+											? [
+													...prevData.huntingMethods,
+													{ method: value as huntingMethod },
+											  ]
 											: prevData.huntingMethods.filter(
 													(method) => method.method !== value
 											  );

@@ -22,7 +22,12 @@ const BookingDetails: React.FC<{ booking: BookingType }> = ({ booking }) => {
 			<h1>Booking Details</h1>
 			<div className='bookingDetailsSection'>
 				<h2>Hunt Details</h2>
-				<p>Hunting Methods: {booking.huntingMethods.join(', ')}</p>
+				<p>
+					Hunting Methods:{' '}
+					{Array.isArray(booking.huntingMethods)
+						? booking.huntingMethods.map((method) => method.method).join(', ')
+						: 'N/A'}
+				</p>
 
 				<h2>Guest Information</h2>
 				<p>Number of Guests: {booking.numberOfGuests}</p>
@@ -47,7 +52,6 @@ const BookingDetails: React.FC<{ booking: BookingType }> = ({ booking }) => {
 				<h2>Booking Status</h2>
 				<p>Status: {booking.bookingStatus}</p>
 				<p>Confirmed: {booking.confirmed ? 'Yes' : 'No'}</p>
-
 
 				<h2>Additional Information</h2>
 				<p>Documents: {booking.documents.length > 0 ? 'Available' : 'None'}</p>

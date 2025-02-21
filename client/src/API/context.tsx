@@ -17,6 +17,7 @@ import { fetchGoogleCalendarEvents } from './google';
 import { GoogleCalendarEvent } from '../Types/googleTypes';
 import { verifyUser } from './user';
 import { UserContext } from './userContext';
+import { getLocalBooking, storeLocalBooking } from './booking';
 
 const initState: StateType = {
 	init: false,
@@ -51,6 +52,9 @@ const reducer = (state: StateType, action: ActionType): StateType => {
 			return { ...state, user: action.payload };
 
 		case 'SET_CURRENT_BOOKING':
+			if (action.payload) {
+				storeLocalBooking(action.payload);
+			}
 			return { ...state, currentBooking: action.payload };
 
 		case 'SET_IS_MODAL_OPEN':
@@ -91,6 +95,11 @@ export const GlobalContextProvider = ({
 			.catch((error) => {
 				console.error('Failed to fetch hunts:', error);
 			});
+
+		const localBooking = getLocalBooking();
+		if (localBooking) {
+			dispatch({ type: 'SET_CURRENT_BOOKING', payload: localBooking });
+		}
 
 		const user = verifyUser();
 		if (user) {

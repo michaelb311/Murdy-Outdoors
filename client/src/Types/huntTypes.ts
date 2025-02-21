@@ -1,14 +1,12 @@
 export type huntingMethod = 'Bow' | 'Rifle' | 'Crossbow' | 'Muzzleloader';
 
-export interface HuntingMethodType {
+export interface hunting_methodType {
 	id?: number | string;
 	method: huntingMethod;
 	createdAt?: string;
 	updatedAt?: string;
 	publishedAt?: string;
 	documentId?: string;
-	locale?: string | null;
-
 }
 
 export interface HuntItemType {
@@ -20,7 +18,7 @@ export interface HuntItemType {
 	imageUrl: string;
 	rating: number;
 	stockCount: number;
-	hunting_methods: HuntingMethodType[];
+	hunting_methods: hunting_methodType[];
 	inStock: boolean;
 	maxGuests: number;
 }

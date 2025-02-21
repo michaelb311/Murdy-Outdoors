@@ -12,16 +12,10 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "hunt": {
+    "users": {
       "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::hunt.hunt"
-    },
-    "user": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "plugin::users-permissions.user",
-      "inversedBy": "bookings"
+      "relation": "oneToMany",
+      "target": "plugin::users-permissions.user"
     },
     "startDate": {
       "type": "string"
@@ -87,6 +81,17 @@
     },
     "confirmed": {
       "type": "boolean"
+    },
+    "hunt": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::hunt.hunt"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "bookings"
     }
   }
 }
