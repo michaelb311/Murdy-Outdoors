@@ -1,7 +1,7 @@
 //create booking api call
 //update booking api call
 //delete booking api call
-//find all user bookings api call
+//find all bookings api call
 //find user booking by id api call
 import { BookingType } from '../Types/bookingTypes';
 import { hunting_methodType } from '../Types/huntTypes';
@@ -13,7 +13,6 @@ const localFormKey = import.meta.env.VITE_LOCAL_FORM_KEY as string;
 //get all bookings for a user
 export const userBookings = async () => {
 	const user = localUserData();
-	// console.log('userBookings user', user);
 	try {
 		const response = await fetch(
 			`${baseURL}/bookings?filters[user][id][$eq]=${user.user.user.id}&populate=*`,
@@ -30,6 +29,34 @@ export const userBookings = async () => {
 			const errorText = await response.text();
 			console.error('API Error:', errorText);
 			throw new Error(`Failed to fetch hunts: ${response.statusText}`);
+		}
+
+		const data = (await response.json()) as BookingType[];
+		return data;
+	} catch (error) {
+		console.error('Fetch error:', error);
+		throw error;
+	}
+};
+
+export const getAllBookings = async () => {
+	try {
+		//gets all bookings with limited fields and populates hunt, user, and users fields
+		const response = await fetch(
+			`${baseURL}/bookings?fields[0]=guest&fields[1]=startDate&fields[2]=endDate&populate[hunt][fields][0]=title&populate[hunt][fields][1]=inStock&populate[user][fields][0]=username`,
+			{
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${databaseToken}`,
+				},
+			}
+		);
+
+		if (!response.ok) {
+			const errorText = await response.text();
+			console.error('API Error:', errorText);
+			throw new Error(`Failed to fetch bookings: ${response.statusText}`);
 		}
 
 		const data = (await response.json()) as BookingType[];
@@ -133,6 +160,82 @@ export const createBooking = async (booking: BookingType) => {
 			console.error('Fetch error:', error);
 			throw error;
 		}
+	}
+};
+
+//update booking
+export const updateBooking = async (booking: BookingType) => {
+	const user = localUserData();
+
+	const headers: HeadersInit = {
+		'Content-Type': 'application/json',
+	};
+
+	if (user?.user?.jwt) {
+		headers.Authorization = `Bearer ${user.user.jwt}`;
+	} else {
+		headers.Authorization = `Bearer ${databaseToken}`;
+	}
+
+	const { documentId: bookingDocumentId } = booking;
+
+	const bookingData = {
+		...booking,
+	};
+
+	try {
+		const response = await fetch(`${baseURL}/bookings/${bookingDocumentId}`, {
+			method: 'PUT',
+			headers,
+			body: JSON.stringify({ data: { ...bookingData } }),
+		});
+
+		if (!response.ok) {
+			const errorText = await response.text();
+			console.error('API Error:', errorText);
+			throw new Error(`Failed to update booking: ${response.statusText}`);
+		}
+
+		const data = (await response.json()) as BookingType;
+		return data;
+	} catch (error) {
+		console.error('Fetch error:', error);
+		throw error;
+	}
+};
+
+//delete booking
+export const deleteBooking = async (booking: BookingType) => {
+	//if user owns the boooking to delete it.
+	const user = localUserData();
+
+	const headers: HeadersInit = {
+		'Content-Type': 'application/json',
+	};
+
+	if (user?.user?.jwt) {
+		headers.Authorization = `Bearer ${user.user.jwt}`;
+	}
+
+	const { documentId: bookingDocumentId } = booking;
+
+	try {
+		const response = await fetch(`${baseURL}/bookings/${bookingDocumentId}`, {
+			method: 'DELETE',
+			headers,
+		});
+
+		if (!response.ok) {
+			const errorText = await response.text();
+			console.error('API Error:', errorText);
+			throw new Error(`Failed to delete booking: ${response.statusText}`);
+		}
+
+		const data = (await response.json()) as BookingType;
+		return data;
+	} catch (error) {
+		console.error('Fetch error:', error);
+		throw error;
 	}
 };
 

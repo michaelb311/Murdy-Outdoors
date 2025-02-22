@@ -24,45 +24,44 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 	const [errors, setErrors] = useState<Record<string, string>>({});
 	const { title, price, hunting_methods, maxGuests } = hunt;
 	const [formData, setFormData] = useState<BookingType>(
-		state.currentBooking ?? {
-			// Hunt details
-			hunt: hunt,
-			huntingMethods: [] as hunting_methodType[],
+		state.currentBooking && state.currentBooking.hunt.title === hunt.title
+			? state.currentBooking
+			: {
+					// Hunt details
+					hunt: hunt,
+					huntingMethods: [] as hunting_methodType[],
 
-			// Guest information
-			numberOfGuests: 1,
-			numberOfAdults: 0,
-			numberOfChildren: 0,
-			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-			user: userState.user || null,
+					// Guest information
+					numberOfGuests: 1,
+					numberOfAdults: 0,
+					numberOfChildren: 0,
+					// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+					user: userState.user || null,
 
-			// Booking details
-			startDate: '',
-			endDate: '',
-			numberOfDays: 0,
+					// Booking details
+					startDate: '',
+					endDate: '',
+					numberOfDays: 0,
 
-			// Payment information
-			totalPrice: 0,
-			deposit: 0,
-			depositPayed: false,
-			fullPayment: false,
+					// Payment information
+					totalPrice: 0,
+					deposit: 0,
+					depositPayed: false,
+					fullPayment: false,
 
-			// Booking status
-			bookingStatus: 'pending',
-			confirmed: false,
+					// Booking status
+					bookingStatus: 'pending',
+					confirmed: false,
 
-			// Additional information
-			documents: [],
-			imageUrls: [],
-		}
+					// Additional information
+					documents: [],
+					imageUrls: [],
+			  }
 	);
 
 	useEffect(() => {
-		console.log('useEffect ran');
 		dispatch({ type: 'SET_CURRENT_BOOKING', payload: formData });
 	}, [setFormData, dispatch, formData]);
-
-	console.log('hunt', hunt);
 
 	const unavailableDates: Date[] = useMemo(() => {
 		return (
@@ -90,8 +89,7 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { id, value } = e.target;
-		console.log('id', id);
-		console.log('value', value);
+
 		switch (id) {
 			case 'numberOfGuests':
 				setFormData((prevData) => ({

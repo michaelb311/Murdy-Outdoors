@@ -11,6 +11,7 @@ export interface StateType {
 	loading: boolean;
 	darkMode: boolean;
 	hunts: HuntsResponseType | null;
+	bookings: BookingType[] | null;
 	events: GoogleCalendarEvent[] | null;
 	user: UserType | null;
 	currentBooking: BookingType | null;
@@ -23,6 +24,7 @@ export type ActionType =
 	| { type: 'SET_LOADING'; payload: boolean }
 	| { type: 'SET_DARK_MODE'; payload: boolean }
 	| { type: 'SET_HUNTS'; payload: HuntsResponseType | null }
+	| { type: 'SET_BOOKINGS'; payload: BookingType[] | null }
 	| { type: 'SET_EVENTS'; payload: GoogleCalendarEvent[] | null }
 	| { type: 'SET_USER'; payload: UserType | null }
 	| { type: 'SET_CURRENT_BOOKING'; payload: BookingType | null }

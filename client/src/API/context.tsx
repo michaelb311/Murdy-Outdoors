@@ -19,9 +19,11 @@ import { verifyUser } from './user';
 import { UserContext } from './userContext';
 import {
 	clearLocalBooking,
+	getAllBookings,
 	getLocalBooking,
 	storeLocalBooking,
 } from './booking';
+import { BookingType } from '../Types/bookingTypes';
 
 const initState: StateType = {
 	init: false,
@@ -29,6 +31,7 @@ const initState: StateType = {
 	darkMode: false,
 	hunts: null,
 	events: null,
+	bookings: null,
 	user: null,
 	currentBooking: null,
 	isModalOpen: false,
@@ -52,11 +55,13 @@ const reducer = (state: StateType, action: ActionType): StateType => {
 		case 'SET_EVENTS':
 			return { ...state, events: action.payload };
 
+		case 'SET_BOOKINGS':
+			return { ...state, bookings: action.payload };
+
 		case 'SET_USER':
 			return { ...state, user: action.payload };
 
 		case 'SET_CURRENT_BOOKING':
-			console.log('SET_CURRENT_BOOKING', action.payload);
 			if (action.payload !== null) {
 				storeLocalBooking(action.payload);
 			} else {
@@ -95,6 +100,14 @@ export const GlobalContextProvider = ({
 				console.error('Failed to fetch events:', error);
 			});
 
+		getAllBookings()
+			.then((bookingsResponse: BookingType[]) => {
+				dispatch({ type: 'SET_BOOKINGS', payload: bookingsResponse });
+			})
+			.catch((error) => {
+				console.error('Failed to fetch bookings:', error);
+			});
+
 		getHunts()
 			.then((huntsResponse: HuntsResponseType) => {
 				dispatch({ type: 'SET_HUNTS', payload: huntsResponse });
@@ -115,12 +128,14 @@ export const GlobalContextProvider = ({
 
 		dispatch({ type: 'SET_INIT', payload: true });
 
-		await Promise.allSettled([fetchGoogleCalendarEvents(), getHunts()]).finally(
-			() => {
-				dispatch({ type: 'SET_LOADING', payload: false });
-			}
-		);
-	}, []);
+		await Promise.allSettled([
+			fetchGoogleCalendarEvents(),
+			getHunts(),
+			getAllBookings(),
+		]).finally(() => {
+			dispatch({ type: 'SET_LOADING', payload: false });
+		});
+	}, [userDispatch]);
 
 	return (
 		<GlobalContext.Provider
