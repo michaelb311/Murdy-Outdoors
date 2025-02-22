@@ -1,21 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './styles.css';
 import { BookingType } from '../../../Types/bookingTypes';
 import { createBooking } from '../../../API/booking.tsx';
-
+import { GlobalContext } from '../../../API/context';
 //rough draft of the booking details componentd
 
 const BookingDetails: React.FC<{ booking: BookingType }> = ({ booking }) => {
+	const { dispatch } = useContext(GlobalContext);
 	const handleSubmit = async () => {
 		try {
-			await createBooking(booking);
-			console.log('Booking created successfully');
+			dispatch({ type: 'SET_LOADING', payload: true });
+			const bookingResponse = await createBooking(booking);
+			console.log('bookingResponse', bookingResponse);
 		} catch (error) {
 			console.error('Error creating booking:', error);
+		} finally {
+			dispatch({ type: 'SET_LOADING', payload: false });
+			dispatch({ type: 'SET_CURRENT_BOOKING', payload: null });
 		}
 	};
-
-	console.log('booking', booking);
 
 	return (
 		<div className='bookingDetailsWrapper'>

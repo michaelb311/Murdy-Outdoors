@@ -393,6 +393,7 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
     documents: Schema.Attribute.JSON;
     endDate: Schema.Attribute.String;
     fullPayment: Schema.Attribute.Boolean;
+    guest: Schema.Attribute.JSON;
     hunt: Schema.Attribute.Relation<'manyToOne', 'api::hunt.hunt'>;
     huntingMethods: Schema.Attribute.String;
     imageUrls: Schema.Attribute.Media<

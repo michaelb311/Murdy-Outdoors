@@ -166,13 +166,20 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 		return Object.keys(newErrors).length === 0;
 	};
 
-	const checkUser = async (): Promise<UserType | GuestType> => {
+	const checkBookingUser = async (): Promise<UserType | GuestType> => {
 		const guest = localGuestData();
 		const user = localUserData();
 
 		const currentUser = userState.user ?? user.user?.user ?? guest.guest;
 
 		if (currentUser) {
+			dispatch({
+				type: 'SET_CURRENT_BOOKING',
+				payload: {
+					...state.currentBooking,
+					user: currentUser,
+				} as BookingType,
+			});
 			return currentUser;
 		} else {
 			dispatch({ type: 'SET_CURRENT_BOOKING', payload: formData });
@@ -200,7 +207,9 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 						formData.numberOfDays * formData.numberOfGuests * price;
 					formData.deposit = formData.totalPrice * 0.5;
 					formData.bookingStatus = 'pending';
-					formData.user = await checkUser();
+					formData.user = formData.user
+						? formData.user
+						: await checkBookingUser();
 					if (formData.user) {
 						openModal(<BookingDetails booking={formData} />);
 					}

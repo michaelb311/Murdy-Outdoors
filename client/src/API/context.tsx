@@ -17,7 +17,11 @@ import { fetchGoogleCalendarEvents } from './google';
 import { GoogleCalendarEvent } from '../Types/googleTypes';
 import { verifyUser } from './user';
 import { UserContext } from './userContext';
-import { getLocalBooking, storeLocalBooking } from './booking';
+import {
+	clearLocalBooking,
+	getLocalBooking,
+	storeLocalBooking,
+} from './booking';
 
 const initState: StateType = {
 	init: false,
@@ -52,8 +56,11 @@ const reducer = (state: StateType, action: ActionType): StateType => {
 			return { ...state, user: action.payload };
 
 		case 'SET_CURRENT_BOOKING':
-			if (action.payload) {
+			console.log('SET_CURRENT_BOOKING', action.payload);
+			if (action.payload !== null) {
 				storeLocalBooking(action.payload);
+			} else {
+				clearLocalBooking();
 			}
 			return { ...state, currentBooking: action.payload };
 

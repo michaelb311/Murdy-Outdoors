@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 //create booking api call
 //update booking api call
 //delete booking api call
@@ -44,7 +43,6 @@ export const userBookings = async () => {
 //creat a booking
 export const createBooking = async (booking: BookingType) => {
 	const user = localUserData();
-	// console.log('createBooking booking', booking);
 
 	const headers: HeadersInit = {
 		'Content-Type': 'application/json',
@@ -56,11 +54,7 @@ export const createBooking = async (booking: BookingType) => {
 		headers.Authorization = `Bearer ${databaseToken}`;
 	}
 
-	const {
-		documentId: huntDocumentId,
-		hunting_methods,
-		...huntData
-	} = booking.hunt;
+	const { documentId: huntDocumentId } = booking.hunt;
 
 	// Ensure huntingMethods is an array of HuntingMethodType
 	const huntingMethodsArray = Array.isArray(booking.huntingMethods)
@@ -72,50 +66,37 @@ export const createBooking = async (booking: BookingType) => {
 		.map((method: hunting_methodType) => method.method)
 		.join(', ');
 
-	// console.log('huntingMethods', huntingMethodsString);
-
 	if (!booking.user) {
 		throw new Error('No user data provided');
 	}
 
 	// Type guard to check if it's a UserType
-	if ('bookings' in booking.user) {
-		const {
-			documentId: userDocumentId,
-			bookings: userBookings,
-			reviews: userReviews,
-			...userData
-		} = booking.user;
-
-		// Create a new array of bookings without the documentId property
-		const userBookingData = booking.user.bookings.map(
-			({ documentId, ...userBookingData }) => userBookingData
-		);
+	if (booking.user.documentId) {
+		const { documentId: userDocumentId } = booking.user;
 
 		const bookingData = {
 			...booking,
 			huntingMethods: huntingMethodsString,
-			hunt: {
-				...huntData,
-			},
-			user: { ...userData, bookings: userBookingData, reviews: userReviews },
+			hunt: huntDocumentId,
+			user: userDocumentId,
 		};
 
 		try {
-			// console.log('createBooking bookingData', bookingData);
-			const response = await fetch(`${baseURL}/bookings`, {
+			const createBookingResponse = await fetch(`${baseURL}/bookings`, {
 				method: 'POST',
 				headers,
 				body: JSON.stringify({ data: { ...bookingData } }),
 			});
 
-			if (!response.ok) {
-				const errorText = await response.text();
+			if (!createBookingResponse.ok) {
+				const errorText = await createBookingResponse.text();
 				console.error('API Error:', errorText);
-				throw new Error(`Failed to create booking: ${response.statusText}`);
+				throw new Error(
+					`Failed to create booking: ${createBookingResponse.statusText}`
+				);
 			}
 
-			const data = (await response.json()) as BookingType;
+			const data = (await createBookingResponse.json()) as BookingType;
 			return data;
 		} catch (error) {
 			console.error('Fetch error:', error);
@@ -123,18 +104,17 @@ export const createBooking = async (booking: BookingType) => {
 		}
 	} else {
 		// Handle GuestType
-		const { documentId, ...userData } = booking.user;
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { user, ...guestBooking } = booking;
+
 		const bookingData = {
-			...booking,
+			...guestBooking,
 			huntingMethods: huntingMethodsString,
-			hunt: {
-				...huntData,
-			},
-			user: userData,
+			hunt: booking.hunt.documentId,
+			guest: JSON.stringify(booking.user),
 		};
 
 		try {
-			// console.log('createBooking bookingData', bookingData);
 			const response = await fetch(`${baseURL}/bookings`, {
 				method: 'POST',
 				headers,
@@ -166,4 +146,8 @@ export const getLocalBooking = () => {
 		return JSON.parse(booking) as BookingType;
 	}
 	return null;
+};
+
+export const clearLocalBooking = () => {
+	localStorage.removeItem(localFormKey);
 };
