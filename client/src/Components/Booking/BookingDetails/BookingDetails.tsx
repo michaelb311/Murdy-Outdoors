@@ -1,17 +1,32 @@
 import React, { useContext } from 'react';
 import './styles.css';
 import { BookingType } from '../../../Types/bookingTypes';
-import { createBooking } from '../../../API/booking.tsx';
+import { createBooking, getAllBookings } from '../../../API/booking.tsx';
 import { GlobalContext } from '../../../API/context';
-//rough draft of the booking details componentd
+import { getUserData } from '../../../API/user.tsx';
+import { useNavigate } from 'react-router-dom';
+//rough draft of the booking details component
 
 const BookingDetails: React.FC<{ booking: BookingType }> = ({ booking }) => {
 	const { dispatch } = useContext(GlobalContext);
+	const navigate = useNavigate();
 	const handleSubmit = async () => {
 		try {
 			dispatch({ type: 'SET_LOADING', payload: true });
 			const bookingResponse = await createBooking(booking);
-			console.log('bookingResponse', bookingResponse);
+			console.log('booking response before if block', bookingResponse.data.id);
+			if (bookingResponse.data.id) {
+				console.log('bookingResponse has id');
+				const updatedUserData = await getUserData();
+				const updatedBookings = await getAllBookings();
+				if (updatedUserData && updatedUserData.user) {
+					dispatch({ type: 'SET_USER', payload: updatedUserData.user });
+				}
+				if (updatedBookings) {
+					dispatch({ type: 'SET_BOOKINGS', payload: updatedBookings });
+				}
+				navigate('/user');
+			}
 		} catch (error) {
 			console.error('Error creating booking:', error);
 		} finally {

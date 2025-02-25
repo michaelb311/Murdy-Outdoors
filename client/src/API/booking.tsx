@@ -3,7 +3,7 @@
 //delete booking api call
 //find all bookings api call
 //find user booking by id api call
-import { BookingType } from '../Types/bookingTypes';
+import { BookingResponseType, BookingType } from '../Types/bookingTypes';
 import { hunting_methodType } from '../Types/huntTypes';
 import { localUserData } from './user';
 const baseURL = import.meta.env.VITE_DATABASE_URL as string;
@@ -123,7 +123,8 @@ export const createBooking = async (booking: BookingType) => {
 				);
 			}
 
-			const data = (await createBookingResponse.json()) as BookingType;
+			const data = (await createBookingResponse.json()) as BookingResponseType;
+			console.log('create booking data', data);
 			return data;
 		} catch (error) {
 			console.error('Fetch error:', error);
@@ -154,7 +155,7 @@ export const createBooking = async (booking: BookingType) => {
 				throw new Error(`Failed to create booking: ${response.statusText}`);
 			}
 
-			const data = (await response.json()) as BookingType;
+			const data = (await response.json()) as BookingResponseType;
 			return data;
 		} catch (error) {
 			console.error('Fetch error:', error);

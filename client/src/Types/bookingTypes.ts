@@ -4,7 +4,7 @@ import { HuntItemType } from './huntTypes';
 
 export interface BookingType {
 	// Hunt details
-	id?: string;
+	id?: number;
 	documentId?: string;
 	huntingMethods: hunting_methodType[];
 	hunt: HuntItemType;
@@ -33,4 +33,9 @@ export interface BookingType {
 	// Additional information
 	documents: [];
 	imageUrls: string[];
+}
+
+export interface BookingResponseType {
+	data: BookingType;
+	status?: number;
 }

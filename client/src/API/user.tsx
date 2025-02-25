@@ -114,6 +114,23 @@ export const registerUser = async (formData: UserRegisterType) => {
 	}
 };
 
+export const getUserData = async () => {
+	const user = localUserData();
+	if (user.user === null) {
+		return false;
+	}
+
+	const userResponse = await fetch(`${baseURL}/users/me?populate=*`, {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${user.user.jwt}`,
+		},
+	});
+
+	const userData = (await userResponse.json()) as UserResponseType;
+	return userData;
+};
+
 //auth/verify gets 404 error
 //this is for http only cookies - not working - using localstorage for now
 // export const verifyUser = async () => {
