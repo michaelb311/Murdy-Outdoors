@@ -7,6 +7,8 @@ import './styles.css';
 const UserPage = () => {
 	const { userState } = useContext(UserContext);
 	const user = userState.user;
+	console.log('user page rendered', user);
+
 	return (
 		<section className='userPage'>
 			<aside className='userDashNavWrapper'>

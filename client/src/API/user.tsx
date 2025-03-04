@@ -8,43 +8,6 @@ import {
 
 const baseURL = import.meta.env.VITE_DATABASE_URL as string;
 
-export const storeGuest = (data: GuestType) => {
-	localStorage.setItem('guest', JSON.stringify(data));
-};
-
-const storeUser = (data: UserResponseType) => {
-	if (!data.user || !data.jwt) {
-		console.error('No user or JWT provided to storeUser');
-		return;
-	}
-	localStorage.setItem(
-		'user',
-		JSON.stringify({
-			user: data.user,
-			jwt: data.jwt,
-		})
-	);
-	const expirationTime = new Date().getTime() + 24 * 60 * 60 * 1000;
-	localStorage.setItem('userExpiration', expirationTime.toString());
-};
-
-export const localUserData = () => {
-	const stringifiedUser = localStorage.getItem('user') ?? 'null';
-	const userExpiration = localStorage.getItem('userExpiration') ?? '0';
-
-	return {
-		user: JSON.parse(stringifiedUser) as UserResponseType,
-		userExpiration: userExpiration,
-	};
-};
-
-export const localGuestData = () => {
-	const stringifiedGuest = localStorage.getItem('guest') ?? 'null';
-	return {
-		guest: JSON.parse(stringifiedGuest) as GuestType,
-	};
-};
-
 export const loginUser = (formData: UserLoginType) => {
 	return fetch(`${baseURL}/auth/local?populate=*`, {
 		method: 'POST',
@@ -63,8 +26,7 @@ export const loginUser = (formData: UserLoginType) => {
 			return response.json();
 		})
 		.then((data: UserResponseType) => {
-			console.log('Login successful, JWT received:', data.jwt);
-			return fetch(`${baseURL}/users/me?populate=*`, {
+			return fetch(`${baseURL}/users/me?status=published&populate=*`, {
 				headers: {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${data.jwt}`,
@@ -82,9 +44,8 @@ export const loginUser = (formData: UserLoginType) => {
 					return userResponse.json();
 				})
 				.then((userData) => {
-					console.log('User data fetched successfully:', userData);
 					const completeData = { ...data, user: userData as UserType };
-					storeUser(completeData);
+					storeLocalUser(completeData);
 					return completeData;
 				});
 		})
@@ -106,7 +67,7 @@ export const registerUser = async (formData: UserRegisterType) => {
 		});
 
 		const data = (await response.json()) as UserResponseType;
-		storeUser(data);
+		storeLocalUser(data);
 		return data;
 	} catch (error) {
 		console.error('Error registering user:', error);
@@ -115,19 +76,19 @@ export const registerUser = async (formData: UserRegisterType) => {
 };
 
 export const getUserData = async () => {
-	const user = localUserData();
-	if (user.user === null) {
+	const localUser = getLocalUserData();
+	if (localUser.user === null) {
 		return false;
 	}
 
-	const userResponse = await fetch(`${baseURL}/users/me?populate=*`, {
+	const user = await fetch(`${baseURL}/users/me?status=published&populate=*`, {
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${user.user.jwt}`,
+			Authorization: `Bearer ${localUser.user.jwt}`,
 		},
 	});
 
-	const userData = (await userResponse.json()) as UserResponseType;
+	const userData = (await user.json()) as UserType;
 	return userData;
 };
 
@@ -157,8 +118,70 @@ export const getUserData = async () => {
 // 	}
 // };
 
-export const verifyUser = (): UserResponseType | false => {
-	const user = localUserData();
+export const storeLocalGuest = (data: GuestType) => {
+	localStorage.setItem('guest', JSON.stringify(data));
+};
+
+export const storeLocalUser = (data: UserResponseType) => {
+	if (!data.user || !data.jwt) {
+		console.error('No user or JWT provided to storeUser');
+		return;
+	}
+	localStorage.setItem(
+		'user',
+		JSON.stringify({
+			user: data.user,
+			jwt: data.jwt,
+		})
+	);
+	const expirationTime = new Date().getTime() + 24 * 60 * 60 * 1000;
+	localStorage.setItem('userExpiration', expirationTime.toString());
+};
+
+export const getLocalUserData = () => {
+	const stringifiedUser = localStorage.getItem('user') ?? 'null';
+	const userExpiration = localStorage.getItem('userExpiration') ?? '0';
+
+	return {
+		user: JSON.parse(stringifiedUser) as UserResponseType,
+		userExpiration: userExpiration,
+	};
+};
+
+export const getLocalGuestData = () => {
+	const stringifiedGuest = localStorage.getItem('guest') ?? 'null';
+	return {
+		guest: JSON.parse(stringifiedGuest) as GuestType,
+	};
+};
+
+export const updateLocalUser = (newUserData: UserType) => {
+	// Retrieve the current user data from localStorage
+	const localUser = getLocalUserData();
+	if (localUser.user === null) {
+		console.error('No existing user data found in localStorage');
+		return;
+	}
+
+	// Merge the new user data with the existing data
+	const updatedUser = {
+		...localUser.user.user, // Keep existing user structure
+		...newUserData, // Overwrite with new user data
+	};
+
+	// Create the updated user data structure
+	const updatedUserData = {
+		user: updatedUser,
+		jwt: localUser.user.jwt,
+	};
+
+	console.log('updating local user', updatedUser);
+	// Save the updated user data back to localStorage
+	localStorage.setItem('user', JSON.stringify(updatedUserData));
+};
+
+export const verifyLocalUser = (): UserResponseType | false => {
+	const user = getLocalUserData();
 
 	if (user.user === null) {
 		return false;
@@ -172,6 +195,7 @@ export const verifyUser = (): UserResponseType | false => {
 	return user.user;
 };
 
+//needs to redirect to login page or homepage
 export const logoutLocalUser = () => {
 	localStorage.removeItem('user');
 	localStorage.removeItem('userExpiration');

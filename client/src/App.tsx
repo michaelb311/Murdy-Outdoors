@@ -16,7 +16,7 @@ import ProtectedRoute from './Components/User/ProtectedRoute';
 import ScrollToTop from './helpers/ScrollToTop';
 
 function App() {
-	const { init } = useContext(GlobalContext);
+	const { init, state } = useContext(GlobalContext);
 	useEffect(() => {
 		init();
 	}, []);
@@ -26,19 +26,23 @@ function App() {
 			<ScrollToTop />
 			<UserContextProvider>
 				<MainNav />
-				<Routes>
-					<Route path='/' element={<HomePage />} />
-					<Route path='/Hunts' element={<ProductsPage />}>
-						<Route index element={<Products />} />
-						<Route path=':slug' element={<ProductPage />} />
-					</Route>
-					<Route path='/User' element={<ProtectedRoute />}>
-						<Route index element={<UserPage />} />
-					</Route>
-					<Route path='/User/login' element={<UserLogin />} />
-					<Route path='/User/register' element={<UserRegister />} />
-					<Route path='/User/logout' element={<UserLogout />} />
-				</Routes>
+				{state.loading ? (
+					<p>Loading...</p>
+				) : (
+					<Routes>
+						<Route path='/' element={<HomePage />} />
+						<Route path='/Hunts' element={<ProductsPage />}>
+							<Route index element={<Products />} />
+							<Route path=':slug' element={<ProductPage />} />
+						</Route>
+						<Route path='/User' element={<ProtectedRoute />}>
+							<Route index element={<UserPage />} />
+						</Route>
+						<Route path='/User/login' element={<UserLogin />} />
+						<Route path='/User/register' element={<UserRegister />} />
+						<Route path='/User/logout' element={<UserLogout />} />
+					</Routes>
+				)}
 			</UserContextProvider>
 		</main>
 	);

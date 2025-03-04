@@ -14,7 +14,7 @@ import BookingDetails from '../BookingDetails/BookingDetails';
 import { BookingType } from '../../../Types/bookingTypes';
 import GuestInfo from '../../User/GuestInfo/GuestInfo';
 import { GuestType, UserType } from '../../../Types/userTypes';
-import { localGuestData, localUserData } from '../../../API/user';
+import { getLocalGuestData, getLocalUserData } from '../../../API/user';
 
 const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 	const { openModal } = useModal();
@@ -165,8 +165,8 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 	};
 
 	const checkBookingUser = async (): Promise<UserType | GuestType> => {
-		const guest = localGuestData();
-		const user = localUserData();
+		const guest = getLocalGuestData();
+		const user = getLocalUserData();
 
 		const currentUser = userState.user ?? user.user?.user ?? guest.guest;
 
@@ -396,8 +396,6 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 								}
 								onChange={(e) => {
 									const { checked, value } = e.target;
-									console.log('checked', checked);
-									console.log('value', value);
 									setFormData((prevData) => {
 										const updatedMethods: hunting_methodType[] = checked
 											? [

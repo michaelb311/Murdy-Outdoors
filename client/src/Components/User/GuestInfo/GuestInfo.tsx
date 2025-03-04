@@ -1,7 +1,7 @@
 import './styles.css';
 import { GuestInfoProps, GuestType } from '../../../Types/userTypes';
 import { useContext, useState } from 'react';
-import { storeGuest } from '../../../API/user';
+import { storeLocalGuest } from '../../../API/user';
 import { GlobalContext } from '../../../API/context';
 import { BookingType } from '../../../Types/bookingTypes';
 
@@ -24,7 +24,7 @@ const GuestInfo = ({ onGuestInfoSubmit }: GuestInfoProps) => {
 		e.preventDefault();
 		if (guestInfo) {
 			try {
-				storeGuest(guestInfo);
+				storeLocalGuest(guestInfo);
 				dispatch({
 					type: 'SET_CURRENT_BOOKING',
 					payload: {

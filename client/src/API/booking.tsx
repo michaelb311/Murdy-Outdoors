@@ -5,14 +5,14 @@
 //find user booking by id api call
 import { BookingResponseType, BookingType } from '../Types/bookingTypes';
 import { hunting_methodType } from '../Types/huntTypes';
-import { localUserData } from './user';
+import { getLocalUserData } from './user';
 const baseURL = import.meta.env.VITE_DATABASE_URL as string;
 const databaseToken = import.meta.env.VITE_DATABASE_TOKEN as string;
 const localFormKey = import.meta.env.VITE_LOCAL_FORM_KEY as string;
 
 //get all bookings for a user
 export const userBookings = async () => {
-	const user = localUserData();
+	const user = getLocalUserData();
 	try {
 		const response = await fetch(
 			`${baseURL}/bookings?filters[user][id][$eq]=${user.user.user.id}&populate=*`,
@@ -69,7 +69,7 @@ export const getAllBookings = async () => {
 
 //creat a booking
 export const createBooking = async (booking: BookingType) => {
-	const user = localUserData();
+	const user = getLocalUserData();
 
 	const headers: HeadersInit = {
 		'Content-Type': 'application/json',
@@ -124,7 +124,6 @@ export const createBooking = async (booking: BookingType) => {
 			}
 
 			const data = (await createBookingResponse.json()) as BookingResponseType;
-			console.log('create booking data', data);
 			return data;
 		} catch (error) {
 			console.error('Fetch error:', error);
@@ -166,7 +165,7 @@ export const createBooking = async (booking: BookingType) => {
 
 //update booking
 export const updateBooking = async (booking: BookingType) => {
-	const user = localUserData();
+	const user = getLocalUserData();
 
 	const headers: HeadersInit = {
 		'Content-Type': 'application/json',
@@ -208,7 +207,7 @@ export const updateBooking = async (booking: BookingType) => {
 //delete booking
 export const deleteBooking = async (booking: BookingType) => {
 	//if user owns the boooking to delete it.
-	const user = localUserData();
+	const user = getLocalUserData();
 
 	const headers: HeadersInit = {
 		'Content-Type': 'application/json',

@@ -2,8 +2,6 @@ import React from 'react';
 import './styles.css';
 import { UserType } from '../../../Types/userTypes';
 
-//this component will take in the content and render it in its appropriate styles.
-
 const UserDashboard: React.FC<UserType> = (user) => {
 	const { reviews, bookings } = user;
 	return (
@@ -41,7 +39,7 @@ const UserDashboard: React.FC<UserType> = (user) => {
 									<strong>Booking ID:</strong> {booking.id}
 								</p>
 								<p>
-									<strong>Status:</strong> {booking.status}
+									<strong>Status:</strong> {booking.bookingStatus}
 								</p>
 								<p>
 									<strong>Start Date:</strong> {booking.startDate}

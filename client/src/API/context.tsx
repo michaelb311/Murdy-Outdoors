@@ -1,10 +1,4 @@
-import {
-	createContext,
-	ReactElement,
-	useReducer,
-	useCallback,
-	useContext,
-} from 'react';
+import { createContext, ReactElement, useReducer, useCallback } from 'react';
 import {
 	ActionType,
 	ChildrenType,
@@ -15,8 +9,6 @@ import { getHunts } from './hunts';
 import { HuntsResponseType } from '../Types/huntTypes';
 import { fetchGoogleCalendarEvents } from './google';
 import { GoogleCalendarEvent } from '../Types/googleTypes';
-import { verifyUser } from './user';
-import { UserContext } from './userContext';
 import {
 	clearLocalBooking,
 	getAllBookings,
@@ -32,7 +24,6 @@ const initState: StateType = {
 	hunts: null,
 	events: null,
 	bookings: null,
-	user: null,
 	currentBooking: null,
 	isModalOpen: false,
 	modalContent: null,
@@ -57,9 +48,6 @@ const reducer = (state: StateType, action: ActionType): StateType => {
 
 		case 'SET_BOOKINGS':
 			return { ...state, bookings: action.payload };
-
-		case 'SET_USER':
-			return { ...state, user: action.payload };
 
 		case 'SET_CURRENT_BOOKING':
 			if (action.payload !== null) {
@@ -88,8 +76,8 @@ export const GlobalContextProvider = ({
 	children,
 }: ChildrenType): ReactElement => {
 	const [state, dispatch] = useReducer(reducer, initState);
-	const { userDispatch } = useContext(UserContext);
 
+	//gets all events, bookings, and hunts as well as local user data and current booking data if it exists
 	const init = useCallback(async () => {
 		dispatch({ type: 'SET_LOADING', payload: true });
 		fetchGoogleCalendarEvents()
@@ -121,21 +109,15 @@ export const GlobalContextProvider = ({
 			dispatch({ type: 'SET_CURRENT_BOOKING', payload: localBooking });
 		}
 
-		const user = verifyUser();
-		if (user) {
-			userDispatch({ type: 'SET_USER', payload: user.user });
-		}
-
-		dispatch({ type: 'SET_INIT', payload: true });
-
 		await Promise.allSettled([
 			fetchGoogleCalendarEvents(),
 			getHunts(),
 			getAllBookings(),
 		]).finally(() => {
+			dispatch({ type: 'SET_INIT', payload: true });
 			dispatch({ type: 'SET_LOADING', payload: false });
 		});
-	}, [userDispatch]);
+	}, []);
 
 	return (
 		<GlobalContext.Provider
