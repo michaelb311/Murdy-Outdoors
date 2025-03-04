@@ -7,6 +7,7 @@ import { getUserData } from '../../../API/user.tsx';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../../API/userContext';
 import { updateLocalUser } from '../../../API/user';
+import { createGoogleCalendarEvent } from '../../../API/google';
 //rough draft of the booking details component
 
 const BookingDetails: React.FC<{ booking: BookingType }> = ({ booking }) => {
@@ -18,6 +19,7 @@ const BookingDetails: React.FC<{ booking: BookingType }> = ({ booking }) => {
 			dispatch({ type: 'SET_LOADING', payload: true });
 			const bookingResponse = await createBooking(booking);
 			if (bookingResponse.data.id) {
+				await createGoogleCalendarEvent(booking);
 				const updatedUserData = await getUserData();
 				const updatedBookings = await getAllBookings();
 				if (updatedUserData) {
