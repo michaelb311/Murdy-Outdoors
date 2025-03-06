@@ -9,7 +9,7 @@ import { GiWinchesterRifle } from 'react-icons/gi';
 import { GiSawedOffShotgun } from 'react-icons/gi';
 import { GiBowString } from 'react-icons/gi';
 import { GiCrossbow } from 'react-icons/gi';
-import Reviews from '../../Reviews/Reviews';
+// import Reviews from '../../Reviews/Reviews';
 import ReactMarkdown from 'react-markdown';
 import useModal from '../../../Hooks/useModal';
 import BookingForm from '../../Booking/BookingForm/BookingForm';
@@ -50,22 +50,6 @@ const ProductDetails = () => {
 			<div className='productDetailsImageContainer'>
 				<img src={imageUrl} alt={title} />
 				<h2 className='productDetailsTitle'>{title}</h2>
-			</div>
-
-			<div className='bookingButtonContainer'>
-				<button
-					onClick={() => openModal(<BookingForm hunt={hunt} />)}
-					className='bookingButton'
-					onMouseOver={(e) => {
-						e.currentTarget.textContent = 'Pull the Trigger';
-					}}
-					onMouseOut={(e) => {
-						e.currentTarget.textContent = 'Book Now';
-					}}
-				>
-					Book Now
-				</button>
-				{ModalComponent}
 			</div>
 
 			<div className='productSymbolsContainer'>
@@ -116,11 +100,26 @@ const ProductDetails = () => {
 					<ReactMarkdown className='productDetailsBody'>
 						{description}
 					</ReactMarkdown>
-					<div className='reviewsContainer'>
-						<Reviews />
-					</div>
+				</div>
+				<div className='bookingButtonContainer'>
+					<button
+						onClick={() => openModal(<BookingForm hunt={hunt} />)}
+						className='bookingButton'
+						onMouseOver={(e) => {
+							e.currentTarget.textContent = 'Pull the Trigger';
+						}}
+						onMouseOut={(e) => {
+							e.currentTarget.textContent = 'Book Now';
+						}}
+					>
+						Book Now
+					</button>
+					{ModalComponent}
 				</div>
 			</div>
+			{/* <div className='reviewsContainer'>
+				<Reviews />
+			</div> */}
 		</section>
 	);
 };

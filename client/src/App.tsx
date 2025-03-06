@@ -19,6 +19,7 @@ function App() {
 	const { init, state } = useContext(GlobalContext);
 	useEffect(() => {
 		init();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

@@ -1,6 +1,5 @@
 .productsSection {
 	width: 100%;
-	max-width: 1200px;
 	min-height: 80vh;
 	padding: 10px 20px;
 
@@ -13,6 +12,7 @@
 .productsSectionTitle {
 	position: relative;
 	width: 100%;
+	max-width: 1200px;
 	font-size: 3.5rem;
 	font-weight: 700;
 	font-family: var(--title-text);

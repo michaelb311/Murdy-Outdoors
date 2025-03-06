@@ -44,6 +44,7 @@ export const UserContextProvider = ({
 			console.log('user from user context', user);
 			userDispatch({ type: 'SET_USER', payload: user.user });
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
