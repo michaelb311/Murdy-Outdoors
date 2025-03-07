@@ -13,29 +13,29 @@
 
 .contact-title {
 	position: relative;
-	width: 90%;
+	width: 100%;
 	max-width: 1200px;
-	padding: 0 20px;
-
 	font-size: 3.5rem;
 	font-weight: 700;
 	font-family: var(--title-text);
 	color: var(--primary-color);
+	margin-bottom: 50px;
+
+	@media (max-width: 768px) {
+		padding: 0 15px;
+		font-size: 2.5rem;
+	}
 }
 
 .contact-title::after {
 	content: '';
 	position: absolute;
 	top: 80%;
-	left: 0;
+	left: -15px;
 	height: 5px;
 	width: 100%;
 	border-radius: 0 0 15px 15px;
 	background-color: var(--primary-color);
-
-	@media (max-width: 768px) {
-		top: 100%;
-	}
 }
 
 .contact-form {

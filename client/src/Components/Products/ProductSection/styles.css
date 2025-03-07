@@ -7,6 +7,10 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-around;
+
+	@media (max-width: 768px) {
+		padding: 10px 5px;
+	}
 }
 
 .productsSectionTitle {
@@ -18,6 +22,11 @@
 	font-family: var(--title-text);
 	color: var(--primary-color);
 	margin-bottom: 50px;
+
+	@media (max-width: 768px) {
+		padding: 0 15px;
+		font-size: 2.5rem;
+	}
 }
 
 .productsSectionTitle::after {

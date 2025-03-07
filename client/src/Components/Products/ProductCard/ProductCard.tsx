@@ -19,7 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ hunt, index }) => {
 	const position: string[] = ['50% 10%', '10% 22%', '50% 10%'];
 
 	const mobileFit: ObjectFitType[] = ['cover', 'none', 'cover'];
-	const mobilePosition: string[] = ['75% 10%', '35% 27%', '40% 10%'];
+	const mobilePosition: string[] = ['50% 10%', '40% 30%', '40% 30%'];
 
 	const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768);
 
@@ -40,33 +40,33 @@ const ProductCard: React.FC<ProductCardProps> = ({ hunt, index }) => {
 			<article className='productCard'>
 				<h2 className='productCardTitle'>{title}</h2>
 				<p className='productCardBody'>{description?.slice(0, 100) || ''}...</p>
-				<div className='productReserveWrapper'>
-					<div className='productSymbolsContainer'>
-						<div className='productSymbol'>
-							<FaPersonRifle
-								style={{ fontSize: '1.5rem', marginRight: '0.5rem' }}
-							/>
+				<div className='productCardSymbolsContainer'>
+					<div className='productCardSymbol'>
+						<div className='cardHuntingMethod'>
+							<span>
+								<FaPersonRifle />
+							</span>
 							{stockCount !== 0 ? (
-								<div className='stockCount'>{`${stockCount} spot${
+								<span className='cardStockCount'>{`${stockCount} spot${
 									stockCount > 1 ? 's' : ''
-								} left`}</div>
+								} left`}</span>
 							) : (
-								<div className='stockCount'>Out of Stock</div>
+								<span className='cardStockCount'>Out of Stock</span>
 							)}
 						</div>
-						<div className='productSymbol'>
-							<div className='rating'>
-								<span>{starRating}</span>
-								<span>{rating}</span>
-							</div>
+					</div>
+					<div className='productCardSymbol'>
+						<div className='cardRating'>
+							<span>{starRating}</span>
+							<span>{rating}</span>
 						</div>
-						<div className='productSymbol'>
-							<div className='price'>
-								<span>
-									<FaDollarSign />
-								</span>
-								<span>{price}</span>
-							</div>
+					</div>
+					<div className='productCardSymbol'>
+						<div className='cardPriceContainer'>
+							<span>
+								<FaDollarSign />
+							</span>
+							<span>{price}</span>
 						</div>
 					</div>
 				</div>

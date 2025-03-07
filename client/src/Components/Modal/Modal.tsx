@@ -19,10 +19,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onRequestClose, children }) => {
 			className='Modal'
 			overlayClassName='Overlay'
 		>
+			{children}
 			<button className='closeModalButton' onClick={onRequestClose}>
 				X
 			</button>
-			{children}
 		</ReactModal>
 	);
 };

@@ -4,11 +4,12 @@
 	flex-direction: column;
 }
 
-.bookingFormHeading {
+.bookingFormTitle {
 	font-size: 1.5rem;
 	font-weight: 700;
 	margin-bottom: 1rem;
-	font-family: var(--heading-text);
+	font-family: var(--title-text);
+	color: var(--primary-color);
 }
 
 .bookingFormGroup {
@@ -26,8 +27,9 @@
 }
 
 .bookingFormInput {
+	text-align: center;
 	padding: 0.5rem;
-	border: 1px solid var(--opaque-black);
+	border: 3px solid var(--accent-color);
 	border-radius: 0.5rem;
 }
 

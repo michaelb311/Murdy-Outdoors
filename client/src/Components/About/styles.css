@@ -1,9 +1,16 @@
 .aboutSection {
-	min-height: 100vh;
 	width: 100%;
-	max-width: 1200px;
-	margin: 100px 0;
-	padding: 20px;
+	min-height: 80vh;
+	padding: 10px 20px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-around;
+
+	@media (max-width: 768px) {
+		padding: 10px 5px;
+	}
 }
 
 .aboutTitle {
@@ -17,6 +24,7 @@
 	margin-bottom: 50px;
 
 	@media (max-width: 768px) {
+		padding: 0 15px;
 		font-size: 2.5rem;
 	}
 }
@@ -30,6 +38,10 @@
 	width: 100%;
 	border-radius: 0 0 15px 15px;
 	background-color: var(--primary-color);
+
+	@media (max-width: 768px) {
+		left: -15px;
+	}
 }
 
 .aboutArticle {
@@ -89,18 +101,6 @@
 }
 
 @media screen and (max-width: 768px) {
-	.aboutArticle {
-		padding: 15px;
-	}
-
-	.aboutTitle {
-		width: 100%;
-	}
-
-	.aboutTitle::after {
-		left: 0;
-	}
-
 	.aboutArticleBody {
 		overflow-wrap: break-all;
 		hyphens: auto;

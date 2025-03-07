@@ -236,7 +236,7 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 	return (
 		<>
 			<form className='bookingFormContainer' onSubmit={handleSubmit}>
-				<h3 className='bookingFormHeading'>Booking Your {title} Hunt</h3>
+				<h3 className='bookingFormTitle'>Booking Your {title} Hunt</h3>
 				<div className='bookingFormGroup'>
 					<label className='bookingFormLabel' htmlFor='numberOfGuests'>
 						Number of Guests
