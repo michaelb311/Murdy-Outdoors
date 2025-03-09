@@ -234,17 +234,18 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 	// };
 
 	return (
-		<>
-			<form className='bookingFormContainer' onSubmit={handleSubmit}>
-				<h3 className='bookingFormTitle'>Booking Your {title} Hunt</h3>
-				<div className='bookingFormGroup'>
-					<label className='bookingFormLabel' htmlFor='numberOfGuests'>
+		<section className='booking-form-section'>
+			<h2 className='booking-form-title'>Booking Your {title} Hunt</h2>
+			<form className='booking-form' onSubmit={handleSubmit}>
+				<div className='booking-form-group'>
+					<h3 className='booking-form-heading'>Guests</h3>
+					<label className='booking-form-label' htmlFor='numberOfGuests'>
 						Number of Guests
 					</label>
-					<div className='inputWithError'>
+					<div className='input-with-error'>
 						<input
-							className={`bookingFormInput ${
-								errors.numberOfGuests ? 'errorInput' : ''
+							className={`booking-form-input ${
+								errors.numberOfGuests ? 'error-input' : ''
 							}`}
 							type='number'
 							id='numberOfGuests'
@@ -259,20 +260,20 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 						/>
 						{errors.numberOfGuests && (
 							<FaExclamationCircle
-								className='errorIcon'
+								className='error-icon'
 								title={errors.numberOfGuests}
 							/>
 						)}
 					</div>
 					{formData.numberOfGuests > 1 && (
 						<>
-							<label className='bookingFormLabel' htmlFor='numberOfAdults'>
+							<label className='booking-form-label' htmlFor='numberOfAdults'>
 								Number of Adults
 							</label>
-							<div className='inputWithError'>
+							<div className='input-with-error'>
 								<input
-									className={`bookingFormInput ${
-										errors.numberOfAdults ? 'errorInput' : ''
+									className={`booking-form-input ${
+										errors.numberOfAdults ? 'error-input' : ''
 									}`}
 									type='number'
 									id='numberOfAdults'
@@ -287,7 +288,7 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 								/>
 								{errors.numberOfAdults && (
 									<FaExclamationCircle
-										className='errorIcon'
+										className='error-icon'
 										title={errors.numberOfAdults}
 									/>
 								)}
@@ -295,10 +296,10 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 							<label className='bookingFormLabel' htmlFor='numberOfChildren'>
 								Number of Children
 							</label>
-							<div className='inputWithError'>
+							<div className='input-with-error'>
 								<input
-									className={`bookingFormInput ${
-										errors.numberOfChildren ? 'errorInput' : ''
+									className={`booking-form-input ${
+										errors.numberOfChildren ? 'error-input' : ''
 									}`}
 									type='number'
 									id='numberOfChildren'
@@ -313,7 +314,7 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 								/>
 								{errors.numberOfChildren && (
 									<FaExclamationCircle
-										className='errorIcon'
+										className='error-icon'
 										title={errors.numberOfChildren}
 									/>
 								)}
@@ -322,16 +323,16 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 					)}
 					{formData.numberOfChildren > 0 && (
 						<>
-							<p className='bookingFormNote'>
+							<p className='booking-form-note'>
 								Children must be 13 years of age or older & must be accompanied
 								by a legal guardian.
 							</p>
 						</>
 					)}
 				</div>
-				<div className='bookingFormGroup'>
-					<h3 className='bookingFormHeading'>Select Dates</h3>
-					<label className='bookingFormLabel' htmlFor='startDate'>
+				<div className='booking-form-group'>
+					<h3 className='booking-form-heading'>Select Dates</h3>
+					<label className='booking-form-label' htmlFor='startDate'>
 						Start Date
 					</label>
 					<DatePicker
@@ -345,12 +346,12 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 						onChange={(date) => handleDateChange(date, 'startDate')}
 						excludeDates={unavailableDates}
 						dateFormat='yyyy-MM-dd'
-						className='bookingFormInput'
+						className='booking-form-input'
 					/>
-					<label className='bookingFormLabel' htmlFor='endDate'>
+					<label className='booking-form-label' htmlFor='endDate'>
 						End Date
 					</label>
-					<div className='inputWithError'>
+					<div className='input-with-error'>
 						<DatePicker
 							selected={
 								formData.endDate
@@ -362,20 +363,20 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 							onChange={(date) => handleDateChange(date, 'endDate')}
 							excludeDates={unavailableDates}
 							dateFormat='yyyy-MM-dd'
-							className='bookingFormInput'
+							className='booking-form-input'
 						/>
 						{errors.endDate && (
 							<FaExclamationCircle
-								className='errorIcon'
+								className='error-icon'
 								title={errors.endDate}
 							/>
 						)}
 					</div>
 				</div>
-				<div className='bookingFormGroup'>
-					<h3 className='bookingFormHeading'>Hunting Method</h3>
+				<div className='booking-form-group'>
+					<h3 className='booking-form-heading'>Hunting Method</h3>
 					{hunting_methods?.map((method) => (
-						<div key={method.id} className='bookingFormCheckbox'>
+						<div key={method.id} className='booking-form-checkbox'>
 							<input
 								type='checkbox'
 								id={`huntingMethod-${method.id}`}
@@ -416,17 +417,17 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 						</div>
 					))}
 					{errors.huntingMethods && (
-						<div className='errorMessage'>
-							<FaExclamationCircle className='errorIcon' />
+						<div className='error-message'>
+							<FaExclamationCircle className='error-icon' />
 							{errors.huntingMethods}
 						</div>
 					)}
 				</div>
-				<button className='bookingFormSubmit' type='submit'>
+				<button className='booking-form-submit' type='submit'>
 					Submit
 				</button>
 			</form>
-		</>
+		</section>
 	);
 };
 export default BookingForm;

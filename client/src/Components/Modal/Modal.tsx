@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactModal from 'react-modal';
+import { IoClose } from 'react-icons/io5';
+
 import './styles.css';
 
 ReactModal.setAppElement('#root');
@@ -21,7 +23,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onRequestClose, children }) => {
 		>
 			{children}
 			<button className='closeModalButton' onClick={onRequestClose}>
-				X
+				<IoClose />
 			</button>
 		</ReactModal>
 	);

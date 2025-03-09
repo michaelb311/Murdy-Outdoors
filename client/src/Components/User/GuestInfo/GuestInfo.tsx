@@ -46,40 +46,44 @@ const GuestInfo = ({ onGuestInfoSubmit }: GuestInfoProps) => {
 	};
 
 	return (
-		<form className='guestInfo' onSubmit={handleSubmit}>
-			<h2>Guest Information</h2>
-			<div className='guestInfoInput'>
-				<label htmlFor='firstName'>First Name</label>
-				<input
-					type='text'
-					id='firstName'
-					name='firstName'
-					value={guestInfo.firstName}
-					onChange={handleChange}
-				/>
-			</div>
-			<div className='guestInfoInput'>
-				<label htmlFor='lastName'>Last Name</label>
-				<input
-					type='text'
-					id='lastName'
-					name='lastName'
-					value={guestInfo.lastName}
-					onChange={handleChange}
-				/>
-			</div>
-			<div className='guestInfoInput'>
-				<label htmlFor='email'>Email</label>
-				<input
-					type='email'
-					id='email'
-					name='email'
-					value={guestInfo.email}
-					onChange={handleChange}
-				/>
-			</div>
-			<button type='submit'>Submit</button>
-		</form>
+		<section className='guest-info-section'>
+			<h2 className='guest-info-title'>Guest Information</h2>
+			<form className='guest-info-form' onSubmit={handleSubmit}>
+				<div className='guest-info-form-group'>
+					<label htmlFor='firstName'>First Name</label>
+					<input
+						type='text'
+						id='firstName'
+						name='firstName'
+						value={guestInfo.firstName}
+						onChange={handleChange}
+					/>
+				</div>
+				<div className='guest-info-form-group'>
+					<label htmlFor='lastName'>Last Name</label>
+					<input
+						type='text'
+						id='lastName'
+						name='lastName'
+						value={guestInfo.lastName}
+						onChange={handleChange}
+					/>
+				</div>
+				<div className='guest-info-form-group'>
+					<label htmlFor='email'>Email</label>
+					<input
+						type='email'
+						id='email'
+						name='email'
+						value={guestInfo.email}
+						onChange={handleChange}
+					/>
+				</div>
+				<button className='guest-info-button' type='submit'>
+					Submit
+				</button>
+			</form>
+		</section>
 	);
 };
 

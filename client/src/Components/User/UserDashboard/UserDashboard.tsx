@@ -1,16 +1,15 @@
-import React from 'react';
 import './styles.css';
 import { UserType } from '../../../Types/userTypes';
 
 const UserDashboard: React.FC<UserType> = (user) => {
-	const { reviews, bookings } = user;
+	const { bookings } = user;
 	return (
-		<div className='userDashboard'>
+		<section className='userDashboard'>
 			<h1>
 				{user.firstName} {user.lastName}
 			</h1>
 
-			<section className='dashboardSection'>
+			{/* <div className='dashboard-group'>
 				<h2>Reviews</h2>
 				{reviews && reviews.length > 0 ? (
 					<ul>
@@ -27,9 +26,9 @@ const UserDashboard: React.FC<UserType> = (user) => {
 				) : (
 					<p>No reviews available.</p>
 				)}
-			</section>
+			</div> */}
 
-			<section className='dashboardSection'>
+			<div className='dashboard-group'>
 				<h2>Bookings</h2>
 				{bookings && bookings.length > 0 ? (
 					<ul>
@@ -53,8 +52,8 @@ const UserDashboard: React.FC<UserType> = (user) => {
 				) : (
 					<p>No bookings available.</p>
 				)}
-			</section>
-		</div>
+			</div>
+		</section>
 	);
 };
 

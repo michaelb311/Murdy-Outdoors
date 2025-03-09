@@ -9,11 +9,11 @@ import { useContext, useEffect } from 'react';
 import { GlobalContext } from './API/context';
 import { UserContextProvider } from './API/userContext';
 import UserPage from './Pages/User/UserPage';
-import UserLogin from './Components/User/Login/UserLogin';
 import UserRegister from './Components/User/Register/UserRegister';
 import UserLogout from './Components/User/Logout/UserLogout';
 import ProtectedRoute from './Components/User/ProtectedRoute';
 import ScrollToTop from './helpers/ScrollToTop';
+import LoginPage from './Pages/Login/LoginPage';
 
 function App() {
 	const { init, state } = useContext(GlobalContext);
@@ -39,7 +39,7 @@ function App() {
 						<Route path='/User' element={<ProtectedRoute />}>
 							<Route index element={<UserPage />} />
 						</Route>
-						<Route path='/User/login' element={<UserLogin />} />
+						<Route path='/User/login' element={<LoginPage />} />
 						<Route path='/User/register' element={<UserRegister />} />
 						<Route path='/User/logout' element={<UserLogout />} />
 					</Routes>

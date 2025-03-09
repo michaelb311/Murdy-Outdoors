@@ -1,39 +1,51 @@
-.bookingFormContainer {
+.booking-form-section {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+	margin-top: 3rem;
 }
 
-.bookingFormTitle {
+.booking-form-title {
+	width: 100%;
 	font-size: 1.5rem;
 	font-weight: 700;
 	margin-bottom: 1rem;
+	text-align: center;
 	font-family: var(--title-text);
 	color: var(--primary-color);
 }
 
-.bookingFormGroup {
+.booking-form-group {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
 	margin-bottom: 2rem;
+	padding-bottom: 1rem;
+	border-bottom: 3px solid var(--accent-color);
 }
 
-.bookingFormLabel {
+.booking-form-heading {
+	font-size: 1.2rem;
+	font-weight: 700;
+	margin-bottom: 1rem;
+	font-family: var(--heading-text);
+}
+
+.booking-form-label {
 	font-size: 1rem;
 	font-weight: 700;
 	margin-bottom: 0.5rem;
 	font-family: var(--heading-text);
 }
 
-.bookingFormInput {
+.booking-form-input {
 	text-align: center;
 	padding: 0.5rem;
 	border: 3px solid var(--accent-color);
 	border-radius: 0.5rem;
 }
 
-.bookingFormSubmit {
+.booking-form-submit {
 	padding: 0.5rem 1rem;
 	border: 1px solid var(--opaque-black);
 	border-radius: 0.5rem;
@@ -45,18 +57,18 @@
 	transition: all 0.3s ease;
 }
 
-.bookingFormSubmit:hover {
+.booking-form-submit:hover {
 	background-color: var(--primary-color);
 	color: var(--opaque-black);
 }
 
-.bookingDetails {
+.booking-details {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
 }
 
-.modalActions {
+.modal-actions {
 	display: flex;
 	gap: 1rem;
 }

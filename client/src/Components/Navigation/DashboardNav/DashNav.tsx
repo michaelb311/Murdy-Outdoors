@@ -1,16 +1,13 @@
-import { useContext } from 'react';
 import './styles.css';
-import { UserContext } from '../../../API/userContext';
 import { FaUserAlt } from 'react-icons/fa';
+import { UserType } from '../../../Types/userTypes';
 
-const DashNav = () => {
-	const { userState } = useContext(UserContext);
-
+const DashNav: React.FC<UserType> = (user) => {
 	return (
 		<nav className='dashNav'>
 			<div className='dashNavProfilePic'>
-				{userState.user?.profilePicture ? (
-					<img src={userState.user?.profilePicture} alt='profile picture' />
+				{user?.profilePicture ? (
+					<img src={user?.profilePicture} alt='profile picture' />
 				) : (
 					<FaUserAlt />
 				)}

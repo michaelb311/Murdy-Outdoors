@@ -38,30 +38,34 @@ const UserLogin = () => {
 		<section className='user-login-section'>
 			<h2 className='user-login-title'>Login</h2>
 			<form className='user-login-form' onSubmit={handleSubmit}>
-				<label htmlFor='identifier'>Email</label>
-				<input
-					type='email'
-					id='identifier'
-					name='identifier'
-					onChange={handleChange}
-				/>
-				<label htmlFor='password'>Password</label>
-				<input
-					type='password'
-					id='password'
-					name='password'
-					onChange={handleChange}
-				/>
+				<div className='user-login-form-group'>
+					<label htmlFor='identifier'>Email</label>
+					<input
+						type='email'
+						id='identifier'
+						name='identifier'
+						onChange={handleChange}
+					/>
+				</div>
+				<div className='user-login-form-group'>
+					<label htmlFor='password'>Password</label>
+					<input
+						type='password'
+						id='password'
+						name='password'
+						onChange={handleChange}
+					/>
+				</div>
 				<div className='user-login-button-container'>
-					<button type='submit' className='user-login-button'>
-						Login
-					</button>
 					<button
 						type='button'
 						onClick={() => navigate('/user/register')}
 						className='user-register-button'
 					>
 						Register
+					</button>
+					<button type='submit' className='user-login-button'>
+						Login
 					</button>
 				</div>
 			</form>
