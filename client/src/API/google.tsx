@@ -36,10 +36,31 @@ export const fetchGoogleCalendarEvents = async (): Promise<
 export const createGoogleCalendarEvent = async (
 	booking: BookingType
 ): Promise<GoogleCalendarEvent> => {
+	const description = `
+    <strong>Booking Details:</strong>
+    - Hunt: ${booking.hunt.title}
+    - Start Date: ${booking.startDate}
+    - End Date: ${booking.endDate}
+    - Hunting Methods: ${booking.huntingMethods
+			.map((method) => method.method)
+			.join(', ')}
+	- Number of Guests: ${booking.numberOfGuests}
+	- Number of Adults: ${booking.numberOfAdults}
+	- Number of Children: ${booking.numberOfChildren}
+	- User Name: ${booking.user?.firstName} ${booking.user?.lastName}
+	- User Email: ${booking.user?.email}
+	- Deposit: $${booking.deposit}
+	- Total Price: $${booking.totalPrice}
+	- Booking Status: ${booking.bookingStatus}
+	- Booking ID: ${booking.documentId}
+	- Booking ID: ${booking.id}
+	`;
+
 	const event: createGoogleCalendarEventType = {
 		id: '',
 		documentId: booking.documentId ?? '',
-		summary: `Booking for ${booking.hunt.title}`,
+		summary: `Booking for ${booking.hunt.title} - ${booking.user?.firstName} ${booking.user?.lastName}`,
+		description: description,
 		start: { date: new Date(booking.startDate).toISOString().slice(0, 10) },
 		end: { date: new Date(booking.endDate).toISOString().slice(0, 10) },
 		creator: {

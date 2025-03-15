@@ -41,13 +41,13 @@ const createGoogleCalendarEvent = async (event) => {
   const authClient = await auth.getClient();
   // @ts-ignore
   const calendar = google.calendar({ version: "v3", auth: authClient });
-  console.log("create event ran");
   try {
     const response = await calendar.events.insert({
       calendarId:
         "57785f68a496643cfdb622501ad695b3ddef3830903c80f33356bff3b1e13721@group.calendar.google.com",
       requestBody: {
         summary: event.summary,
+        description: event.description,
         start: {
           date: event.start.date,
         },

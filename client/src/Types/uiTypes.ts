@@ -1,8 +1,13 @@
+import { BookingType } from './bookingTypes';
 import { HuntItemType } from './huntTypes';
 
 export interface ProductCardProps {
 	hunt: HuntItemType;
 	index: number;
+}
+
+export interface UserBookingCardProps {
+	booking: BookingType;
 }
 
 export interface FormProps {

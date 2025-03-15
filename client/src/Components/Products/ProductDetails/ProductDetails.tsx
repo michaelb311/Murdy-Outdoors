@@ -9,6 +9,7 @@ import { GiWinchesterRifle } from 'react-icons/gi';
 import { GiSawedOffShotgun } from 'react-icons/gi';
 import { GiBowString } from 'react-icons/gi';
 import { GiCrossbow } from 'react-icons/gi';
+import { GiShotgunRounds } from 'react-icons/gi';
 // import Reviews from '../../Reviews/Reviews';
 import ReactMarkdown from 'react-markdown';
 import useModal from '../../../Hooks/useModal';
@@ -88,6 +89,8 @@ const ProductDetails = () => {
 								<GiBowString style={{ marginRight: '0.5rem' }} />
 							) : method.method === 'Crossbow' ? (
 								<GiCrossbow style={{ marginRight: '0.5rem' }} />
+							) : method.method === 'Shotgun' ? (
+								<GiShotgunRounds style={{ marginRight: '0.5rem' }} />
 							) : null}
 						</span>
 						<span>{method.method}</span>

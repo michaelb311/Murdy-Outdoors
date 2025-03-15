@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
 import './styles.css';
 import { ObjectFitType, ProductCardProps } from '../../../Types/uiTypes';
 import React from 'react';
@@ -6,22 +7,16 @@ import { FaDollarSign } from 'react-icons/fa';
 import { FaPersonRifle } from 'react-icons/fa6';
 import starFactory from '../../../helpers/starfactory';
 
-const ProductCard: React.FC<ProductCardProps> = ({ hunt, index }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ hunt }) => {
 	const location = useLocation();
 	const { title, stockCount, description, rating, price, imageUrl } = hunt;
 	const linkPath = location.pathname.includes('Hunts')
 		? `${title}`
 		: `Hunts/${title}`;
 	const starRating = starFactory(rating);
-
-	const fit: ObjectFitType[] = ['cover', 'none', 'cover'];
-
-	const position: string[] = ['50% 10%', '10% 22%', '50% 10%'];
-
-	const mobileFit: ObjectFitType[] = ['cover', 'none', 'cover'];
-	const mobilePosition: string[] = ['50% 10%', '40% 30%', '40% 30%'];
-
 	const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768);
+	let fit: ObjectFitType;
+	let position: string;
 
 	React.useEffect(() => {
 		const handleResize = () => {
@@ -35,11 +30,61 @@ const ProductCard: React.FC<ProductCardProps> = ({ hunt, index }) => {
 		};
 	}, []);
 
+	switch (hunt.title) {
+		case 'Whitetail Doe': {
+			if (isMobile) {
+				fit = 'cover';
+				position = '50% 10%';
+			} else {
+				fit = 'cover';
+				position = '50% 10%';
+			}
+			break;
+		}
+		case 'Whitetail Buck': {
+			if (isMobile) {
+				fit = 'none';
+				position = '40% 35%';
+			} else {
+				fit = 'none';
+				position = '20% 22%';
+			}
+			break;
+		}
+		case 'Waterfowl': {
+			if (isMobile) {
+				fit = 'cover';
+				position = '50% 10%';
+			} else {
+				fit = 'cover';
+				position = '50% 50%';
+			}
+			break;
+		}
+		case 'Spring Turkey': {
+			if (isMobile) {
+				fit = 'cover';
+				position = '50% 10%';
+			} else {
+				fit = 'cover';
+				position = '50% 10%';
+			}
+			break;
+		}
+		default: {
+			fit = 'cover';
+			position = '50% 10%';
+			break;
+		}
+	}
+
 	return (
 		<Link to={linkPath}>
 			<article className='productCard'>
 				<h2 className='productCardTitle'>{title}</h2>
-				<p className='productCardBody'>{description?.slice(0, 100) || ''}...</p>
+				<ReactMarkdown className='productCardBody'>{`${
+					description?.slice(0, 100) || ''
+				}...`}</ReactMarkdown>
 				<div className='productCardSymbolsContainer'>
 					<div className='productCardSymbol'>
 						<div className='cardHuntingMethod'>
@@ -75,8 +120,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ hunt, index }) => {
 					src={imageUrl}
 					alt='product card image'
 					style={{
-						objectFit: isMobile ? mobileFit[index] : fit[index],
-						objectPosition: isMobile ? mobilePosition[index] : position[index],
+						objectFit: fit,
+						objectPosition: position,
 					}}
 				/>
 			</article>

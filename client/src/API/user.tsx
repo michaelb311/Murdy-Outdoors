@@ -9,7 +9,7 @@ import {
 const baseURL = import.meta.env.VITE_DATABASE_URL as string;
 
 export const loginUser = (formData: UserLoginType) => {
-	return fetch(`${baseURL}/auth/local?populate=*`, {
+	return fetch(`${baseURL}/auth/local`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ export const loginUser = (formData: UserLoginType) => {
 			return response.json();
 		})
 		.then((data: UserResponseType) => {
-			return fetch(`${baseURL}/users/me?status=published&populate=*`, {
+			return fetch(`${baseURL}/users/me?populate[bookings][populate][hunt]=*`, {
 				headers: {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${data.jwt}`,
@@ -81,12 +81,15 @@ export const getUserData = async () => {
 		return false;
 	}
 
-	const user = await fetch(`${baseURL}/users/me?status=published&populate=*`, {
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${localUser.user.jwt}`,
-		},
-	});
+	const user = await fetch(
+		`${baseURL}/users/me?populate[bookings][populate][hunt]=*`,
+		{
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${localUser.user.jwt}`,
+			},
+		}
+	);
 
 	const userData = (await user.json()) as UserType;
 	return userData;

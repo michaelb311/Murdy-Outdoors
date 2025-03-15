@@ -164,7 +164,7 @@
 }
 
 .productDetialsContainer {
-	height: 1650px;
+	max-height: 2425px;
 	max-width: 1200px;
 	padding: 1rem;
 	display: flex;
@@ -174,7 +174,6 @@
 	box-shadow: 0 2px 5px var(--opaque-black);
 
 	@media (max-width: 768px) {
-		height: 2425px;
 		padding: 0.5rem;
 	}
 }
@@ -184,15 +183,14 @@
 }
 
 .productDetailsHeading {
-	height: 1%;
 	font-size: 2rem;
 	font-weight: 700;
 	margin-bottom: 1rem;
 	font-family: var(--title-text);
+	color: var(--stroke-white);
 }
 
 .productDetailsBody {
-	height: 98%;
 	font-size: 1rem;
 	font-weight: 400;
 	font-family: var(--paragraph-text);
@@ -227,7 +225,6 @@
 
 .bookingButtonContainer {
 	width: 20%;
-	height: 100%;
 	position: relative;
 	display: flex;
 	justify-content: center;
@@ -252,6 +249,7 @@
 
 	@media (max-width: 768px) {
 		top: 575px;
+		padding: 0.25rem;
 	}
 }
 

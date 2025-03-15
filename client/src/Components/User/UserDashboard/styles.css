@@ -1,11 +1,19 @@
 .userDashboard {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 	gap: 1rem;
 	padding: 1rem;
 	background-color: #f9f9f9;
 	border-radius: 8px;
-	box-shadow: inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.userDashboardTitle {
+	font-size: 2rem;
+	font-weight: 600;
+	color: var(--primary-color);
+	font-family: var(--title-text);
 }
 
 .dashboard-group {
@@ -15,23 +23,10 @@
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.dashboardSection h2 {
-	margin-bottom: 0.5rem;
+.dashboard-group-title {
 	font-size: 1.5rem;
-	color: #333;
-}
-
-.dashboardSection ul {
-	list-style-type: none;
-	padding: 0;
-}
-
-.dashboardSection li {
-	margin-bottom: 0.5rem;
-	padding: 0.5rem;
-	border-bottom: 1px solid #ddd;
-}
-
-.dashboardSection li:last-child {
-	border-bottom: none;
+	font-weight: 600;
+	color: var(--accent-color);
+	font-family: var(--heading-text);
+	margin-bottom: 1rem;
 }

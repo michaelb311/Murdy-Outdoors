@@ -5,6 +5,7 @@ export interface GoogleCalendarEvent {
 		email: string;
 	};
 	summary: string;
+	description: string;
 	start: {
 		date: string;
 	};
@@ -21,6 +22,7 @@ export interface createGoogleCalendarEventType {
 		email: string;
 	};
 	summary: string;
+	description: string;
 	start: {
 		date: string;
 	};

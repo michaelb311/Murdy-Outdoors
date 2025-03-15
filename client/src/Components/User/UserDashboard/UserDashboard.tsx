@@ -1,12 +1,13 @@
 import './styles.css';
 import { UserType } from '../../../Types/userTypes';
+import UserBookingCard from './UserBookingCard/UserBookingCard';
 
 const UserDashboard: React.FC<UserType> = (user) => {
 	const { bookings } = user;
 	return (
 		<section className='userDashboard'>
-			<h1>
-				{user.firstName} {user.lastName}
+			<h1 className='userDashboardTitle'>
+				Welcome, {user.firstName} {user.lastName}
 			</h1>
 
 			{/* <div className='dashboard-group'>
@@ -29,26 +30,11 @@ const UserDashboard: React.FC<UserType> = (user) => {
 			</div> */}
 
 			<div className='dashboard-group'>
-				<h2>Bookings</h2>
+				<h2 className='dashboard-group-title'>Bookings</h2>
 				{bookings && bookings.length > 0 ? (
-					<ul>
-						{bookings.map((booking, index) => (
-							<li key={index}>
-								<p>
-									<strong>Booking ID:</strong> {booking.id}
-								</p>
-								<p>
-									<strong>Status:</strong> {booking.bookingStatus}
-								</p>
-								<p>
-									<strong>Start Date:</strong> {booking.startDate}
-								</p>
-								<p>
-									<strong>End Date:</strong> {booking.endDate}
-								</p>
-							</li>
-						))}
-					</ul>
+					bookings.map((booking, index) => (
+						<UserBookingCard key={index} booking={booking} />
+					))
 				) : (
 					<p>No bookings available.</p>
 				)}

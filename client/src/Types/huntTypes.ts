@@ -1,4 +1,9 @@
-export type huntingMethod = 'Bow' | 'Rifle' | 'Crossbow' | 'Muzzleloader';
+export type huntingMethod =
+	| 'Bow'
+	| 'Rifle'
+	| 'Crossbow'
+	| 'Muzzleloader'
+	| 'Shotgun';
 
 export interface hunting_methodType {
 	id?: number | string;

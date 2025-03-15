@@ -96,7 +96,6 @@ export const createBooking = async (booking: BookingType) => {
 	if (!booking.user) {
 		throw new Error('No user data provided');
 	}
-
 	// Type guard to check if it's a UserType
 	if (booking.user.documentId) {
 		const { documentId: userDocumentId } = booking.user;
@@ -109,6 +108,7 @@ export const createBooking = async (booking: BookingType) => {
 		};
 
 		try {
+			console.log('bookingData', bookingData);
 			const createBookingResponse = await fetch(`${baseURL}/bookings`, {
 				method: 'POST',
 				headers,
