@@ -1,5 +1,5 @@
 import './styles.css';
-import Logo from '../../../assets/MainLogo.png';
+import Logo from '../../../assets/MainLogo.PNG';
 import { Link } from 'react-router-dom';
 import { FaUserAlt } from 'react-icons/fa';
 import { useEffect, useRef, useState } from 'react';
