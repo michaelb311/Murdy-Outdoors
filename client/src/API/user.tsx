@@ -26,12 +26,15 @@ export const loginUser = (formData: UserLoginType) => {
 			return response.json();
 		})
 		.then((data: UserResponseType) => {
-			return fetch(`${baseURL}/users/me?populate[bookings][populate][hunt]=*`, {
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${data.jwt}`,
-				},
-			})
+			return fetch(
+				`${baseURL}/users/me?populate[bookings][populate][hunt]=*&status=published`,
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${data.jwt}`,
+					},
+				}
+			)
 				.then((userResponse) => {
 					if (!userResponse.ok) {
 						return userResponse.text().then((errorText) => {
@@ -82,7 +85,7 @@ export const getUserData = async () => {
 	}
 
 	const user = await fetch(
-		`${baseURL}/users/me?populate[bookings][populate][hunt]=*`,
+		`${baseURL}/users/me?populate[bookings][populate][hunt]=*&status=published`,
 		{
 			headers: {
 				'Content-Type': 'application/json',

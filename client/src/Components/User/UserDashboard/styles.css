@@ -7,6 +7,10 @@
 	padding: 1rem;
 	background-color: #f9f9f9;
 	border-radius: 8px;
+
+	@media (max-width: 768px) {
+		padding: 0;
+	}
 }
 
 .userDashboardTitle {
@@ -14,6 +18,10 @@
 	font-weight: 600;
 	color: var(--primary-color);
 	font-family: var(--title-text);
+
+	@media (max-width: 768px) {
+		font-size: 1.5rem;
+	}
 }
 
 .dashboard-group {
@@ -21,6 +29,10 @@
 	padding: 1rem;
 	border-radius: 8px;
 	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+	@media (max-width: 768px) {
+		padding: 0;
+	}
 }
 
 .dashboard-group-title {
@@ -29,4 +41,8 @@
 	color: var(--accent-color);
 	font-family: var(--heading-text);
 	margin-bottom: 1rem;
+
+	@media (max-width: 768px) {
+		font-size: 1.2rem;
+	}
 }

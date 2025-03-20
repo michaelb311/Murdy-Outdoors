@@ -4,6 +4,7 @@ import { useContext, useState } from 'react';
 import { storeLocalGuest } from '../../../API/user';
 import { GlobalContext } from '../../../API/context';
 import { BookingType } from '../../../Types/bookingTypes';
+import { Link } from 'react-router-dom';
 
 const GuestInfo = ({ onGuestInfoSubmit }: GuestInfoProps) => {
 	const { state, dispatch } = useContext(GlobalContext);
@@ -79,9 +80,14 @@ const GuestInfo = ({ onGuestInfoSubmit }: GuestInfoProps) => {
 						onChange={handleChange}
 					/>
 				</div>
-				<button className='guest-info-button' type='submit'>
-					Submit
-				</button>
+				<div className='guest-info-button-wrapper'>
+					<button className='guest-info-button' type='submit'>
+						Submit
+					</button>
+					<Link className='guest-info-button' to='/register'>
+						Register
+					</Link>
+				</div>
 			</form>
 		</section>
 	);

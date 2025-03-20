@@ -15,7 +15,7 @@ export const userBookings = async () => {
 	const user = getLocalUserData();
 	try {
 		const response = await fetch(
-			`${baseURL}/bookings?filters[user][id][$eq]=${user.user.user.id}&populate=*`,
+			`${baseURL}/bookings?filters[user][id][$eq]=${user.user.user.id}&populate=*&status=published`,
 			{
 				method: 'GET',
 				headers: {
@@ -43,7 +43,7 @@ export const getAllBookings = async () => {
 	try {
 		//gets all bookings with limited fields and populates hunt, user, and users fields
 		const response = await fetch(
-			`${baseURL}/bookings?fields[0]=guest&fields[1]=startDate&fields[2]=endDate&populate[hunt][fields][0]=title&populate[hunt][fields][1]=inStock&populate[user][fields][0]=username`,
+			`${baseURL}/bookings?fields[0]=guest&fields[1]=startDate&fields[2]=endDate&populate[hunt][fields][0]=title&populate[hunt][fields][1]=inStock&populate[user][fields][0]=username&status=published`,
 			{
 				method: 'GET',
 				headers: {

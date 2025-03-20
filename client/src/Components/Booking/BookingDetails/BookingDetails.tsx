@@ -65,7 +65,7 @@ const BookingDetails: React.FC<{ booking: BookingType }> = ({ booking }) => {
 				<p>Email: {booking.user?.email}</p>
 			</div>
 			<div className='bookingDetailsGroup'>
-				<h2 className='bookingDetailsHeading'>Booking Details</h2>
+				<h2 className='bookingDetailsHeading'>Dates</h2>
 				<p>Start Date: {booking.startDate}</p>
 				<p>End Date: {booking.endDate}</p>
 				<p>Number of Days: {booking.numberOfDays}</p>
@@ -77,7 +77,7 @@ const BookingDetails: React.FC<{ booking: BookingType }> = ({ booking }) => {
 				<p>Deposit Paid: {booking.depositPayed ? 'Yes' : 'No'}</p>
 				<p>Full Payment: {booking.fullPayment ? 'Yes' : 'No'}</p>
 			</div>
-			<div className='bookingDetailsGroup'>
+			{/* <div className='bookingDetailsGroup'>
 				<h2 className='bookingDetailsHeading'>Booking Status</h2>
 				<p>Status: {booking.bookingStatus}</p>
 				<p>Confirmed: {booking.confirmed ? 'Yes' : 'No'}</p>
@@ -85,7 +85,7 @@ const BookingDetails: React.FC<{ booking: BookingType }> = ({ booking }) => {
 			<div className='bookingDetailsGroup'>
 				<h2 className='bookingDetailsHeading'>Additional Information</h2>
 				<p>Documents: {booking.documents.length > 0 ? 'Available' : 'None'}</p>
-			</div>
+			</div> */}
 			<button
 				className='bookingDetailsSubmit'
 				onClick={() => void handleSubmit()}

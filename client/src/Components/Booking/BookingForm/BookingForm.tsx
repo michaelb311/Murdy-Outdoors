@@ -191,6 +191,21 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 		}
 	};
 
+	const calculateTotalPrice = () => {
+		switch (formData.hunt.title) {
+			case 'Whitetail Doe':
+				return price;
+			case 'Whitetail Buck':
+				return price;
+			case 'Spring Turkey':
+				return formData.numberOfDays * formData.numberOfGuests * price;
+			case 'Waterfowl':
+				return formData.numberOfDays * formData.numberOfGuests * price;
+			default:
+				return 0;
+		}
+	};
+
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		(async () => {
@@ -201,8 +216,7 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 							new Date(formData.endDate),
 							new Date(formData.startDate)
 						) + 1;
-					formData.totalPrice =
-						formData.numberOfDays * formData.numberOfGuests * price;
+					formData.totalPrice = calculateTotalPrice();
 					formData.deposit = formData.totalPrice * 0.5;
 					formData.bookingStatus = 'pending';
 					formData.user = formData.user
@@ -221,17 +235,6 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 			console.error('Unhandled error in async function:', error);
 		});
 	};
-
-	//TODO: Add confirm booking api call
-	// const confirmBooking = () => {
-	// 	formData.status = 'confirmed';
-	// 	console.log('Booking confirmed');
-	// };
-
-	//TODO: Add cancel booking api call
-	// const cancelBooking = () => {
-	// 	formData.status = 'cancelled';
-	// };
 
 	return (
 		<section className='booking-form-section'>

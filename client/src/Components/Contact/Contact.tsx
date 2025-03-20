@@ -5,7 +5,7 @@ const Contact = () => {
 		<section id='contact' className='contact-container'>
 			<h1 className='contact-title'>Contact Us</h1>
 			<form
-				action='https://formsubmit.co/mbrady8008@gmail.com'
+				action='https://formsubmit.co/097d368c72773c9d2e343ebe-da70f029'
 				method='post'
 				className='contact-form'
 			>
