@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const UserRegister = () => {
 	const navigate = useNavigate();
-	const { dispatch } = useContext(UserContext);
+	const { userDispatch } = useContext(UserContext);
 	const [formData, setFormData] = useState<UserRegisterType>({
 		firstName: '',
 		lastName: '',
@@ -104,7 +104,7 @@ const UserRegister = () => {
 			registerUser(validatedForm)
 				.then((data) => {
 					if (data.jwt) {
-						dispatch({ type: 'SET_USER', payload: data.user });
+						userDispatch({ type: 'SET_USER', payload: data.user });
 					}
 					navigate('/user');
 				})
@@ -118,69 +118,80 @@ const UserRegister = () => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<div className='register-form-group'>
-				<label htmlFor='firstName'>First Name</label>
-				<input type='text' name='firstName' onChange={handleChange} />
-				{errors.firstName && (
-					<div className='errorMessage'>
-						<FaExclamationCircle className='errorIcon' />
-						{errors.firstName}
-					</div>
-				)}
-			</div>
-			<div className='register-form-group'>
-				<label htmlFor='lastName'>Last Name</label>
-				<input type='text' name='lastName' onChange={handleChange} />
-				{errors.lastName && (
-					<div className='errorMessage'>
-						<FaExclamationCircle className='errorIcon' />
-						{errors.lastName}
-					</div>
-				)}
-			</div>
-			<div className='register-form-group'>
-				<label htmlFor='username'>Username</label>
-				<input type='text' name='username' onChange={handleChange} />
-				{errors.username && (
-					<div className='errorMessage'>
-						<FaExclamationCircle className='errorIcon' />
-						{errors.username}
-					</div>
-				)}
-			</div>
-			<div className='register-form-group'>
-				<label htmlFor='email'>Email</label>
-				<input type='email' name='email' onChange={handleChange} />
-				{errors.email && (
-					<div className='errorMessage'>
-						<FaExclamationCircle className='errorIcon' />
-						{errors.email}
-					</div>
-				)}
-			</div>
-			<div className='register-form-group'>
-				<label htmlFor='password'>Password</label>
-				<input type='password' name='password' onChange={handleChange} />
-				{errors.password && (
-					<div className='errorMessage'>
-						<FaExclamationCircle className='errorIcon' />
-						{errors.password}
-					</div>
-				)}
-			</div>
-			<div className='register-form-group'>
-				<label htmlFor='confirmPassword'>Confirm Password</label>
-				<input type='password' name='confirmPassword' onChange={handleChange} />
-				{errors.confirmPassword && (
-					<div className='errorMessage'>
-						<FaExclamationCircle className='errorIcon' />
-						{errors.confirmPassword}
-					</div>
-				)}
-			</div>
-			<button type='submit'>Register</button>
-		</form>
+		<section className='user-register-section'>
+			<form className='user-register-form' onSubmit={handleSubmit}>
+				<h2 className='user-register-title'>Register</h2>
+				<div className='register-form-group'>
+					<label htmlFor='firstName'>First Name</label>
+					<input type='text' name='firstName' onChange={handleChange} />
+					{errors.firstName && (
+						<div className='errorMessage'>
+							<FaExclamationCircle className='errorIcon' />
+							{errors.firstName}
+						</div>
+					)}
+				</div>
+				<div className='register-form-group'>
+					<label htmlFor='lastName'>Last Name</label>
+					<input type='text' name='lastName' onChange={handleChange} />
+					{errors.lastName && (
+						<div className='errorMessage'>
+							<FaExclamationCircle className='errorIcon' />
+							{errors.lastName}
+						</div>
+					)}
+				</div>
+				<div className='register-form-group'>
+					<label htmlFor='username'>Username</label>
+					<input type='text' name='username' onChange={handleChange} />
+					{errors.username && (
+						<div className='errorMessage'>
+							<FaExclamationCircle className='errorIcon' />
+							{errors.username}
+						</div>
+					)}
+				</div>
+				<div className='register-form-group'>
+					<label htmlFor='email'>Email</label>
+					<input type='email' name='email' onChange={handleChange} />
+					{errors.email && (
+						<div className='errorMessage'>
+							<FaExclamationCircle className='errorIcon' />
+							{errors.email}
+						</div>
+					)}
+				</div>
+				<div className='register-form-group'>
+					<label htmlFor='password'>Password</label>
+					<input type='password' name='password' onChange={handleChange} />
+					{errors.password && (
+						<div className='errorMessage'>
+							<FaExclamationCircle className='errorIcon' />
+							{errors.password}
+						</div>
+					)}
+				</div>
+				<div className='register-form-group'>
+					<label htmlFor='confirmPassword'>Confirm Password</label>
+					<input
+						type='password'
+						name='confirmPassword'
+						onChange={handleChange}
+					/>
+					{errors.confirmPassword && (
+						<div className='errorMessage'>
+							<FaExclamationCircle className='errorIcon' />
+							{errors.confirmPassword}
+						</div>
+					)}
+				</div>
+				<div className='register-form-group-button-container'>
+					<button className='register-form-group-button' type='submit'>
+						Register
+					</button>
+				</div>
+			</form>
+		</section>
 	);
 };
 
