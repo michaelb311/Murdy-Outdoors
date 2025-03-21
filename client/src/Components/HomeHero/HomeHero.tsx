@@ -12,7 +12,7 @@ const HomeHero = () => {
 				<img src={item1} alt='waterfowl' />
 			</div>
 			<div className='item item2'>
-				<video src={CenterVid} autoPlay loop muted />
+				<video src={CenterVid} autoPlay loop muted playsInline />
 			</div>
 			<div className='item item3'>
 				<img src={item3} alt='waterfowl' />
