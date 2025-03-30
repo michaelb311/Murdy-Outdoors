@@ -95,6 +95,12 @@
     },
     "guest": {
       "type": "json"
+    },
+    "lodging": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::lodging.lodging",
+      "inversedBy": "bookings"
     }
   }
 }

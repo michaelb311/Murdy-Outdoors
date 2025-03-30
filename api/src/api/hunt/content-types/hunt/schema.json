@@ -51,6 +51,14 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::booking.booking"
+    },
+    "season": {
+      "type": "string"
+    },
+    "lodgings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::lodging.lodging"
     }
   }
 }

@@ -50,11 +50,11 @@
 	align-items: center;
 	justify-content: center;
 	position: sticky;
-	top: 150px;
+	top: 20%;
 	z-index: 11;
 
 	@media (max-width: 768px) {
-		top: 125px;
+		/* top: 125px; */
 		padding: 0.5rem;
 	}
 }
@@ -70,6 +70,11 @@
 	align-items: center;
 	justify-content: center;
 
+	@media (max-width: 950px) {
+		margin: 0.35rem;
+		padding: 0.35rem;
+	}
+
 	@media (max-width: 768px) {
 		margin: 0.25rem;
 		padding: 0.25rem;
@@ -79,6 +84,11 @@
 .productSymbol > span {
 	font-size: 1.5rem;
 	font-weight: 700;
+
+	@media (max-width: 950px) {
+		font-size: 1rem;
+		font-weight: 600;
+	}
 
 	@media (max-width: 768px) {
 		font-size: 0.75rem;
@@ -90,6 +100,11 @@
 	font-size: 1.5rem;
 	font-weight: 700;
 
+	@media (max-width: 950px) {
+		font-size: 1rem;
+		font-weight: 600;
+	}
+
 	@media (max-width: 768px) {
 		font-size: 0.75rem;
 		font-weight: 400;
@@ -99,6 +114,11 @@
 	font-size: 1.5rem;
 	font-weight: 700;
 	margin-right: 0.5rem;
+
+	@media (max-width: 950px) {
+		font-size: 1rem;
+		font-weight: 600;
+	}
 
 	@media (max-width: 768px) {
 		font-size: 0.75rem;
@@ -130,6 +150,11 @@
 	font-size: 1.5rem;
 	font-weight: 700;
 
+	@media (max-width: 950px) {
+		font-size: 1rem;
+		font-weight: 600;
+	}
+
 	@media (max-width: 768px) {
 		font-size: 0.75rem;
 		font-weight: 400;
@@ -148,6 +173,11 @@
 	align-items: center;
 	justify-content: center;
 
+	@media (max-width: 950px) {
+		font-size: 1rem;
+		font-weight: 600;
+	}
+
 	@media (max-width: 768px) {
 		font-size: 0.75rem;
 		font-weight: 400;
@@ -156,6 +186,11 @@
 
 .price span:last-child {
 	font-size: 1.5rem;
+
+	@media (max-width: 950px) {
+		font-size: 1rem;
+		font-weight: 600;
+	}
 
 	@media (max-width: 768px) {
 		font-size: 0.75rem;

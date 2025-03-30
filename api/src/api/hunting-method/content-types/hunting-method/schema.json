@@ -19,7 +19,7 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::hunt.hunt",
-      "inversedBy": "hunting_methods"
+      "mappedBy": "hunting_methods"
     }
   }
 }

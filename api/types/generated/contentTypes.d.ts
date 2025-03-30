@@ -406,6 +406,7 @@ export interface ApiBookingBooking extends Struct.CollectionTypeSchema {
       'api::booking.booking'
     > &
       Schema.Attribute.Private;
+    lodging: Schema.Attribute.Relation<'manyToOne', 'api::lodging.lodging'>;
     numberOfAdults: Schema.Attribute.Integer;
     numberOfChildren: Schema.Attribute.Integer;
     numberOfDays: Schema.Attribute.Integer;
@@ -454,11 +455,13 @@ export interface ApiHuntHunt extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::hunt.hunt'> &
       Schema.Attribute.Private;
+    lodgings: Schema.Attribute.Relation<'oneToMany', 'api::lodging.lodging'>;
     maxGuests: Schema.Attribute.Integer;
     price: Schema.Attribute.Float;
     publishedAt: Schema.Attribute.DateTime;
     rating: Schema.Attribute.Decimal;
     reviews: Schema.Attribute.Relation<'oneToMany', 'api::review.review'>;
+    season: Schema.Attribute.String;
     stockCount: Schema.Attribute.Integer;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
@@ -492,6 +495,47 @@ export interface ApiHuntingMethodHuntingMethod
       Schema.Attribute.Private;
     method: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiLodgingLodging extends Struct.CollectionTypeSchema {
+  collectionName: 'lodgings';
+  info: {
+    description: '';
+    displayName: 'Lodging ';
+    pluralName: 'lodgings';
+    singularName: 'lodging';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    bookings: Schema.Attribute.Relation<'oneToMany', 'api::booking.booking'>;
+    capacity: Schema.Attribute.Integer;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.RichText;
+    featuredImage: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
+    gallery: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::lodging.lodging'
+    > &
+      Schema.Attribute.Private;
+    location: Schema.Attribute.String;
+    price: Schema.Attribute.Integer;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1048,6 +1092,7 @@ declare module '@strapi/strapi' {
       'api::booking.booking': ApiBookingBooking;
       'api::hunt.hunt': ApiHuntHunt;
       'api::hunting-method.hunting-method': ApiHuntingMethodHuntingMethod;
+      'api::lodging.lodging': ApiLodgingLodging;
       'api::review.review': ApiReviewReview;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
