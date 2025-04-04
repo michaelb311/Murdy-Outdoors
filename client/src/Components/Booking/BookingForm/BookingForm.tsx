@@ -160,35 +160,6 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 			newErrors.endDate = 'End date cannot be before start date';
 		}
 
-		switch (formData.hunt.title) {
-			case 'Waterfowl':
-				if (formData.numberOfDays < 3) {
-					newErrors.numberOfDays =
-						'For waterfowl hunts less than 3 days, confirmation is required by guide.  You will be contacted soon about availability.';
-				}
-				if (formData.numberOfDays > 3) {
-					newErrors.numberOfDays = 'Hunts can be no more than 3 days';
-				}
-				break;
-			case 'Spring Turkey':
-				if (formData.numberOfDays !== 3) {
-					newErrors.numberOfDays = 'Hunts must be 3 days';
-				}
-				break;
-			case 'Whitetail Doe':
-				if (formData.numberOfDays !== 3) {
-					newErrors.numberOfDays = 'Hunts must be 3 days';
-				}
-				break;
-			case 'Whitetail Buck':
-				if (formData.numberOfDays !== 3) {
-					newErrors.numberOfDays = 'Hunts must be 3 days';
-				}
-				break;
-			default:
-				break;
-		}
-
 		setErrors(newErrors);
 		return Object.keys(newErrors).length === 0;
 	};
@@ -401,6 +372,12 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 							<FaExclamationCircle
 								className='error-icon'
 								title={errors.endDate}
+							/>
+						)}
+						{errors.numberOfDays && (
+							<FaExclamationCircle
+								className='error-icon'
+								title={errors.numberOfDays}
 							/>
 						)}
 					</div>

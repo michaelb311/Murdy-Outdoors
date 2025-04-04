@@ -24,6 +24,7 @@ const UserLogin = () => {
 					userDispatch({ type: 'SET_USER', payload: data.user });
 					navigate('/user');
 				} else {
+					console.log('Login failed:', data);
 					//use some alert to tell user to register
 					navigate('/user/register');
 				}
