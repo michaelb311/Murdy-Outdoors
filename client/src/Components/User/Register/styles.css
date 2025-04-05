@@ -78,7 +78,9 @@
 	font-size: 1.2rem;
 	font-weight: 600;
 	font-family: var(--title-font);
-	border: 1px solid var(--stroke-black);
+	border: 1px solid var(--accent-color);
+	background-color: var(--primary-color);
+	color: var(--accent-color);
 	border-radius: 4px;
 	transition: all 0.3s ease;
 }

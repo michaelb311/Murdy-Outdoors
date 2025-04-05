@@ -81,12 +81,15 @@ const GuestInfo = ({ onGuestInfoSubmit }: GuestInfoProps) => {
 					/>
 				</div>
 				<div className='guest-info-button-wrapper'>
+					<Link
+						className='guest-info-button register-button'
+						to='/User/register'
+					>
+						Register
+					</Link>
 					<button className='guest-info-button' type='submit'>
 						Submit
 					</button>
-					<Link className='guest-info-button' to='/register'>
-						Register
-					</Link>
 				</div>
 			</form>
 		</section>

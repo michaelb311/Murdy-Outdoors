@@ -160,6 +160,31 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 			newErrors.endDate = 'End date cannot be before start date';
 		}
 
+		switch (formData.hunt.title) {
+			case 'Waterfowl':
+				if (formData.numberOfDays < 3) {
+					newErrors.numberOfDays = 'Hunts must no more than 3 days';
+				}
+				break;
+			case 'Spring Turkey':
+				if (formData.numberOfDays !== 3) {
+					newErrors.numberOfDays = 'Hunts must be 3 days';
+				}
+				break;
+			case 'Whitetail Doe':
+				if (formData.numberOfDays !== 3) {
+					newErrors.numberOfDays = 'Hunts must be 3 days';
+				}
+				break;
+			case 'Whitetail Buck':
+				if (formData.numberOfDays !== 3) {
+					newErrors.numberOfDays = 'Hunts must be 3 days';
+				}
+				break;
+			default:
+				break;
+		}
+
 		setErrors(newErrors);
 		return Object.keys(newErrors).length === 0;
 	};
@@ -379,6 +404,12 @@ const BookingForm: React.FC<FormProps> = ({ hunt }) => {
 								className='error-icon'
 								title={errors.numberOfDays}
 							/>
+						)}
+						{formData.numberOfDays < 3 && (
+							<p className='booking-form-note'>
+								Hunts less than 3 days are subject to confirmation by guide. You
+								will be contacted soon about your reservation.
+							</p>
 						)}
 					</div>
 				</div>

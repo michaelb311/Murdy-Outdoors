@@ -47,11 +47,33 @@
 	border: 1px solid var(--stroke-black);
 }
 
-.guest-info-button {
+.guest-info-button-wrapper {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	height: 36px;
 	width: 100%;
+}
+
+.guest-info-button {
+	text-align: center;
+	height: 100%;
+	width: 45%;
 	padding: 0.5rem;
 	border-radius: 4px;
-	border: 1px solid var(--stroke-black);
+	border: 1.5px solid var(--accent-color);
 	background-color: var(--primary-color);
 	color: var(--accent-color);
+	transition: all 0.3s ease;
+}
+
+.guest-info-button:hover {
+	transform: scale(1.05);
+}
+
+.register-button {
+	background-color: var(--accent-color);
+	color: var(--primary-color);
+	border: 1px solid var(--primary-color);
+	font-weight: 700;
 }

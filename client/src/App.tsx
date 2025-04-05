@@ -14,7 +14,7 @@ import UserLogout from './Components/User/Logout/UserLogout';
 import ProtectedRoute from './Components/User/ProtectedRoute';
 import ScrollToTop from './helpers/ScrollToTop';
 import LoginPage from './Pages/Login/LoginPage';
-
+import PageNotFound from './Components/PageNotFound/PageNotFound';
 function App() {
 	const { init, state } = useContext(GlobalContext);
 	useEffect(() => {
@@ -42,6 +42,7 @@ function App() {
 						<Route path='/User/login' element={<LoginPage />} />
 						<Route path='/User/register' element={<UserRegister />} />
 						<Route path='/User/logout' element={<UserLogout />} />
+						<Route path='*' element={<PageNotFound />} />
 					</Routes>
 				)}
 			</UserContextProvider>
